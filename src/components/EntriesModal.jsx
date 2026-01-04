@@ -1,31 +1,63 @@
+import { useState } from 'react'
+import { CloseIcon, SearchIcon } from './Icons'
 import { EntryItem } from './EntryItem'
 
-export function EntriesModal({ isOpen, onClose, entries }) {
+export function EntriesModal({ isOpen, onClose, entries, settings, onEditEntry, onDeleteEntry }) {
+  const [search, setSearch] = useState('')
+  
+  const filtered = entries.filter(e => {
+    const q = search.toLowerCase()
+    return (
+      (e.source || '').toLowerCase().includes(q) ||
+      (e.notes || '').toLowerCase().includes(q) ||
+      e.amount.toString().includes(q)
+    )
+  })
+
   return (
     <div className={`modal-overlay ${isOpen ? 'active' : ''}`} onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="modal-content modal-full">
         <div className="modal-header">
           <button className="close-btn" onClick={onClose}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <line x1="18" y1="6" x2="6" y2="18"/>
-              <line x1="6" y1="6" x2="18" y2="18"/>
-            </svg>
+            <CloseIcon />
           </button>
           <h2>All Entries</h2>
           <div></div>
         </div>
+
+        <div className="search-bar">
+          <SearchIcon className="search-icon" />
+          <input
+            type="text"
+            placeholder="Search entries..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+
         <div className="all-entries-list">
-          {entries.length === 0 ? (
+          {filtered.length === 0 ? (
             <div className="empty-state">
-              <p>No income recorded yet</p>
-              <p className="empty-hint">Tap + to add your first entry</p>
+              <div className="empty-icon">🔍</div>
+              <p>{entries.length === 0 ? 'No entries yet' : 'No matching entries'}</p>
             </div>
           ) : (
-            entries.map(entry => <EntryItem key={entry.id} entry={entry} />)
+            filtered.map(entry => (
+              <EntryItem
+                key={entry.id}
+                entry={entry}
+                settings={settings}
+                onEdit={() => onEditEntry(entry)}
+                onDelete={() => onDeleteEntry(entry.id)}
+              />
+            ))
           )}
+        </div>
+
+        <div className="entries-count">
+          {filtered.length} of {entries.length} entries
         </div>
       </div>
     </div>
   )
 }
-

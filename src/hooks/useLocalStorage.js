@@ -2,14 +2,36 @@ import { useState, useEffect } from 'react'
 
 export function useLocalStorage(key, initialValue) {
   const [value, setValue] = useState(() => {
-    const stored = localStorage.getItem(key)
-    return stored ? JSON.parse(stored) : initialValue
+    try {
+      const stored = localStorage.getItem(key)
+      return stored ? JSON.parse(stored) : initialValue
+    } catch {
+      return initialValue
+    }
   })
 
   useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(value))
+    try {
+      localStorage.setItem(key, JSON.stringify(value))
+    } catch (e) {
+      console.error('Failed to save to localStorage:', e)
+    }
   }, [key, value])
 
   return [value, setValue]
 }
 
+export function useSettings() {
+  const [settings, setSettings] = useLocalStorage('guruji_settings', {
+    currency: 'USD',
+    fiscalYearStart: 1, // January
+    showCategories: true,
+    hapticFeedback: true
+  })
+
+  const updateSetting = (key, value) => {
+    setSettings(prev => ({ ...prev, [key]: value }))
+  }
+
+  return [settings, updateSetting, setSettings]
+}

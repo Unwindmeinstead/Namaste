@@ -1,59 +1,63 @@
-import { useState } from 'react'
-import { CloseIcon } from './Icons'
+import { useState, useEffect } from 'react'
+import { CloseIcon, TrashIcon } from './Icons'
 import { CATEGORIES } from '../utils/categories'
 
-export function AddModal({ isOpen, onClose, onAdd, settings }) {
-  const today = new Date().toISOString().split('T')[0]
+export function EditModal({ isOpen, entry, onClose, onSave, onDelete, settings }) {
   const [amount, setAmount] = useState('')
   const [source, setSource] = useState('')
-  const [date, setDate] = useState(today)
+  const [date, setDate] = useState('')
   const [notes, setNotes] = useState('')
   const [category, setCategory] = useState('other')
+
+  useEffect(() => {
+    if (entry) {
+      setAmount(entry.amount.toString())
+      setSource(entry.source || '')
+      setDate(entry.date)
+      setNotes(entry.notes || '')
+      setCategory(entry.category || 'other')
+    }
+  }, [entry])
 
   const handleSubmit = (e) => {
     e.preventDefault()
     const amountNum = parseFloat(amount)
     if (!amountNum || amountNum <= 0) return
 
-    onAdd({
-      id: Date.now().toString(),
+    onSave({
+      ...entry,
       amount: amountNum,
       source: source.trim() || CATEGORIES.find(c => c.id === category)?.name || 'Income',
       date,
       notes: notes.trim(),
       category,
-      createdAt: new Date().toISOString()
+      updatedAt: new Date().toISOString()
     })
-
-    resetForm()
-    onClose()
   }
 
-  const resetForm = () => {
-    setAmount('')
-    setSource('')
-    setDate(today)
-    setNotes('')
-    setCategory('other')
-  }
-
-  const handleClose = () => {
-    resetForm()
-    onClose()
+  const handleDelete = () => {
+    if (confirm('Delete this entry?')) {
+      onDelete(entry.id)
+      onClose()
+    }
   }
 
   const symbols = { USD: '$', EUR: '€', GBP: '£', INR: '₹' }
   const symbol = symbols[settings.currency] || '$'
 
+  if (!entry) return null
+
   return (
-    <div className={`modal-overlay ${isOpen ? 'active' : ''}`} onClick={(e) => e.target === e.currentTarget && handleClose()}>
+    <div className={`modal-overlay ${isOpen ? 'active' : ''}`} onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="modal-content">
         <div className="modal-header">
-          <button className="close-btn" onClick={handleClose}>
+          <button className="close-btn" onClick={onClose}>
             <CloseIcon />
           </button>
-          <h2>Add Income</h2>
-          <div></div>
+          <h2>Edit Entry</h2>
+          <button className="delete-header-btn" onClick={handleDelete}>
+            <TrashIcon className="delete-icon" />
+          </button>
         </div>
 
         <form className="income-form" onSubmit={handleSubmit}>
@@ -67,7 +71,6 @@ export function AddModal({ isOpen, onClose, onAdd, settings }) {
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 required
-                autoFocus
                 step="0.01"
               />
             </div>
@@ -101,15 +104,13 @@ export function AddModal({ isOpen, onClose, onAdd, settings }) {
             />
           </div>
 
-          <div className="form-row">
-            <div className="form-group flex-1">
-              <label>Date</label>
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-              />
-            </div>
+          <div className="form-group">
+            <label>Date</label>
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
           </div>
 
           <div className="form-group">
@@ -122,9 +123,10 @@ export function AddModal({ isOpen, onClose, onAdd, settings }) {
             />
           </div>
 
-          <button type="submit" className="submit-btn">Save Entry</button>
+          <button type="submit" className="submit-btn">Save Changes</button>
         </form>
       </div>
     </div>
   )
 }
+
