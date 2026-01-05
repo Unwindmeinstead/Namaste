@@ -17,7 +17,14 @@ const LANGUAGES = [
   { code: 'ne', name: 'Nepali', native: 'नेपाली' }
 ]
 
-export function SettingsPage({ settings, updateSetting, onClearData, entries, profile, updateProfile }) {
+// Cloud icon
+const CloudIcon = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/>
+  </svg>
+)
+
+export function SettingsPage({ settings, updateSetting, onClearData, onBackup, entries, profile, updateProfile }) {
   const lang = settings.language || 'en'
   const [showSaved, setShowSaved] = useState(false)
   const [profileExpanded, setProfileExpanded] = useState(false)
@@ -381,6 +388,14 @@ export function SettingsPage({ settings, updateSetting, onClearData, entries, pr
         <h3 className="settings-title">{t('data', lang)}</h3>
         
         <div className="settings-group">
+          <button className="setting-item clickable cloud-backup" onClick={onBackup}>
+            <div className="setting-info">
+              <span className="setting-label">{t('cloudBackup', lang)}</span>
+              <span className="setting-desc">{t('googleSheetsDesc', lang)}</span>
+            </div>
+            <CloudIcon className="setting-icon cloud" />
+          </button>
+
           <button className="setting-item clickable" onClick={handleExportAll}>
             <div className="setting-info">
               <span className="setting-label">{t('exportToCSV', lang)}</span>

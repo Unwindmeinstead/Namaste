@@ -10,6 +10,7 @@ import { EditModal } from './components/EditModal'
 import { EntriesModal } from './components/EntriesModal'
 import { ActivityModal } from './components/ActivityModal'
 import { ScheduleModal } from './components/ScheduleModal'
+import { BackupModal } from './components/BackupModal'
 import { PinLock } from './components/PinLock'
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
   const [showEntriesModal, setShowEntriesModal] = useState(false)
   const [showActivityModal, setShowActivityModal] = useState(false)
   const [showScheduleModal, setShowScheduleModal] = useState(false)
+  const [showBackupModal, setShowBackupModal] = useState(false)
   const [selectedDate, setSelectedDate] = useState(null)
   const [editingEntry, setEditingEntry] = useState(null)
   
@@ -169,6 +171,7 @@ function App() {
             settings={settings}
             updateSetting={handleUpdateSetting}
             onClearData={clearAllData}
+            onBackup={() => setShowBackupModal(true)}
             entries={entries}
             profile={profile}
             updateProfile={updateProfile}
@@ -232,6 +235,15 @@ function App() {
         selectedDate={selectedDate}
         scheduledServices={scheduledServices}
         entries={entries}
+      />
+
+      <BackupModal
+        isOpen={showBackupModal}
+        onClose={() => setShowBackupModal(false)}
+        entries={entries}
+        scheduledServices={scheduledServices}
+        settings={settings}
+        profile={profile}
       />
     </div>
   )
