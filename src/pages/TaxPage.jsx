@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { formatCurrency, calculateQuarterlyTotals, downloadCSV, getCurrentFiscalYear } from '../utils/format'
 import { DownloadIcon, CalendarIcon, EmailIcon, ShareIcon, PrintIcon, FileIcon } from '../components/Icons'
 import { t } from '../utils/translations'
-import { generateTaxReport, downloadTaxReport, emailTaxReport, shareTaxReport } from '../utils/taxReport'
+import { generateTaxReport, downloadTaxReport, emailTaxReport, shareTaxReport, downloadPDF } from '../utils/taxReport'
 
 export function TaxPage({ entries, settings, profile }) {
   const lang = settings.language || 'en'
@@ -53,6 +53,10 @@ export function TaxPage({ entries, settings, profile }) {
     const win = window.open('', '_blank')
     win.document.write(html)
     win.document.close()
+  }
+
+  const handleDownloadPDF = () => {
+    downloadPDF(entries, profile, settings, selectedYear)
   }
 
   return (
@@ -159,11 +163,19 @@ export function TaxPage({ entries, settings, profile }) {
         <h3 className="report-title">{t('generateReport', lang)}</h3>
         
         <div className="report-actions">
-          <button className="report-action-btn primary" onClick={handlePreview} disabled={yearEntries.length === 0}>
+          <button className="report-action-btn primary" onClick={handleDownloadPDF} disabled={yearEntries.length === 0}>
+            <PrintIcon className="report-action-icon" />
+            <div className="report-action-text">
+              <span className="report-action-title">{t('downloadPDF', lang) || 'Download PDF'}</span>
+              <span className="report-action-desc">{t('printableTaxReport', lang) || 'Printable tax report'}</span>
+            </div>
+          </button>
+
+          <button className="report-action-btn" onClick={handlePreview} disabled={yearEntries.length === 0}>
             <FileIcon className="report-action-icon" />
             <div className="report-action-text">
               <span className="report-action-title">{t('previewReport', lang)}</span>
-              <span className="report-action-desc">View detailed tax report</span>
+              <span className="report-action-desc">{t('viewDetailedReport', lang) || 'View detailed report'}</span>
             </div>
           </button>
 
@@ -171,7 +183,7 @@ export function TaxPage({ entries, settings, profile }) {
             <DownloadIcon className="report-action-icon" />
             <div className="report-action-text">
               <span className="report-action-title">{t('downloadReport', lang)}</span>
-              <span className="report-action-desc">Save as HTML file</span>
+              <span className="report-action-desc">{t('saveAsHTML', lang) || 'Save as HTML file'}</span>
             </div>
           </button>
 

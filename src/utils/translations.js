@@ -145,6 +145,10 @@ export const translations = {
     expenseSummary: 'खर्च सारांश',
     categories: 'श्रेणीहरू',
     noData: 'यस वर्ष कुनै डाटा छैन',
+    downloadPDF: 'PDF डाउनलोड गर्नुहोस्',
+    printableTaxReport: 'प्रिन्ट गर्न मिल्ने टैक्स रिपोर्ट',
+    viewDetailedReport: 'विस्तृत रिपोर्ट हेर्नुहोस्',
+    saveAsHTML: 'HTML फाइलको रूपमा सुरक्षित गर्नुहोस्',
     
     // Categories
     teaching: 'शिक्षण',
@@ -424,6 +428,10 @@ export const translations = {
     expenseSummary: 'Expense Summary',
     categories: 'Categories',
     noData: 'No data for this year',
+    downloadPDF: 'Download PDF',
+    printableTaxReport: 'Printable tax report',
+    viewDetailedReport: 'View detailed report',
+    saveAsHTML: 'Save as HTML file',
     
     // Categories
     teaching: 'Teaching',
@@ -703,6 +711,10 @@ export const translations = {
     expenseSummary: 'व्यय सारांश',
     categories: 'श्रेणियां',
     noData: 'इस वर्ष कोई डेटा नहीं',
+    downloadPDF: 'PDF डाउनलोड करें',
+    printableTaxReport: 'प्रिंट करने योग्य टैक्स रिपोर्ट',
+    viewDetailedReport: 'विस्तृत रिपोर्ट देखें',
+    saveAsHTML: 'HTML फाइल के रूप में सहेजें',
     
     // Categories
     teaching: 'शिक्षण',
