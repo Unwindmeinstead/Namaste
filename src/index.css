@@ -1572,10 +1572,43 @@ input[type="number"] {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 24px;
   padding-bottom: 20px;
   border-bottom: 1px solid var(--border);
   position: relative;
+}
+
+.profile-header.clickable {
+  cursor: pointer;
+  margin-bottom: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+  transition: opacity 0.2s;
+}
+
+.profile-header.clickable:hover {
+  opacity: 0.8;
+}
+
+.profile-section-card:not(.expanded) .profile-header {
+  margin-bottom: 0;
+}
+
+.profile-section-card.expanded .profile-header {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.profile-expand-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--text-muted);
+  margin-left: auto;
+  transition: transform 0.3s ease;
+}
+
+.profile-expand-icon.expanded {
+  transform: rotate(90deg);
 }
 
 .profile-avatar {

@@ -20,6 +20,7 @@ const LANGUAGES = [
 export function SettingsPage({ settings, updateSetting, onClearData, entries, profile, updateProfile }) {
   const lang = settings.language || 'en'
   const [showSaved, setShowSaved] = useState(false)
+  const [profileExpanded, setProfileExpanded] = useState(false)
   const [pinMode, setPinMode] = useState(null) // 'setup', 'change', 'verify-remove', 'verify-change'
   const [hasPin, setHasPin] = useState(() => !!localStorage.getItem('guruji_pin'))
   const [toast, setToast] = useState('')
@@ -145,8 +146,8 @@ export function SettingsPage({ settings, updateSetting, onClearData, entries, pr
       )}
 
       {/* Profile Section */}
-      <section className="settings-section profile-section-card">
-        <div className="profile-header">
+      <section className={`settings-section profile-section-card ${profileExpanded ? 'expanded' : ''}`}>
+        <div className="profile-header clickable" onClick={() => setProfileExpanded(!profileExpanded)}>
           <div className="profile-avatar">
             <UserIcon className="profile-avatar-icon" />
           </div>
@@ -155,95 +156,100 @@ export function SettingsPage({ settings, updateSetting, onClearData, entries, pr
             <p className="profile-business">{profile.businessName || t('businessOrTemple', lang)}</p>
           </div>
           {showSaved && <span className="profile-saved">{t('profileSaved', lang)}</span>}
+          <ChevronRightIcon className={`profile-expand-icon ${profileExpanded ? 'expanded' : ''}`} />
         </div>
         
-        <h3 className="settings-title">{t('personalInfo', lang)}</h3>
-        
-        <div className="profile-form">
-          <div className="profile-field">
-            <label className="profile-label">
-              <UserIcon className="profile-field-icon" />
-              {t('fullName', lang)}
-            </label>
-            <input
-              type="text"
-              className="profile-input"
-              value={profile.name || ''}
-              onChange={(e) => handleProfileChange('name', e.target.value)}
-              placeholder={t('yourName', lang)}
-            />
-          </div>
+        {profileExpanded && (
+          <>
+            <h3 className="settings-title">{t('personalInfo', lang)}</h3>
+            
+            <div className="profile-form">
+              <div className="profile-field">
+                <label className="profile-label">
+                  <UserIcon className="profile-field-icon" />
+                  {t('fullName', lang)}
+                </label>
+                <input
+                  type="text"
+                  className="profile-input"
+                  value={profile.name || ''}
+                  onChange={(e) => handleProfileChange('name', e.target.value)}
+                  placeholder={t('yourName', lang)}
+                />
+              </div>
 
-          <div className="profile-field">
-            <label className="profile-label">
-              <FileIcon className="profile-field-icon" />
-              {t('businessName', lang)}
-            </label>
-            <input
-              type="text"
-              className="profile-input"
-              value={profile.businessName || ''}
-              onChange={(e) => handleProfileChange('businessName', e.target.value)}
-              placeholder={t('businessOrTemple', lang)}
-            />
-          </div>
+              <div className="profile-field">
+                <label className="profile-label">
+                  <FileIcon className="profile-field-icon" />
+                  {t('businessName', lang)}
+                </label>
+                <input
+                  type="text"
+                  className="profile-input"
+                  value={profile.businessName || ''}
+                  onChange={(e) => handleProfileChange('businessName', e.target.value)}
+                  placeholder={t('businessOrTemple', lang)}
+                />
+              </div>
 
-          <div className="profile-field">
-            <label className="profile-label">
-              <EmailIcon className="profile-field-icon" />
-              {t('emailAddress', lang)}
-            </label>
-            <input
-              type="email"
-              className="profile-input"
-              value={profile.email || ''}
-              onChange={(e) => handleProfileChange('email', e.target.value)}
-              placeholder={t('yourEmail', lang)}
-            />
-          </div>
+              <div className="profile-field">
+                <label className="profile-label">
+                  <EmailIcon className="profile-field-icon" />
+                  {t('emailAddress', lang)}
+                </label>
+                <input
+                  type="email"
+                  className="profile-input"
+                  value={profile.email || ''}
+                  onChange={(e) => handleProfileChange('email', e.target.value)}
+                  placeholder={t('yourEmail', lang)}
+                />
+              </div>
 
-          <div className="profile-field">
-            <label className="profile-label">
-              <PhoneIcon className="profile-field-icon" />
-              {t('phoneNumber', lang)}
-            </label>
-            <input
-              type="tel"
-              className="profile-input"
-              value={profile.phone || ''}
-              onChange={(e) => handleProfileChange('phone', e.target.value)}
-              placeholder={t('yourPhone', lang)}
-            />
-          </div>
+              <div className="profile-field">
+                <label className="profile-label">
+                  <PhoneIcon className="profile-field-icon" />
+                  {t('phoneNumber', lang)}
+                </label>
+                <input
+                  type="tel"
+                  className="profile-input"
+                  value={profile.phone || ''}
+                  onChange={(e) => handleProfileChange('phone', e.target.value)}
+                  placeholder={t('yourPhone', lang)}
+                />
+              </div>
 
-          <div className="profile-field">
-            <label className="profile-label">
-              <LocationIcon className="profile-field-icon" />
-              {t('address', lang)}
-            </label>
-            <input
-              type="text"
-              className="profile-input"
-              value={profile.address || ''}
-              onChange={(e) => handleProfileChange('address', e.target.value)}
-              placeholder={t('yourAddress', lang)}
-            />
-          </div>
+              <div className="profile-field">
+                <label className="profile-label">
+                  <LocationIcon className="profile-field-icon" />
+                  {t('address', lang)}
+                </label>
+                <input
+                  type="text"
+                  className="profile-input"
+                  value={profile.address || ''}
+                  onChange={(e) => handleProfileChange('address', e.target.value)}
+                  placeholder={t('yourAddress', lang)}
+                />
+              </div>
 
-          <div className="profile-field">
-            <label className="profile-label">
-              <FileIcon className="profile-field-icon" />
-              {t('taxId', lang)}
-            </label>
-            <input
-              type="text"
-              className="profile-input"
-              value={profile.taxId || ''}
-              onChange={(e) => handleProfileChange('taxId', e.target.value)}
-              placeholder={t('yourTaxId', lang)}
-            />
-          </div>
-        </div>
+              <div className="profile-field">
+                <label className="profile-label">
+                  <FileIcon className="profile-field-icon" />
+                  {t('taxId', lang)}
+                </label>
+                <input
+                  type="text"
+                  className="profile-input"
+                  value={profile.taxId || ''}
+                  onChange={(e) => handleProfileChange('taxId', e.target.value)}
+                  placeholder={t('yourTaxId', lang)}
+                />
+              </div>
+            </div>
+          </>
+        )}
       </section>
 
       {/* Security Section */}
