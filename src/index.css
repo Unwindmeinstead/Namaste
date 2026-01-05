@@ -1957,39 +1957,35 @@ input[type="number"] {
 
 .scheduled-card-header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
 }
 
 .scheduled-card-icon {
-  width: 24px;
-  height: 24px;
-  color: var(--text-secondary);
+  width: 28px;
+  height: 28px;
+  color: var(--warning);
   flex-shrink: 0;
-  margin-top: 2px;
 }
 
-.scheduled-card-info {
+.scheduled-card-title-wrap {
   flex: 1;
   min-width: 0;
 }
 
-.scheduled-card-info h4 {
-  font-size: 15px;
+.scheduled-card-title-wrap h4 {
+  font-size: 16px;
   font-weight: 600;
   color: var(--text-primary);
-  margin: 0 0 4px 0;
-}
-
-.scheduled-time {
-  font-size: 13px;
-  color: var(--warning);
-  font-weight: 500;
+  margin: 0;
 }
 
 .scheduled-card-actions {
   display: flex;
-  gap: 8px;
+  gap: 6px;
 }
 
 .scheduled-action {
@@ -2019,34 +2015,49 @@ input[type="number"] {
   color: var(--accent);
 }
 
-.scheduled-card-contact {
+.scheduled-card-details {
   display: flex;
-  gap: 12px;
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px solid var(--border);
-  font-size: 13px;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.contact-name {
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.detail-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  flex-shrink: 0;
+  min-width: 70px;
+}
+
+.detail-value {
+  font-size: 14px;
   color: var(--text-primary);
+  text-align: right;
+  word-break: break-word;
+}
+
+.detail-value.time-value {
+  color: var(--warning);
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.detail-value.phone-value {
+  color: var(--accent);
   font-weight: 500;
 }
 
-.contact-phone {
-  color: var(--accent);
-}
-
-.scheduled-card-address {
-  margin-top: 8px;
-  font-size: 12px;
-  color: var(--text-muted);
-}
-
-.scheduled-card-notes {
-  margin-top: 6px;
-  font-size: 12px;
-  color: var(--text-muted);
+.detail-value.notes-value {
+  color: var(--text-secondary);
   font-style: italic;
 }
 

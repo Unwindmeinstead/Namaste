@@ -167,9 +167,8 @@ export function ScheduleModal({ isOpen, onClose, onAdd, onUpdate, onDelete, sett
               <div key={service.id} className="scheduled-card">
                 <div className="scheduled-card-header">
                   <CatIcon className="scheduled-card-icon" />
-                  <div className="scheduled-card-info">
+                  <div className="scheduled-card-title-wrap">
                     <h4>{service.title}</h4>
-                    <p className="scheduled-time">{service.time}</p>
                   </div>
                   <div className="scheduled-card-actions">
                     <button className="scheduled-action edit" onClick={() => handleEdit(service)}>
@@ -180,18 +179,41 @@ export function ScheduleModal({ isOpen, onClose, onAdd, onUpdate, onDelete, sett
                     </button>
                   </div>
                 </div>
-                {(service.contactName || service.contactPhone) && (
-                  <div className="scheduled-card-contact">
-                    {service.contactName && <span className="contact-name">{service.contactName}</span>}
-                    {service.contactPhone && <span className="contact-phone">{service.contactPhone}</span>}
+                
+                <div className="scheduled-card-details">
+                  <div className="detail-row">
+                    <span className="detail-label">{t('time', lang) || 'Time'}</span>
+                    <span className="detail-value time-value">{service.time}</span>
                   </div>
-                )}
-                {service.address && (
-                  <div className="scheduled-card-address">{service.address}</div>
-                )}
-                {service.notes && (
-                  <div className="scheduled-card-notes">{service.notes}</div>
-                )}
+                  
+                  {service.contactName && (
+                    <div className="detail-row">
+                      <span className="detail-label">{t('contactName', lang) || 'Contact'}</span>
+                      <span className="detail-value">{service.contactName}</span>
+                    </div>
+                  )}
+                  
+                  {service.contactPhone && (
+                    <div className="detail-row">
+                      <span className="detail-label">{t('contactPhone', lang) || 'Phone'}</span>
+                      <span className="detail-value phone-value">{service.contactPhone}</span>
+                    </div>
+                  )}
+                  
+                  {service.address && (
+                    <div className="detail-row">
+                      <span className="detail-label">{t('address', lang) || 'Address'}</span>
+                      <span className="detail-value">{service.address}</span>
+                    </div>
+                  )}
+                  
+                  {service.notes && (
+                    <div className="detail-row">
+                      <span className="detail-label">{t('notes', lang) || 'Notes'}</span>
+                      <span className="detail-value notes-value">{service.notes}</span>
+                    </div>
+                  )}
+                </div>
               </div>
             )
           })
