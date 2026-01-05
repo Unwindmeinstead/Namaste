@@ -86,6 +86,23 @@ export function HomePage({ entries, scheduledServices, settings, onAddClick, onV
         </div>
       </div>
 
+      {/* Total Expenses Card */}
+      <div className="expense-card">
+        <div className="expense-card-content">
+          <div className="expense-card-icon">
+            <TrendDownIcon className="expense-icon-svg" />
+          </div>
+          <div className="expense-card-info">
+            <p className="expense-card-label">{t('totalExpenses', lang) || 'Total Expenses'}</p>
+            <p className="expense-card-value">-{formatCurrency(totalExpenses, settings.currency)}</p>
+          </div>
+          <div className="expense-card-details">
+            <span className="expense-count">{expenseEntries.length} {t('entries', lang)}</span>
+            <span className="expense-month">{t('thisMonth', lang)}: -{formatCurrency(thisMonthExpenses, settings.currency)}</span>
+          </div>
+        </div>
+      </div>
+
       <section className="quick-add">
         <button className="add-btn" onClick={onAddClick}>
           <PlusIcon className="add-icon" />
