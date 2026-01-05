@@ -1,4 +1,5 @@
-import { ChevronRightIcon, TrashIcon, DownloadIcon } from '../components/Icons'
+import { useState } from 'react'
+import { ChevronRightIcon, TrashIcon, DownloadIcon, UserIcon, EmailIcon, PhoneIcon, LocationIcon, FileIcon } from '../components/Icons'
 import { downloadCSV } from '../utils/format'
 import { t } from '../utils/translations'
 
@@ -15,8 +16,15 @@ const LANGUAGES = [
   { code: 'ne', name: 'Nepali', native: 'नेपाली' }
 ]
 
-export function SettingsPage({ settings, updateSetting, onClearData, entries }) {
+export function SettingsPage({ settings, updateSetting, onClearData, entries, profile, updateProfile }) {
   const lang = settings.language || 'en'
+  const [showSaved, setShowSaved] = useState(false)
+
+  const handleProfileChange = (field, value) => {
+    updateProfile(field, value)
+    setShowSaved(true)
+    setTimeout(() => setShowSaved(false), 2000)
+  }
 
   const handleExportAll = () => {
     downloadCSV(entries, 'guruji-income-all.csv')
@@ -26,6 +34,7 @@ export function SettingsPage({ settings, updateSetting, onClearData, entries }) 
     const data = {
       entries: JSON.parse(localStorage.getItem('guruji_income_entries') || '[]'),
       settings: JSON.parse(localStorage.getItem('guruji_settings') || '{}'),
+      profile: JSON.parse(localStorage.getItem('guruji_profile') || '{}'),
       exportedAt: new Date().toISOString()
     }
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
@@ -51,6 +60,9 @@ export function SettingsPage({ settings, updateSetting, onClearData, entries }) 
         if (data.settings) {
           localStorage.setItem('guruji_settings', JSON.stringify(data.settings))
         }
+        if (data.profile) {
+          localStorage.setItem('guruji_profile', JSON.stringify(data.profile))
+        }
         alert(t('backupRestored', lang))
         window.location.reload()
       } catch {
@@ -73,6 +85,108 @@ export function SettingsPage({ settings, updateSetting, onClearData, entries }) 
         <h1 className="header-title">{t('settings', lang)}</h1>
         <div className="header-right"></div>
       </header>
+
+      {/* Profile Section */}
+      <section className="settings-section profile-section-card">
+        <div className="profile-header">
+          <div className="profile-avatar">
+            <UserIcon className="profile-avatar-icon" />
+          </div>
+          <div className="profile-header-info">
+            <h3 className="profile-name">{profile.name || t('yourName', lang)}</h3>
+            <p className="profile-business">{profile.businessName || t('businessOrTemple', lang)}</p>
+          </div>
+          {showSaved && <span className="profile-saved">{t('profileSaved', lang)}</span>}
+        </div>
+        
+        <h3 className="settings-title">{t('personalInfo', lang)}</h3>
+        
+        <div className="profile-form">
+          <div className="profile-field">
+            <label className="profile-label">
+              <UserIcon className="profile-field-icon" />
+              {t('fullName', lang)}
+            </label>
+            <input
+              type="text"
+              className="profile-input"
+              value={profile.name || ''}
+              onChange={(e) => handleProfileChange('name', e.target.value)}
+              placeholder={t('yourName', lang)}
+            />
+          </div>
+
+          <div className="profile-field">
+            <label className="profile-label">
+              <FileIcon className="profile-field-icon" />
+              {t('businessName', lang)}
+            </label>
+            <input
+              type="text"
+              className="profile-input"
+              value={profile.businessName || ''}
+              onChange={(e) => handleProfileChange('businessName', e.target.value)}
+              placeholder={t('businessOrTemple', lang)}
+            />
+          </div>
+
+          <div className="profile-field">
+            <label className="profile-label">
+              <EmailIcon className="profile-field-icon" />
+              {t('emailAddress', lang)}
+            </label>
+            <input
+              type="email"
+              className="profile-input"
+              value={profile.email || ''}
+              onChange={(e) => handleProfileChange('email', e.target.value)}
+              placeholder={t('yourEmail', lang)}
+            />
+          </div>
+
+          <div className="profile-field">
+            <label className="profile-label">
+              <PhoneIcon className="profile-field-icon" />
+              {t('phoneNumber', lang)}
+            </label>
+            <input
+              type="tel"
+              className="profile-input"
+              value={profile.phone || ''}
+              onChange={(e) => handleProfileChange('phone', e.target.value)}
+              placeholder={t('yourPhone', lang)}
+            />
+          </div>
+
+          <div className="profile-field">
+            <label className="profile-label">
+              <LocationIcon className="profile-field-icon" />
+              {t('address', lang)}
+            </label>
+            <input
+              type="text"
+              className="profile-input"
+              value={profile.address || ''}
+              onChange={(e) => handleProfileChange('address', e.target.value)}
+              placeholder={t('yourAddress', lang)}
+            />
+          </div>
+
+          <div className="profile-field">
+            <label className="profile-label">
+              <FileIcon className="profile-field-icon" />
+              {t('taxId', lang)}
+            </label>
+            <input
+              type="text"
+              className="profile-input"
+              value={profile.taxId || ''}
+              onChange={(e) => handleProfileChange('taxId', e.target.value)}
+              placeholder={t('yourTaxId', lang)}
+            />
+          </div>
+        </div>
+      </section>
 
       <section className="settings-section">
         <h3 className="settings-title">{t('preferences', lang)}</h3>
@@ -173,7 +287,7 @@ export function SettingsPage({ settings, updateSetting, onClearData, entries }) 
             <div className="setting-info">
               <span className="setting-label">{t('version', lang)}</span>
             </div>
-            <span className="setting-value">1.1.0</span>
+            <span className="setting-value">1.2.0</span>
           </div>
           <div className="setting-item">
             <div className="setting-info">

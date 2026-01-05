@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useLocalStorage, useSettings } from './hooks/useLocalStorage'
+import { useLocalStorage, useSettings, useProfile } from './hooks/useLocalStorage'
 import { HomePage } from './pages/HomePage'
 import { ReportsPage } from './pages/ReportsPage'
 import { TaxPage } from './pages/TaxPage'
@@ -12,6 +12,7 @@ import { EntriesModal } from './components/EntriesModal'
 function App() {
   const [entries, setEntries] = useLocalStorage('guruji_income_entries', [])
   const [settings, updateSetting] = useSettings()
+  const [profile, updateProfile] = useProfile()
   const [activePage, setActivePage] = useState('home')
   const [showAddModal, setShowAddModal] = useState(false)
   const [showEntriesModal, setShowEntriesModal] = useState(false)
@@ -69,7 +70,7 @@ function App() {
       case 'reports':
         return <ReportsPage entries={entries} settings={settings} />
       case 'tax':
-        return <TaxPage entries={entries} settings={settings} />
+        return <TaxPage entries={entries} settings={settings} profile={profile} />
       case 'settings':
         return (
           <SettingsPage
@@ -77,6 +78,8 @@ function App() {
             updateSetting={updateSetting}
             onClearData={clearAllData}
             entries={entries}
+            profile={profile}
+            updateProfile={updateProfile}
           />
         )
       default:

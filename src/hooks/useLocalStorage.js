@@ -36,3 +36,20 @@ export function useSettings() {
 
   return [settings, updateSetting, setSettings]
 }
+
+export function useProfile() {
+  const [profile, setProfile] = useLocalStorage('guruji_profile', {
+    name: '',
+    businessName: '',
+    email: '',
+    phone: '',
+    address: '',
+    taxId: ''
+  })
+
+  const updateProfile = (key, value) => {
+    setProfile(prev => ({ ...prev, [key]: value }))
+  }
+
+  return [profile, updateProfile, setProfile]
+}

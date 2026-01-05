@@ -116,7 +116,33 @@ export const translations = {
     // Confirm
     confirmDelete: 'के तपाईं सबै आम्दानी प्रविष्टि मेटाउन चाहनुहुन्छ? यो पूर्ववत गर्न सकिँदैन।',
     backupRestored: 'ब्याकअप पुनर्स्थापित! रिफ्रेस हुँदैछ...',
-    invalidBackup: 'अमान्य ब्याकअप फाइल'
+    invalidBackup: 'अमान्य ब्याकअप फाइल',
+    
+    // Profile
+    profile: 'प्रोफाइल',
+    personalInfo: 'व्यक्तिगत जानकारी',
+    fullName: 'पूरा नाम',
+    businessName: 'व्यवसायको नाम',
+    emailAddress: 'इमेल ठेगाना',
+    phoneNumber: 'फोन नम्बर',
+    address: 'ठेगाना',
+    taxId: 'कर परिचय / PAN',
+    yourName: 'तपाईंको नाम',
+    businessOrTemple: 'व्यवसाय वा मन्दिरको नाम',
+    yourEmail: 'your@email.com',
+    yourPhone: '+977 98XXXXXXXX',
+    yourAddress: 'शहर, प्रदेश, देश',
+    yourTaxId: 'कर परिचय वा PAN नम्बर',
+    profileSaved: 'प्रोफाइल सुरक्षित!',
+    
+    // Tax Report
+    generateReport: 'कर रिपोर्ट बनाउनुहोस्',
+    downloadReport: 'रिपोर्ट डाउनलोड',
+    emailReport: 'रिपोर्ट इमेल गर्नुहोस्',
+    shareReport: 'रिपोर्ट साझा गर्नुहोस्',
+    previewReport: 'रिपोर्ट हेर्नुहोस्',
+    taxReport: 'कर रिपोर्ट',
+    reportGenerated: 'रिपोर्ट सफलतापूर्वक बनाइयो!'
   },
   
   en: {
@@ -236,7 +262,33 @@ export const translations = {
     // Confirm
     confirmDelete: 'Are you sure you want to delete ALL income entries? This cannot be undone.',
     backupRestored: 'Backup restored! Refreshing...',
-    invalidBackup: 'Invalid backup file'
+    invalidBackup: 'Invalid backup file',
+    
+    // Profile
+    profile: 'Profile',
+    personalInfo: 'Personal Information',
+    fullName: 'Full Name',
+    businessName: 'Business Name',
+    emailAddress: 'Email Address',
+    phoneNumber: 'Phone Number',
+    address: 'Address',
+    taxId: 'Tax ID / PAN',
+    yourName: 'Your Name',
+    businessOrTemple: 'Business or Temple name',
+    yourEmail: 'your@email.com',
+    yourPhone: '+1 (555) 123-4567',
+    yourAddress: 'City, State, Country',
+    yourTaxId: 'Tax ID or PAN number',
+    profileSaved: 'Profile saved!',
+    
+    // Tax Report
+    generateReport: 'Generate Tax Report',
+    downloadReport: 'Download Report',
+    emailReport: 'Email Report',
+    shareReport: 'Share Report',
+    previewReport: 'Preview Report',
+    taxReport: 'Tax Report',
+    reportGenerated: 'Report generated successfully!'
   },
   
   hi: {
@@ -356,7 +408,33 @@ export const translations = {
     // Confirm
     confirmDelete: 'क्या आप वाकई सभी आय प्रविष्टियाँ हटाना चाहते हैं? इसे पूर्ववत नहीं किया जा सकता।',
     backupRestored: 'बैकअप पुनर्स्थापित! रीफ्रेश हो रहा है...',
-    invalidBackup: 'अमान्य बैकअप फ़ाइल'
+    invalidBackup: 'अमान्य बैकअप फ़ाइल',
+    
+    // Profile
+    profile: 'प्रोफ़ाइल',
+    personalInfo: 'व्यक्तिगत जानकारी',
+    fullName: 'पूरा नाम',
+    businessName: 'व्यवसाय का नाम',
+    emailAddress: 'ईमेल पता',
+    phoneNumber: 'फ़ोन नंबर',
+    address: 'पता',
+    taxId: 'टैक्स आईडी / पैन',
+    yourName: 'आपका नाम',
+    businessOrTemple: 'व्यवसाय या मंदिर का नाम',
+    yourEmail: 'your@email.com',
+    yourPhone: '+91 98765 43210',
+    yourAddress: 'शहर, राज्य, देश',
+    yourTaxId: 'टैक्स आईडी या पैन नंबर',
+    profileSaved: 'प्रोफ़ाइल सहेजा गया!',
+    
+    // Tax Report
+    generateReport: 'कर रिपोर्ट बनाएं',
+    downloadReport: 'रिपोर्ट डाउनलोड करें',
+    emailReport: 'रिपोर्ट ईमेल करें',
+    shareReport: 'रिपोर्ट शेयर करें',
+    previewReport: 'रिपोर्ट देखें',
+    taxReport: 'कर रिपोर्ट',
+    reportGenerated: 'रिपोर्ट सफलतापूर्वक बनाई गई!'
   }
 }
 
