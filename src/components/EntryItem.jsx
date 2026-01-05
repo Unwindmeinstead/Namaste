@@ -42,6 +42,7 @@ export function EntryItem({ entry, settings, onEdit, onDelete, showActions = tru
               {formatDate(entry.date)}
               {entry.payerName && ` • ${entry.payerName}`}
               {entry.paymentMethod && ` • ${getPaymentMethodLabel(entry.paymentMethod)}`}
+              {entry.miles && ` • ${entry.miles} mi`}
               {hasExpenses && !expanded && (
                 <span className="expense-badge">
                   {linkedExpenses.length} {t('jobExpenses', lang)}
@@ -49,6 +50,7 @@ export function EntryItem({ entry, settings, onEdit, onDelete, showActions = tru
               )}
             </p>
             {entry.notes && <p className="entry-notes">{entry.notes}</p>}
+            {entry.destinationAddress && <p className="entry-notes">📍 {entry.destinationAddress}</p>}
           </div>
         </div>
         <div className="entry-right">

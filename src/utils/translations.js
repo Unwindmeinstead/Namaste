@@ -112,6 +112,17 @@ export const translations = {
     backupSaved: 'ब्याकअप यन्त्रमा सुरक्षित भयो!',
     cloudBackup: 'क्लाउड ब्याकअप',
     
+    // Mileage
+    mileageCalculator: 'माइलेज क्याल्कुलेटर',
+    from: 'बाट',
+    destinationAddress: 'गन्तव्य ठेगाना',
+    calculate: 'गणना',
+    distance: 'दूरी',
+    miles: 'माइल',
+    atIrsRate: '@$0.67/माइल',
+    enterDestination: 'गन्तव्य ठेगाना प्रविष्ट गर्नुहोस्',
+    totalMiles: 'कुल माइल',
+    
     // Categories
     teaching: 'शिक्षण',
     satsang: 'सत्संग',
@@ -357,6 +368,17 @@ export const translations = {
     backupSaved: 'Backup saved to your device!',
     cloudBackup: 'Cloud Backup',
     
+    // Mileage
+    mileageCalculator: 'Mileage Calculator',
+    from: 'From',
+    destinationAddress: 'Destination address',
+    calculate: 'Calc',
+    distance: 'Distance',
+    miles: 'miles',
+    atIrsRate: '@$0.67/mi',
+    enterDestination: 'Enter a destination address',
+    totalMiles: 'Total Miles',
+    
     // Categories
     teaching: 'Teaching',
     satsang: 'Satsang',
@@ -601,6 +623,17 @@ export const translations = {
     emailOpened: 'Gmail खुल गया! बैकअप सहेजने के लिए ईमेल भेजें',
     backupSaved: 'बैकअप डिवाइस में सहेजा गया!',
     cloudBackup: 'क्लाउड बैकअप',
+    
+    // Mileage
+    mileageCalculator: 'माइलेज कैलकुलेटर',
+    from: 'से',
+    destinationAddress: 'गंतव्य पता',
+    calculate: 'गणना',
+    distance: 'दूरी',
+    miles: 'मील',
+    atIrsRate: '@$0.67/मील',
+    enterDestination: 'गंतव्य पता दर्ज करें',
+    totalMiles: 'कुल मील',
     
     // Categories
     teaching: 'शिक्षण',
