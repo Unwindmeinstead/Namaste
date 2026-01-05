@@ -272,11 +272,15 @@ export function AddModal({ isOpen, onClose, onAdd, settings, entries = [] }) {
                 onChange={(e) => setRelatedTo(e.target.value)}
               >
                 <option value="">{t('selectJob', lang)}</option>
-                {recentJobs.map(job => (
-                  <option key={job.id} value={job.id}>
-                    {job.source} - {formatCurrency(job.amount, settings.currency)} ({formatDate(job.date)})
-                  </option>
-                ))}
+                {recentJobs.map(job => {
+                  const jobCat = INCOME_CATEGORIES.find(c => c.id === job.category)
+                  const catName = lang === 'hi' ? jobCat?.nameHi : lang === 'ne' ? jobCat?.nameNe : jobCat?.name || 'Income'
+                  return (
+                    <option key={job.id} value={job.id}>
+                      {catName}{job.payerName ? ` - ${job.payerName}` : ''} ({formatCurrency(job.amount, settings.currency)}, {formatDate(job.date)})
+                    </option>
+                  )
+                })}
               </select>
             </div>
           )}
