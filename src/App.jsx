@@ -97,6 +97,7 @@ function App() {
             onEditEntry={setEditingEntry}
             onDeleteEntry={deleteEntry}
             getLinkedExpenses={getLinkedExpenses}
+            onProfileClick={() => setActivePage('settings')}
           />
         )
       case 'reports':

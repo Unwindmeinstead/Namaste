@@ -1,9 +1,9 @@
-import { ClockIcon, MenuIcon, PlusIcon, TrendUpIcon, TrendDownIcon } from '../components/Icons'
+import { ClockIcon, UserIcon, PlusIcon, TrendUpIcon, TrendDownIcon } from '../components/Icons'
 import { formatCurrency, getThisMonthEntries, getLastMonthEntries, getCurrentFiscalYear } from '../utils/format'
 import { EntryItem } from '../components/EntryItem'
 import { t } from '../utils/translations'
 
-export function HomePage({ entries, settings, onAddClick, onViewAll, onEditEntry, onDeleteEntry, getLinkedExpenses }) {
+export function HomePage({ entries, settings, onAddClick, onViewAll, onEditEntry, onDeleteEntry, getLinkedExpenses, onProfileClick }) {
   const lang = settings.language || 'en'
   
   // Calculate income and expenses
@@ -40,8 +40,8 @@ export function HomePage({ entries, settings, onAddClick, onViewAll, onEditEntry
         </div>
         <h1 className="header-title">{t('income', lang)}</h1>
         <div className="header-right">
-          <button className="icon-btn" onClick={onViewAll} title={t('viewAll', lang)}>
-            <MenuIcon className="menu-icon" />
+          <button className="icon-btn" onClick={onProfileClick} title={t('profile', lang)}>
+            <UserIcon className="menu-icon" />
           </button>
         </div>
       </header>
