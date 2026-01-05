@@ -34,11 +34,13 @@ export function HomePage({ entries, settings, onAddClick, onViewAll, onEditEntry
     <>
       <header className="header">
         <div className="header-left">
-          <ClockIcon className="logo-icon" />
+          <button className="icon-btn" onClick={onViewAll} title={t('recent', lang)}>
+            <ClockIcon className="logo-icon" />
+          </button>
         </div>
         <h1 className="header-title">{t('income', lang)}</h1>
         <div className="header-right">
-          <button className="icon-btn" onClick={onViewAll}>
+          <button className="icon-btn" onClick={onViewAll} title={t('viewAll', lang)}>
             <MenuIcon className="menu-icon" />
           </button>
         </div>
