@@ -29,14 +29,20 @@ export function ScheduleModal({ isOpen, onClose, onAdd, onUpdate, onDelete, sett
 
   // Reset mode when modal opens
   useEffect(() => {
-    if (isOpen && selectedDate) {
-      // If there are scheduled services, show view mode, otherwise show add mode
-      if (dayServices.length > 0) {
-        setMode('view')
+    if (isOpen) {
+      if (selectedDate) {
+        // If clicking on a specific day with services, show view mode
+        if (dayServices.length > 0) {
+          setMode('view')
+        } else {
+          setMode('add')
+        }
+        setDate(selectedDate)
       } else {
+        // If clicking "Schedule Service" button directly, go to add mode
         setMode('add')
+        setDate(new Date().toISOString().split('T')[0])
       }
-      setDate(selectedDate)
     }
   }, [isOpen, selectedDate])
 
