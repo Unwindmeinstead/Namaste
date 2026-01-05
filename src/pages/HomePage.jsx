@@ -86,6 +86,13 @@ export function HomePage({ entries, scheduledServices, settings, onAddClick, onV
         </div>
       </div>
 
+      <section className="quick-add">
+        <button className="add-btn" onClick={onAddClick}>
+          <PlusIcon className="add-icon" />
+          <span>{t('addTransaction', lang)}</span>
+        </button>
+      </section>
+
       {/* Calendar Section */}
       <Calendar
         entries={entries}
@@ -94,13 +101,6 @@ export function HomePage({ entries, scheduledServices, settings, onAddClick, onV
         onAddService={onAddService}
         onDayClick={onDayClick}
       />
-
-      <section className="quick-add">
-        <button className="add-btn" onClick={onAddClick}>
-          <PlusIcon className="add-icon" />
-          <span>{t('addTransaction', lang)}</span>
-        </button>
-      </section>
 
       <section className="entries-section">
         <div className="section-header">
