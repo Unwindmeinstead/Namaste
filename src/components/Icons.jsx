@@ -1,16 +1,27 @@
-// Dakshina Logo - Sacred Kalash
+// Dakshina Logo - Sacred Kalash with Coconut and Mango Leaves
 export const DakshinaLogo = ({ className }) => (
   <svg className={className} viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
-    {/* Kalash (sacred pot) body */}
-    <path d="M35 75 L35 55 Q35 45, 50 42 Q65 45, 65 55 L65 75 Q65 80, 50 82 Q35 80, 35 75Z" strokeWidth="2.5"/>
-    {/* Neck */}
-    <path d="M42 42 L42 35 Q42 30, 50 28 Q58 30, 58 35 L58 42" strokeWidth="2"/>
-    {/* Top leaves/flourish */}
-    <path d="M50 28 Q45 20, 50 12" strokeWidth="2"/>
-    <path d="M50 28 Q55 18, 60 15" strokeWidth="1.5" opacity="0.8"/>
-    <path d="M50 28 Q45 18, 40 15" strokeWidth="1.5" opacity="0.8"/>
-    {/* Decorative band */}
-    <path d="M38 60 Q50 55, 62 60" strokeWidth="1.5" opacity="0.7"/>
+    {/* Pot base */}
+    <ellipse cx="50" cy="82" rx="12" ry="3" strokeWidth="2"/>
+    {/* Pot body - rounded */}
+    <path d="M32 65 Q28 50, 38 42 L62 42 Q72 50, 68 65 Q65 75, 50 78 Q35 75, 32 65Z" strokeWidth="2"/>
+    {/* Pot neck */}
+    <path d="M38 42 L38 36 Q38 32, 50 30 Q62 32, 62 36 L62 42" strokeWidth="2"/>
+    {/* Mango leaves - left */}
+    <path d="M40 32 Q28 28, 22 18" strokeWidth="1.5"/>
+    <path d="M40 32 Q30 30, 26 22" strokeWidth="1.5"/>
+    {/* Mango leaves - right */}
+    <path d="M60 32 Q72 28, 78 18" strokeWidth="1.5"/>
+    <path d="M60 32 Q70 30, 74 22" strokeWidth="1.5"/>
+    {/* Coconut on top */}
+    <ellipse cx="50" cy="24" rx="8" ry="7" strokeWidth="2"/>
+    {/* Coconut tuft/hair lines */}
+    <path d="M46 18 Q48 12, 50 10" strokeWidth="1.2"/>
+    <path d="M50 17 L50 9" strokeWidth="1.2"/>
+    <path d="M54 18 Q52 12, 50 10" strokeWidth="1.2"/>
+    {/* Simple Om on pot body - minimal */}
+    <path d="M47 55 Q44 55, 44 58 Q44 61, 47 61 Q50 61, 50 58 Q50 54, 53 54 Q56 54, 56 58 Q56 62, 52 64" strokeWidth="1.2" fill="none"/>
+    <path d="M52 51 Q54 50, 55 52" strokeWidth="1"/>
   </svg>
 )
 

@@ -48,7 +48,9 @@ export function HomePage({ entries, scheduledServices, settings, onAddClick, onV
         </div>
         <div className="header-brand">
           <DakshinaLogo className="header-logo" />
-          <span className="header-brand-name">Dakshina</span>
+          <span className="header-brand-name">
+            <span className="brand-d">द</span>akshina
+          </span>
         </div>
         <div className="header-right">
           <button className="icon-btn" onClick={onProfileClick} title={t('profile', lang)}>
