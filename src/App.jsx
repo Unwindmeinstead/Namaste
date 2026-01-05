@@ -24,6 +24,16 @@ function App() {
     return !!localStorage.getItem('guruji_pin')
   })
 
+  // Apply theme to document
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', settings.theme || 'dark')
+    // Update meta theme-color for mobile browsers
+    const metaTheme = document.querySelector('meta[name="theme-color"]')
+    if (metaTheme) {
+      metaTheme.setAttribute('content', settings.theme === 'light' ? '#ffffff' : '#0a0a0a')
+    }
+  }, [settings.theme])
+
   const addEntry = (entry) => {
     setEntries([entry, ...entries])
     haptic()

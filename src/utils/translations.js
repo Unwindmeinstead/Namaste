@@ -144,6 +144,13 @@ export const translations = {
     taxReport: 'कर रिपोर्ट',
     reportGenerated: 'रिपोर्ट सफलतापूर्वक बनाइयो!',
     
+    // Theme
+    appearance: 'देखावट',
+    theme: 'थिम',
+    themeDesc: 'लाइट वा डार्क मोड छान्नुहोस्',
+    darkMode: 'डार्क',
+    lightMode: 'लाइट',
+    
     // PIN Lock
     pinLock: 'पिन लक',
     pinLockDesc: 'एप पहुँचको लागि पिन आवश्यक',
@@ -313,6 +320,13 @@ export const translations = {
     taxReport: 'Tax Report',
     reportGenerated: 'Report generated successfully!',
     
+    // Theme
+    appearance: 'Appearance',
+    theme: 'Theme',
+    themeDesc: 'Choose light or dark mode',
+    darkMode: 'Dark',
+    lightMode: 'Light',
+    
     // PIN Lock
     pinLock: 'PIN Lock',
     pinLockDesc: 'Require PIN to access app',
@@ -481,6 +495,13 @@ export const translations = {
     previewReport: 'रिपोर्ट देखें',
     taxReport: 'कर रिपोर्ट',
     reportGenerated: 'रिपोर्ट सफलतापूर्वक बनाई गई!',
+    
+    // Theme
+    appearance: 'दिखावट',
+    theme: 'थीम',
+    themeDesc: 'लाइट या डार्क मोड चुनें',
+    darkMode: 'डार्क',
+    lightMode: 'लाइट',
     
     // PIN Lock
     pinLock: 'पिन लॉक',

@@ -290,6 +290,34 @@ export function SettingsPage({ settings, updateSetting, onClearData, entries, pr
         </div>
       </section>
 
+      {/* Appearance Section */}
+      <section className="settings-section">
+        <h3 className="settings-title">{t('appearance', lang)}</h3>
+        
+        <div className="settings-group">
+          <div className="setting-item">
+            <div className="setting-info">
+              <span className="setting-label">{t('theme', lang)}</span>
+              <span className="setting-desc">{t('themeDesc', lang)}</span>
+            </div>
+            <div className="theme-toggle">
+              <button 
+                className={`theme-btn ${settings.theme !== 'light' ? 'active' : ''}`}
+                onClick={() => updateSetting('theme', 'dark')}
+              >
+                {t('darkMode', lang)}
+              </button>
+              <button 
+                className={`theme-btn ${settings.theme === 'light' ? 'active' : ''}`}
+                onClick={() => updateSetting('theme', 'light')}
+              >
+                {t('lightMode', lang)}
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="settings-section">
         <h3 className="settings-title">{t('preferences', lang)}</h3>
         

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-import { CloseIcon, TrashIcon } from './Icons'
+import { CloseIcon, TrashIcon, TrendUpIcon, TrendDownIcon } from './Icons'
 import { INCOME_CATEGORIES, EXPENSE_CATEGORIES } from '../utils/categories'
+import { getCategoryIcon } from './CategoryIcons'
 import { t } from '../utils/translations'
 import { formatCurrency, formatDate } from '../utils/format'
 
@@ -102,7 +103,7 @@ export function EditModal({ isOpen, entry, onClose, onSave, onDelete, settings, 
                 className={`type-btn income ${type === 'income' ? 'active' : ''}`}
                 onClick={() => handleTypeChange('income')}
               >
-                <span className="type-icon">💰</span>
+                <TrendUpIcon className="type-icon-svg" />
                 <span>{t('incomeType', lang)}</span>
               </button>
               <button 
@@ -110,7 +111,7 @@ export function EditModal({ isOpen, entry, onClose, onSave, onDelete, settings, 
                 className={`type-btn expense ${type === 'expense' ? 'active' : ''}`}
                 onClick={() => handleTypeChange('expense')}
               >
-                <span className="type-icon">💸</span>
+                <TrendDownIcon className="type-icon-svg" />
                 <span>{t('expenseType', lang)}</span>
               </button>
             </div>
@@ -152,18 +153,20 @@ export function EditModal({ isOpen, entry, onClose, onSave, onDelete, settings, 
           <div className="form-group">
             <label>{t('category', lang)}</label>
             <div className="category-grid">
-              {categories.map(cat => (
-                <button
-                  key={cat.id}
-                  type="button"
-                  className={`category-btn ${category === cat.id ? 'active' : ''}`}
-                  onClick={() => setCategory(cat.id)}
-                  style={{ '--cat-color': cat.color }}
-                >
-                  <span className="cat-icon">{cat.icon}</span>
-                  <span className="cat-name">{getCatName(cat)}</span>
-                </button>
-              ))}
+              {categories.map(cat => {
+                const CatIcon = getCategoryIcon(cat.id)
+                return (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    className={`category-btn ${category === cat.id ? 'active' : ''}`}
+                    onClick={() => setCategory(cat.id)}
+                  >
+                    <CatIcon className="cat-icon" />
+                    <span className="cat-name">{getCatName(cat)}</span>
+                  </button>
+                )
+              })}
             </div>
           </div>
 

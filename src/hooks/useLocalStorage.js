@@ -25,6 +25,7 @@ export function useSettings() {
   const [settings, setSettings] = useLocalStorage('guruji_settings', {
     currency: 'USD',
     language: 'en',
+    theme: 'dark',
     fiscalYearStart: 1,
     showCategories: true,
     hapticFeedback: true

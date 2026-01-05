@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { formatCurrency, formatDate } from '../utils/format'
 import { getCategoryById } from '../utils/categories'
+import { getCategoryIcon } from './CategoryIcons'
 import { TrashIcon, EditIcon, ChevronRightIcon } from './Icons'
 import { t } from '../utils/translations'
 
@@ -19,6 +20,8 @@ export function EntryItem({ entry, settings, onEdit, onDelete, showActions = tru
     return cat.name
   }
 
+  const CategoryIcon = getCategoryIcon(entry.category)
+
   return (
     <div className={`entry-item-wrapper ${expanded ? 'expanded' : ''}`}>
       <div 
@@ -26,7 +29,9 @@ export function EntryItem({ entry, settings, onEdit, onDelete, showActions = tru
         onClick={() => hasExpenses ? setExpanded(!expanded) : (showActions && onEdit?.())}
       >
         <div className="entry-left">
-          <div className="entry-emoji">{category.icon}</div>
+          <div className="entry-emoji">
+            <CategoryIcon className="entry-cat-icon" />
+          </div>
           <div className="entry-info">
             <h4>{entry.source || getCatName(category)}</h4>
             <p>
@@ -76,10 +81,13 @@ export function EntryItem({ entry, settings, onEdit, onDelete, showActions = tru
           </div>
           {linkedExpenses.map(expense => {
             const expCat = getCategoryById(expense.category)
+            const ExpenseIcon = getCategoryIcon(expense.category)
             return (
               <div key={expense.id} className="expense-sub-item">
                 <div className="expense-sub-left">
-                  <span className="expense-sub-icon">{expCat.icon}</span>
+                  <span className="expense-sub-icon">
+                    <ExpenseIcon className="entry-cat-icon" />
+                  </span>
                   <div className="expense-sub-info">
                     <span className="expense-sub-name">{expense.source || getCatName(expCat)}</span>
                     <span className="expense-sub-date">{formatDate(expense.date)}</span>
