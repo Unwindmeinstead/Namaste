@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useLocalStorage, useSettings, useProfile } from './hooks/useLocalStorage'
 import { HomePage } from './pages/HomePage'
 import { ReportsPage } from './pages/ReportsPage'
@@ -8,6 +8,7 @@ import { BottomNav } from './components/BottomNav'
 import { AddModal } from './components/AddModal'
 import { EditModal } from './components/EditModal'
 import { EntriesModal } from './components/EntriesModal'
+import { PinLock } from './components/PinLock'
 
 function App() {
   const [entries, setEntries] = useLocalStorage('guruji_income_entries', [])
@@ -17,6 +18,11 @@ function App() {
   const [showAddModal, setShowAddModal] = useState(false)
   const [showEntriesModal, setShowEntriesModal] = useState(false)
   const [editingEntry, setEditingEntry] = useState(null)
+  
+  // PIN lock state
+  const [isLocked, setIsLocked] = useState(() => {
+    return !!localStorage.getItem('guruji_pin')
+  })
 
   const addEntry = (entry) => {
     setEntries([entry, ...entries])
@@ -51,6 +57,22 @@ function App() {
   // Get expenses linked to a specific income entry
   const getLinkedExpenses = (incomeId) => {
     return entries.filter(e => e.type === 'expense' && e.relatedTo === incomeId)
+  }
+
+  const handleUnlock = () => {
+    setIsLocked(false)
+    haptic()
+  }
+
+  // Show PIN lock screen if locked
+  if (isLocked) {
+    return (
+      <PinLock 
+        mode="unlock" 
+        onSuccess={handleUnlock}
+        language={settings.language}
+      />
+    )
   }
 
   const renderPage = () => {

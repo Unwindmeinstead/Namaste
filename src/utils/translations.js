@@ -142,7 +142,30 @@ export const translations = {
     shareReport: 'रिपोर्ट साझा गर्नुहोस्',
     previewReport: 'रिपोर्ट हेर्नुहोस्',
     taxReport: 'कर रिपोर्ट',
-    reportGenerated: 'रिपोर्ट सफलतापूर्वक बनाइयो!'
+    reportGenerated: 'रिपोर्ट सफलतापूर्वक बनाइयो!',
+    
+    // PIN Lock
+    pinLock: 'पिन लक',
+    pinLockDesc: 'एप पहुँचको लागि पिन आवश्यक',
+    changePin: 'पिन परिवर्तन',
+    changePinDesc: 'आफ्नो सुरक्षा पिन अपडेट गर्नुहोस्',
+    removePin: 'पिन हटाउनुहोस्',
+    removePinDesc: 'पिन लक असक्षम गर्नुहोस्',
+    createPin: 'पिन बनाउनुहोस्',
+    createPinDesc: 'आफ्नो एप सुरक्षित गर्न ४-अंकको पिन राख्नुहोस्',
+    confirmPin: 'पिन पुष्टि गर्नुहोस्',
+    confirmPinDesc: 'पुष्टि गर्न आफ्नो पिन फेरि राख्नुहोस्',
+    enterPin: 'पिन राख्नुहोस्',
+    enterPinDesc: 'जारी राख्न आफ्नो ४-अंकको पिन राख्नुहोस्',
+    enterCurrentPin: 'हालको पिन',
+    verifyPinDesc: 'जारी राख्न हालको पिन राख्नुहोस्',
+    wrongPin: 'गलत पिन। फेरि प्रयास गर्नुहोस्।',
+    pinsDontMatch: 'पिन मिलेन। फेरि प्रयास गर्नुहोस्।',
+    pinEnabled: 'पिन लक सक्षम भयो',
+    pinChanged: 'पिन सफलतापूर्वक परिवर्तन भयो',
+    pinRemoved: 'पिन लक हटाइयो',
+    cancel: 'रद्द गर्नुहोस्',
+    security: 'सुरक्षा'
   },
   
   en: {
@@ -288,7 +311,30 @@ export const translations = {
     shareReport: 'Share Report',
     previewReport: 'Preview Report',
     taxReport: 'Tax Report',
-    reportGenerated: 'Report generated successfully!'
+    reportGenerated: 'Report generated successfully!',
+    
+    // PIN Lock
+    pinLock: 'PIN Lock',
+    pinLockDesc: 'Require PIN to access app',
+    changePin: 'Change PIN',
+    changePinDesc: 'Update your security PIN',
+    removePin: 'Remove PIN',
+    removePinDesc: 'Disable PIN lock',
+    createPin: 'Create PIN',
+    createPinDesc: 'Enter a 4-digit PIN to secure your app',
+    confirmPin: 'Confirm PIN',
+    confirmPinDesc: 'Re-enter your PIN to confirm',
+    enterPin: 'Enter PIN',
+    enterPinDesc: 'Enter your 4-digit PIN to continue',
+    enterCurrentPin: 'Current PIN',
+    verifyPinDesc: 'Enter your current PIN to continue',
+    wrongPin: 'Incorrect PIN. Try again.',
+    pinsDontMatch: 'PINs do not match. Try again.',
+    pinEnabled: 'PIN lock enabled',
+    pinChanged: 'PIN changed successfully',
+    pinRemoved: 'PIN lock removed',
+    cancel: 'Cancel',
+    security: 'Security'
   },
   
   hi: {
@@ -434,7 +480,30 @@ export const translations = {
     shareReport: 'रिपोर्ट शेयर करें',
     previewReport: 'रिपोर्ट देखें',
     taxReport: 'कर रिपोर्ट',
-    reportGenerated: 'रिपोर्ट सफलतापूर्वक बनाई गई!'
+    reportGenerated: 'रिपोर्ट सफलतापूर्वक बनाई गई!',
+    
+    // PIN Lock
+    pinLock: 'पिन लॉक',
+    pinLockDesc: 'ऐप एक्सेस के लिए पिन आवश्यक',
+    changePin: 'पिन बदलें',
+    changePinDesc: 'अपना सुरक्षा पिन अपडेट करें',
+    removePin: 'पिन हटाएं',
+    removePinDesc: 'पिन लॉक अक्षम करें',
+    createPin: 'पिन बनाएं',
+    createPinDesc: 'अपने ऐप को सुरक्षित करने के लिए 4-अंकीय पिन दर्ज करें',
+    confirmPin: 'पिन की पुष्टि करें',
+    confirmPinDesc: 'पुष्टि के लिए अपना पिन फिर से दर्ज करें',
+    enterPin: 'पिन दर्ज करें',
+    enterPinDesc: 'जारी रखने के लिए अपना 4-अंकीय पिन दर्ज करें',
+    enterCurrentPin: 'वर्तमान पिन',
+    verifyPinDesc: 'जारी रखने के लिए अपना वर्तमान पिन दर्ज करें',
+    wrongPin: 'गलत पिन। पुनः प्रयास करें।',
+    pinsDontMatch: 'पिन मेल नहीं खाते। पुनः प्रयास करें।',
+    pinEnabled: 'पिन लॉक सक्षम',
+    pinChanged: 'पिन सफलतापूर्वक बदला गया',
+    pinRemoved: 'पिन लॉक हटाया गया',
+    cancel: 'रद्द करें',
+    security: 'सुरक्षा'
   }
 }
 

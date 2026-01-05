@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { ChevronRightIcon, TrashIcon, DownloadIcon, UserIcon, EmailIcon, PhoneIcon, LocationIcon, FileIcon } from '../components/Icons'
+import { ChevronRightIcon, TrashIcon, DownloadIcon, UserIcon, EmailIcon, PhoneIcon, LocationIcon, FileIcon, LockIcon, ShieldIcon } from '../components/Icons'
 import { downloadCSV } from '../utils/format'
 import { t } from '../utils/translations'
+import { PinLock } from '../components/PinLock'
 
 const CURRENCIES = [
   { code: 'USD', name: 'US Dollar', symbol: '$' },
@@ -19,6 +20,14 @@ const LANGUAGES = [
 export function SettingsPage({ settings, updateSetting, onClearData, entries, profile, updateProfile }) {
   const lang = settings.language || 'en'
   const [showSaved, setShowSaved] = useState(false)
+  const [pinMode, setPinMode] = useState(null) // 'setup', 'change', 'verify-remove', 'verify-change'
+  const [hasPin, setHasPin] = useState(() => !!localStorage.getItem('guruji_pin'))
+  const [toast, setToast] = useState('')
+
+  const showToast = (message) => {
+    setToast(message)
+    setTimeout(() => setToast(''), 2500)
+  }
 
   const handleProfileChange = (field, value) => {
     updateProfile(field, value)
@@ -78,6 +87,42 @@ export function SettingsPage({ settings, updateSetting, onClearData, entries, pr
     }
   }
 
+  // PIN handlers
+  const handleEnablePin = () => {
+    setPinMode('setup')
+  }
+
+  const handleChangePin = () => {
+    setPinMode('verify-change')
+  }
+
+  const handleRemovePin = () => {
+    setPinMode('verify-remove')
+  }
+
+  const handlePinSuccess = (newPin) => {
+    if (pinMode === 'setup') {
+      localStorage.setItem('guruji_pin', newPin)
+      setHasPin(true)
+      showToast(t('pinEnabled', lang))
+    } else if (pinMode === 'verify-change') {
+      setPinMode('setup')
+      return // Don't close modal yet
+    } else if (pinMode === 'change-new') {
+      localStorage.setItem('guruji_pin', newPin)
+      showToast(t('pinChanged', lang))
+    } else if (pinMode === 'verify-remove') {
+      localStorage.removeItem('guruji_pin')
+      setHasPin(false)
+      showToast(t('pinRemoved', lang))
+    }
+    setPinMode(null)
+  }
+
+  const handlePinCancel = () => {
+    setPinMode(null)
+  }
+
   return (
     <>
       <header className="header">
@@ -85,6 +130,19 @@ export function SettingsPage({ settings, updateSetting, onClearData, entries, pr
         <h1 className="header-title">{t('settings', lang)}</h1>
         <div className="header-right"></div>
       </header>
+
+      {/* Toast notification */}
+      {toast && <div className="toast">{toast}</div>}
+
+      {/* PIN Lock Modal */}
+      {pinMode && (
+        <PinLock
+          mode={pinMode === 'setup' ? 'setup' : 'verify'}
+          onSuccess={handlePinSuccess}
+          onCancel={handlePinCancel}
+          language={lang}
+        />
+      )}
 
       {/* Profile Section */}
       <section className="settings-section profile-section-card">
@@ -188,6 +246,50 @@ export function SettingsPage({ settings, updateSetting, onClearData, entries, pr
         </div>
       </section>
 
+      {/* Security Section */}
+      <section className="settings-section">
+        <h3 className="settings-title">{t('security', lang)}</h3>
+        
+        <div className="settings-group">
+          {!hasPin ? (
+            <button className="setting-item clickable" onClick={handleEnablePin}>
+              <div className="setting-info">
+                <span className="setting-label">{t('pinLock', lang)}</span>
+                <span className="setting-desc">{t('pinLockDesc', lang)}</span>
+              </div>
+              <LockIcon className="setting-icon" />
+            </button>
+          ) : (
+            <>
+              <div className="setting-item">
+                <div className="setting-info">
+                  <span className="setting-label">{t('pinLock', lang)}</span>
+                  <span className="setting-desc pin-enabled">
+                    <ShieldIcon className="pin-status-icon" /> Enabled
+                  </span>
+                </div>
+              </div>
+              
+              <button className="setting-item clickable" onClick={handleChangePin}>
+                <div className="setting-info">
+                  <span className="setting-label">{t('changePin', lang)}</span>
+                  <span className="setting-desc">{t('changePinDesc', lang)}</span>
+                </div>
+                <ChevronRightIcon className="setting-icon" />
+              </button>
+
+              <button className="setting-item clickable danger" onClick={handleRemovePin}>
+                <div className="setting-info">
+                  <span className="setting-label">{t('removePin', lang)}</span>
+                  <span className="setting-desc">{t('removePinDesc', lang)}</span>
+                </div>
+                <TrashIcon className="setting-icon" />
+              </button>
+            </>
+          )}
+        </div>
+      </section>
+
       <section className="settings-section">
         <h3 className="settings-title">{t('preferences', lang)}</h3>
         
@@ -287,7 +389,7 @@ export function SettingsPage({ settings, updateSetting, onClearData, entries, pr
             <div className="setting-info">
               <span className="setting-label">{t('version', lang)}</span>
             </div>
-            <span className="setting-value">1.2.0</span>
+            <span className="setting-value">1.3.0</span>
           </div>
           <div className="setting-item">
             <div className="setting-info">
