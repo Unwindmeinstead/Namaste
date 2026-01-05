@@ -8,15 +8,19 @@ import { BottomNav } from './components/BottomNav'
 import { AddModal } from './components/AddModal'
 import { EditModal } from './components/EditModal'
 import { EntriesModal } from './components/EntriesModal'
+import { ScheduleModal } from './components/ScheduleModal'
 import { PinLock } from './components/PinLock'
 
 function App() {
   const [entries, setEntries] = useLocalStorage('guruji_income_entries', [])
+  const [scheduledServices, setScheduledServices] = useLocalStorage('guruji_scheduled_services', [])
   const [settings, updateSetting] = useSettings()
   const [profile, updateProfile] = useProfile()
   const [activePage, setActivePage] = useState('home')
   const [showAddModal, setShowAddModal] = useState(false)
   const [showEntriesModal, setShowEntriesModal] = useState(false)
+  const [showScheduleModal, setShowScheduleModal] = useState(false)
+  const [selectedDate, setSelectedDate] = useState(null)
   const [editingEntry, setEditingEntry] = useState(null)
   
   // PIN lock state
@@ -53,8 +57,19 @@ function App() {
     haptic()
   }
 
+  const addScheduledService = (service) => {
+    setScheduledServices([...scheduledServices, service])
+    haptic()
+  }
+
+  const deleteScheduledService = (id) => {
+    setScheduledServices(scheduledServices.filter(s => s.id !== id))
+    haptic()
+  }
+
   const clearAllData = () => {
     setEntries([])
+    setScheduledServices([])
     haptic()
   }
 
@@ -74,6 +89,16 @@ function App() {
     haptic()
   }
 
+  const handleDayClick = (date, dayEntries, dayScheduled) => {
+    setSelectedDate(date.toISOString().split('T')[0])
+    setShowScheduleModal(true)
+  }
+
+  const handleAddService = () => {
+    setSelectedDate(null)
+    setShowScheduleModal(true)
+  }
+
   // Show PIN lock screen if locked
   if (isLocked) {
     return (
@@ -91,6 +116,7 @@ function App() {
         return (
           <HomePage
             entries={entries}
+            scheduledServices={scheduledServices}
             settings={settings}
             onAddClick={() => setShowAddModal(true)}
             onViewAll={() => setShowEntriesModal(true)}
@@ -98,6 +124,8 @@ function App() {
             onDeleteEntry={deleteEntry}
             getLinkedExpenses={getLinkedExpenses}
             onProfileClick={() => setActivePage('settings')}
+            onDayClick={handleDayClick}
+            onAddService={handleAddService}
           />
         )
       case 'reports':
@@ -154,6 +182,17 @@ function App() {
         }}
         onDeleteEntry={deleteEntry}
         getLinkedExpenses={getLinkedExpenses}
+      />
+
+      <ScheduleModal
+        isOpen={showScheduleModal}
+        onClose={() => { setShowScheduleModal(false); setSelectedDate(null); }}
+        onAdd={addScheduledService}
+        onDelete={deleteScheduledService}
+        settings={settings}
+        selectedDate={selectedDate}
+        scheduledServices={scheduledServices}
+        entries={entries}
       />
     </div>
   )

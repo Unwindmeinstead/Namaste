@@ -54,6 +54,18 @@ export const translations = {
     paidBy: 'भुक्तानीकर्ता',
     via: 'मार्फत',
     
+    // Calendar & Scheduling
+    scheduleService: 'सेवा तालिका बनाउनुहोस्',
+    scheduledServices: 'तालिकाबद्ध',
+    completedServices: 'सम्पन्न',
+    addNewSchedule: 'नयाँ तालिका थप्नुहोस्',
+    serviceTitle: 'सेवाको शीर्षक',
+    serviceTitlePlaceholder: 'जस्तै, श्री शर्मासँग शिक्षण सत्र',
+    expectedAmount: 'अपेक्षित रकम',
+    time: 'समय',
+    upcoming: 'आगामी',
+    noUpcoming: 'कुनै आगामी सेवा छैन',
+    
     // Categories
     teaching: 'शिक्षण',
     satsang: 'सत्संग',
@@ -241,6 +253,18 @@ export const translations = {
     paidBy: 'Paid by',
     via: 'via',
     
+    // Calendar & Scheduling
+    scheduleService: 'Schedule Service',
+    scheduledServices: 'Scheduled',
+    completedServices: 'Completed',
+    addNewSchedule: 'Add New Schedule',
+    serviceTitle: 'Service Title',
+    serviceTitlePlaceholder: 'e.g., Teaching session with Mr. Sharma',
+    expectedAmount: 'Expected Amount',
+    time: 'Time',
+    upcoming: 'Upcoming',
+    noUpcoming: 'No upcoming services',
+    
     // Categories
     teaching: 'Teaching',
     satsang: 'Satsang',
@@ -427,6 +451,18 @@ export const translations = {
     otherPayment: 'अन्य',
     paidBy: 'भुगतानकर्ता',
     via: 'द्वारा',
+    
+    // Calendar & Scheduling
+    scheduleService: 'सेवा शेड्यूल करें',
+    scheduledServices: 'शेड्यूल्ड',
+    completedServices: 'पूर्ण',
+    addNewSchedule: 'नया शेड्यूल जोड़ें',
+    serviceTitle: 'सेवा का शीर्षक',
+    serviceTitlePlaceholder: 'जैसे, श्री शर्मा के साथ शिक्षण सत्र',
+    expectedAmount: 'अपेक्षित राशि',
+    time: 'समय',
+    upcoming: 'आगामी',
+    noUpcoming: 'कोई आगामी सेवा नहीं',
     
     // Categories
     teaching: 'शिक्षण',

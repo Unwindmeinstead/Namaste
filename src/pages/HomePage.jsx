@@ -1,9 +1,10 @@
 import { ClockIcon, UserIcon, PlusIcon, TrendUpIcon, TrendDownIcon } from '../components/Icons'
 import { formatCurrency, getThisMonthEntries, getLastMonthEntries, getCurrentFiscalYear } from '../utils/format'
 import { EntryItem } from '../components/EntryItem'
+import { Calendar } from '../components/Calendar'
 import { t } from '../utils/translations'
 
-export function HomePage({ entries, settings, onAddClick, onViewAll, onEditEntry, onDeleteEntry, getLinkedExpenses, onProfileClick }) {
+export function HomePage({ entries, scheduledServices, settings, onAddClick, onViewAll, onEditEntry, onDeleteEntry, getLinkedExpenses, onProfileClick, onDayClick, onAddService }) {
   const lang = settings.language || 'en'
   
   // Calculate income and expenses
@@ -28,7 +29,14 @@ export function HomePage({ entries, settings, onAddClick, onViewAll, onEditEntry
   const trend = lastMonthNet !== 0 ? ((thisMonthNet - lastMonthNet) / Math.abs(lastMonthNet) * 100).toFixed(0) : 0
   
   // Get recent income entries (not expenses that are linked)
-  const recentIncomeEntries = incomeEntries.slice(0, 5)
+  const recentIncomeEntries = incomeEntries.slice(0, 3)
+
+  // Get upcoming scheduled services
+  const today = new Date().toISOString().split('T')[0]
+  const upcomingServices = (scheduledServices || [])
+    .filter(s => s.date >= today)
+    .sort((a, b) => new Date(a.date) - new Date(b.date))
+    .slice(0, 3)
 
   return (
     <>
@@ -77,6 +85,15 @@ export function HomePage({ entries, settings, onAddClick, onViewAll, onEditEntry
           </div>
         </div>
       </div>
+
+      {/* Calendar Section */}
+      <Calendar
+        entries={entries}
+        scheduledServices={scheduledServices}
+        settings={settings}
+        onAddService={onAddService}
+        onDayClick={onDayClick}
+      />
 
       <section className="quick-add">
         <button className="add-btn" onClick={onAddClick}>
