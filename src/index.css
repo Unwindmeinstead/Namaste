@@ -1104,6 +1104,97 @@ html, body, #root {
   margin-bottom: 28px;
 }
 
+/* Collapsible Settings Sections */
+.collapsible-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.collapsible-section .settings-group {
+  border: none;
+  border-radius: 0;
+}
+
+.section-header-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-align: left;
+  font-family: inherit;
+  color: inherit;
+}
+
+.section-header-toggle:hover {
+  background: var(--bg-tertiary);
+}
+
+.section-header-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.section-header-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.section-header-info > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.section-header-toggle .settings-title {
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.section-header-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.section-toggle-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--text-muted);
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.section-toggle-icon.expanded {
+  transform: rotate(90deg);
+}
+
+.section-collapse {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.section-collapse.expanded {
+  max-height: 1000px;
+}
+
+.section-collapse .settings-group {
+  border-top: 1px solid var(--border);
+}
+
 .settings-title {
   font-size: 12px;
   font-weight: 500;

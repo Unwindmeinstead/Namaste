@@ -279,7 +279,9 @@ export const translations = {
     pinChanged: 'पिन सफलतापूर्वक परिवर्तन भयो',
     pinRemoved: 'पिन लक हटाइयो',
     cancel: 'रद्द गर्नुहोस्',
-    security: 'सुरक्षा'
+    security: 'सुरक्षा',
+    languageCurrencySettings: 'भाषा, मुद्रा र थप',
+    backupExportSettings: 'ब्याकअप, निर्यात र पुनर्स्थापना'
   },
   
   en: {
@@ -562,7 +564,9 @@ export const translations = {
     pinChanged: 'PIN changed successfully',
     pinRemoved: 'PIN lock removed',
     cancel: 'Cancel',
-    security: 'Security'
+    security: 'Security',
+    languageCurrencySettings: 'Language, currency & more',
+    backupExportSettings: 'Backup, export & restore'
   },
   
   hi: {
@@ -845,7 +849,9 @@ export const translations = {
     pinChanged: 'पिन सफलतापूर्वक बदला गया',
     pinRemoved: 'पिन लॉक हटाया गया',
     cancel: 'रद्द करें',
-    security: 'सुरक्षा'
+    security: 'सुरक्षा',
+    languageCurrencySettings: 'भाषा, मुद्रा और अधिक',
+    backupExportSettings: 'बैकअप, निर्यात और पुनर्स्थापना'
   }
 }
 

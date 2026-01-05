@@ -28,6 +28,9 @@ export function SettingsPage({ settings, updateSetting, onClearData, onBackup, e
   const lang = settings.language || 'en'
   const [showSaved, setShowSaved] = useState(false)
   const [profileExpanded, setProfileExpanded] = useState(false)
+  const [securityExpanded, setSecurityExpanded] = useState(false)
+  const [preferencesExpanded, setPreferencesExpanded] = useState(false)
+  const [dataExpanded, setDataExpanded] = useState(false)
   const [pinMode, setPinMode] = useState(null) // 'setup', 'change', 'verify-remove', 'verify-change'
   const [hasPin, setHasPin] = useState(() => !!localStorage.getItem('guruji_pin'))
   const [toast, setToast] = useState('')
@@ -260,46 +263,60 @@ export function SettingsPage({ settings, updateSetting, onClearData, onBackup, e
       </section>
 
       {/* Security Section */}
-      <section className="settings-section">
-        <h3 className="settings-title">{t('security', lang)}</h3>
+      <section className="settings-section collapsible-section">
+        <button 
+          className={`section-header-toggle ${securityExpanded ? 'expanded' : ''}`}
+          onClick={() => setSecurityExpanded(!securityExpanded)}
+        >
+          <div className="section-header-info">
+            <LockIcon className="section-header-icon" />
+            <div>
+              <h3 className="settings-title">{t('security', lang)}</h3>
+              <span className="section-header-desc">{hasPin ? t('pinEnabled', lang) : t('pinLockDesc', lang)}</span>
+            </div>
+          </div>
+          <ChevronRightIcon className={`section-toggle-icon ${securityExpanded ? 'expanded' : ''}`} />
+        </button>
         
-        <div className="settings-group">
-          {!hasPin ? (
-            <button className="setting-item clickable" onClick={handleEnablePin}>
-              <div className="setting-info">
-                <span className="setting-label">{t('pinLock', lang)}</span>
-                <span className="setting-desc">{t('pinLockDesc', lang)}</span>
-              </div>
-              <LockIcon className="setting-icon" />
-            </button>
-          ) : (
-            <>
-              <div className="setting-item">
+        <div className={`section-collapse ${securityExpanded ? 'expanded' : ''}`}>
+          <div className="settings-group">
+            {!hasPin ? (
+              <button className="setting-item clickable" onClick={handleEnablePin}>
                 <div className="setting-info">
                   <span className="setting-label">{t('pinLock', lang)}</span>
-                  <span className="setting-desc pin-enabled">
-                    <ShieldIcon className="pin-status-icon" /> Enabled
-                  </span>
+                  <span className="setting-desc">{t('pinLockDesc', lang)}</span>
                 </div>
-              </div>
-              
-              <button className="setting-item clickable" onClick={handleChangePin}>
-                <div className="setting-info">
-                  <span className="setting-label">{t('changePin', lang)}</span>
-                  <span className="setting-desc">{t('changePinDesc', lang)}</span>
-                </div>
-                <ChevronRightIcon className="setting-icon" />
+                <LockIcon className="setting-icon" />
               </button>
+            ) : (
+              <>
+                <div className="setting-item">
+                  <div className="setting-info">
+                    <span className="setting-label">{t('pinLock', lang)}</span>
+                    <span className="setting-desc pin-enabled">
+                      <ShieldIcon className="pin-status-icon" /> Enabled
+                    </span>
+                  </div>
+                </div>
+                
+                <button className="setting-item clickable" onClick={handleChangePin}>
+                  <div className="setting-info">
+                    <span className="setting-label">{t('changePin', lang)}</span>
+                    <span className="setting-desc">{t('changePinDesc', lang)}</span>
+                  </div>
+                  <ChevronRightIcon className="setting-icon" />
+                </button>
 
-              <button className="setting-item clickable danger" onClick={handleRemovePin}>
-                <div className="setting-info">
-                  <span className="setting-label">{t('removePin', lang)}</span>
-                  <span className="setting-desc">{t('removePinDesc', lang)}</span>
-                </div>
-                <TrashIcon className="setting-icon" />
-              </button>
-            </>
-          )}
+                <button className="setting-item clickable danger" onClick={handleRemovePin}>
+                  <div className="setting-info">
+                    <span className="setting-label">{t('removePin', lang)}</span>
+                    <span className="setting-desc">{t('removePinDesc', lang)}</span>
+                  </div>
+                  <TrashIcon className="setting-icon" />
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </section>
 
@@ -331,103 +348,136 @@ export function SettingsPage({ settings, updateSetting, onClearData, onBackup, e
         </div>
       </section>
 
-      <section className="settings-section">
-        <h3 className="settings-title">{t('preferences', lang)}</h3>
+      {/* Preferences Section */}
+      <section className="settings-section collapsible-section">
+        <button 
+          className={`section-header-toggle ${preferencesExpanded ? 'expanded' : ''}`}
+          onClick={() => setPreferencesExpanded(!preferencesExpanded)}
+        >
+          <div className="section-header-info">
+            <svg className="section-header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+            </svg>
+            <div>
+              <h3 className="settings-title">{t('preferences', lang)}</h3>
+              <span className="section-header-desc">{t('languageCurrencySettings', lang)}</span>
+            </div>
+          </div>
+          <ChevronRightIcon className={`section-toggle-icon ${preferencesExpanded ? 'expanded' : ''}`} />
+        </button>
         
-        <div className="settings-group">
-          <div className="setting-item">
-            <div className="setting-info">
-              <span className="setting-label">{t('language', lang)}</span>
-              <span className="setting-desc">{t('selectLanguage', lang)}</span>
+        <div className={`section-collapse ${preferencesExpanded ? 'expanded' : ''}`}>
+          <div className="settings-group">
+            <div className="setting-item">
+              <div className="setting-info">
+                <span className="setting-label">{t('language', lang)}</span>
+                <span className="setting-desc">{t('selectLanguage', lang)}</span>
+              </div>
+              <select 
+                className="setting-select"
+                value={settings.language || 'en'} 
+                onChange={(e) => updateSetting('language', e.target.value)}
+              >
+                {LANGUAGES.map(l => (
+                  <option key={l.code} value={l.code}>{l.native}</option>
+                ))}
+              </select>
             </div>
-            <select 
-              className="setting-select"
-              value={settings.language || 'en'} 
-              onChange={(e) => updateSetting('language', e.target.value)}
-            >
-              {LANGUAGES.map(l => (
-                <option key={l.code} value={l.code}>{l.native}</option>
-              ))}
-            </select>
-          </div>
 
-          <div className="setting-item">
-            <div className="setting-info">
-              <span className="setting-label">{t('currency', lang)}</span>
-              <span className="setting-desc">{t('displayCurrency', lang)}</span>
+            <div className="setting-item">
+              <div className="setting-info">
+                <span className="setting-label">{t('currency', lang)}</span>
+                <span className="setting-desc">{t('displayCurrency', lang)}</span>
+              </div>
+              <select 
+                className="setting-select"
+                value={settings.currency} 
+                onChange={(e) => updateSetting('currency', e.target.value)}
+              >
+                {CURRENCIES.map(c => (
+                  <option key={c.code} value={c.code}>{c.symbol} {c.code}</option>
+                ))}
+              </select>
             </div>
-            <select 
-              className="setting-select"
-              value={settings.currency} 
-              onChange={(e) => updateSetting('currency', e.target.value)}
-            >
-              {CURRENCIES.map(c => (
-                <option key={c.code} value={c.code}>{c.symbol} {c.code}</option>
-              ))}
-            </select>
-          </div>
 
-          <div className="setting-item">
-            <div className="setting-info">
-              <span className="setting-label">{t('hapticFeedback', lang)}</span>
-              <span className="setting-desc">{t('vibrateOnActions', lang)}</span>
+            <div className="setting-item">
+              <div className="setting-info">
+                <span className="setting-label">{t('hapticFeedback', lang)}</span>
+                <span className="setting-desc">{t('vibrateOnActions', lang)}</span>
+              </div>
+              <label className="toggle">
+                <input 
+                  type="checkbox" 
+                  checked={settings.hapticFeedback}
+                  onChange={(e) => updateSetting('hapticFeedback', e.target.checked)}
+                />
+                <span className="toggle-slider"></span>
+              </label>
             </div>
-            <label className="toggle">
-              <input 
-                type="checkbox" 
-                checked={settings.hapticFeedback}
-                onChange={(e) => updateSetting('hapticFeedback', e.target.checked)}
-              />
-              <span className="toggle-slider"></span>
-            </label>
           </div>
         </div>
       </section>
 
-      <section className="settings-section">
-        <h3 className="settings-title">{t('data', lang)}</h3>
+      {/* Data Section */}
+      <section className="settings-section collapsible-section">
+        <button 
+          className={`section-header-toggle ${dataExpanded ? 'expanded' : ''}`}
+          onClick={() => setDataExpanded(!dataExpanded)}
+        >
+          <div className="section-header-info">
+            <DownloadIcon className="section-header-icon" />
+            <div>
+              <h3 className="settings-title">{t('data', lang)}</h3>
+              <span className="section-header-desc">{t('backupExportSettings', lang)}</span>
+            </div>
+          </div>
+          <ChevronRightIcon className={`section-toggle-icon ${dataExpanded ? 'expanded' : ''}`} />
+        </button>
         
-        <div className="settings-group">
-          <button className="setting-item clickable cloud-backup" onClick={onBackup}>
-            <div className="setting-info">
-              <span className="setting-label">{t('cloudBackup', lang)}</span>
-              <span className="setting-desc">{t('googleSheetsDesc', lang)}</span>
-            </div>
-            <CloudIcon className="setting-icon cloud" />
-          </button>
+        <div className={`section-collapse ${dataExpanded ? 'expanded' : ''}`}>
+          <div className="settings-group">
+            <button className="setting-item clickable cloud-backup" onClick={onBackup}>
+              <div className="setting-info">
+                <span className="setting-label">{t('cloudBackup', lang)}</span>
+                <span className="setting-desc">{t('googleSheetsDesc', lang)}</span>
+              </div>
+              <CloudIcon className="setting-icon cloud" />
+            </button>
 
-          <button className="setting-item clickable" onClick={handleExportAll}>
-            <div className="setting-info">
-              <span className="setting-label">{t('exportToCSV', lang)}</span>
-              <span className="setting-desc">{t('downloadAllEntries', lang)}</span>
-            </div>
-            <DownloadIcon className="setting-icon" />
-          </button>
+            <button className="setting-item clickable" onClick={handleExportAll}>
+              <div className="setting-info">
+                <span className="setting-label">{t('exportToCSV', lang)}</span>
+                <span className="setting-desc">{t('downloadAllEntries', lang)}</span>
+              </div>
+              <DownloadIcon className="setting-icon" />
+            </button>
 
-          <button className="setting-item clickable" onClick={handleBackup}>
-            <div className="setting-info">
-              <span className="setting-label">{t('backupData', lang)}</span>
-              <span className="setting-desc">{t('saveAllData', lang)}</span>
-            </div>
-            <ChevronRightIcon className="setting-icon" />
-          </button>
+            <button className="setting-item clickable" onClick={handleBackup}>
+              <div className="setting-info">
+                <span className="setting-label">{t('backupData', lang)}</span>
+                <span className="setting-desc">{t('saveAllData', lang)}</span>
+              </div>
+              <ChevronRightIcon className="setting-icon" />
+            </button>
 
-          <label className="setting-item clickable">
-            <div className="setting-info">
-              <span className="setting-label">{t('restoreBackup', lang)}</span>
-              <span className="setting-desc">{t('importFromBackup', lang)}</span>
-            </div>
-            <ChevronRightIcon className="setting-icon" />
-            <input type="file" accept=".json" onChange={handleRestore} style={{ display: 'none' }} />
-          </label>
+            <label className="setting-item clickable">
+              <div className="setting-info">
+                <span className="setting-label">{t('restoreBackup', lang)}</span>
+                <span className="setting-desc">{t('importFromBackup', lang)}</span>
+              </div>
+              <ChevronRightIcon className="setting-icon" />
+              <input type="file" accept=".json" onChange={handleRestore} style={{ display: 'none' }} />
+            </label>
 
-          <button className="setting-item clickable danger" onClick={handleClearData}>
-            <div className="setting-info">
-              <span className="setting-label">{t('clearAllData', lang)}</span>
-              <span className="setting-desc">{t('deleteAllEntries', lang)}</span>
-            </div>
-            <TrashIcon className="setting-icon" />
-          </button>
+            <button className="setting-item clickable danger" onClick={handleClearData}>
+              <div className="setting-info">
+                <span className="setting-label">{t('clearAllData', lang)}</span>
+                <span className="setting-desc">{t('deleteAllEntries', lang)}</span>
+              </div>
+              <TrashIcon className="setting-icon" />
+            </button>
+          </div>
         </div>
       </section>
 
