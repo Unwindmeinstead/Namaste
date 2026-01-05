@@ -62,6 +62,11 @@ function App() {
     haptic()
   }
 
+  const updateScheduledService = (updatedService) => {
+    setScheduledServices(scheduledServices.map(s => s.id === updatedService.id ? updatedService : s))
+    haptic()
+  }
+
   const deleteScheduledService = (id) => {
     setScheduledServices(scheduledServices.filter(s => s.id !== id))
     haptic()
@@ -188,6 +193,7 @@ function App() {
         isOpen={showScheduleModal}
         onClose={() => { setShowScheduleModal(false); setSelectedDate(null); }}
         onAdd={addScheduledService}
+        onUpdate={updateScheduledService}
         onDelete={deleteScheduledService}
         settings={settings}
         selectedDate={selectedDate}
