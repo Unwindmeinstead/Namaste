@@ -24,7 +24,8 @@ export function useLocalStorage(key, initialValue) {
 export function useSettings() {
   const [settings, setSettings] = useLocalStorage('guruji_settings', {
     currency: 'USD',
-    fiscalYearStart: 1, // January
+    language: 'en',
+    fiscalYearStart: 1,
     showCategories: true,
     hapticFeedback: true
   })

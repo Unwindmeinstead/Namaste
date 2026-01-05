@@ -1,5 +1,6 @@
 import { ChevronRightIcon, TrashIcon, DownloadIcon } from '../components/Icons'
 import { downloadCSV } from '../utils/format'
+import { t } from '../utils/translations'
 
 const CURRENCIES = [
   { code: 'USD', name: 'US Dollar', symbol: '$' },
@@ -8,7 +9,14 @@ const CURRENCIES = [
   { code: 'INR', name: 'Indian Rupee', symbol: '₹' }
 ]
 
+const LANGUAGES = [
+  { code: 'en', name: 'English', native: 'English' },
+  { code: 'hi', name: 'Hindi', native: 'हिंदी' }
+]
+
 export function SettingsPage({ settings, updateSetting, onClearData, entries }) {
+  const lang = settings.language || 'en'
+
   const handleExportAll = () => {
     downloadCSV(entries, 'guruji-income-all.csv')
   }
@@ -42,31 +50,53 @@ export function SettingsPage({ settings, updateSetting, onClearData, entries }) 
         if (data.settings) {
           localStorage.setItem('guruji_settings', JSON.stringify(data.settings))
         }
-        alert('Backup restored! Refreshing...')
+        alert(t('backupRestored', lang))
         window.location.reload()
       } catch {
-        alert('Invalid backup file')
+        alert(t('invalidBackup', lang))
       }
     }
     reader.readAsText(file)
+  }
+
+  const handleClearData = () => {
+    if (confirm(t('confirmDelete', lang))) {
+      onClearData()
+    }
   }
 
   return (
     <>
       <header className="header">
         <div className="header-left"></div>
-        <h1 className="header-title">Settings</h1>
+        <h1 className="header-title">{t('settings', lang)}</h1>
         <div className="header-right"></div>
       </header>
 
       <section className="settings-section">
-        <h3 className="settings-title">Preferences</h3>
+        <h3 className="settings-title">{t('preferences', lang)}</h3>
         
         <div className="settings-group">
           <div className="setting-item">
             <div className="setting-info">
-              <span className="setting-label">Currency</span>
-              <span className="setting-desc">Display currency for amounts</span>
+              <span className="setting-label">{t('language', lang)}</span>
+              <span className="setting-desc">{t('selectLanguage', lang)}</span>
+            </div>
+            <select 
+              className="setting-select"
+              value={settings.language || 'en'} 
+              onChange={(e) => updateSetting('language', e.target.value)}
+            >
+              {LANGUAGES.map(l => (
+                <option key={l.code} value={l.code}>{l.native}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="setting-item">
+            <div className="setting-info">
+              <span className="setting-label">{t('currency', lang)}</span>
+              <span className="setting-desc">{t('displayCurrency', lang)}</span>
             </div>
             <select 
               className="setting-select"
@@ -81,8 +111,8 @@ export function SettingsPage({ settings, updateSetting, onClearData, entries }) 
 
           <div className="setting-item">
             <div className="setting-info">
-              <span className="setting-label">Haptic Feedback</span>
-              <span className="setting-desc">Vibrate on actions</span>
+              <span className="setting-label">{t('hapticFeedback', lang)}</span>
+              <span className="setting-desc">{t('vibrateOnActions', lang)}</span>
             </div>
             <label className="toggle">
               <input 
@@ -97,38 +127,38 @@ export function SettingsPage({ settings, updateSetting, onClearData, entries }) 
       </section>
 
       <section className="settings-section">
-        <h3 className="settings-title">Data</h3>
+        <h3 className="settings-title">{t('data', lang)}</h3>
         
         <div className="settings-group">
           <button className="setting-item clickable" onClick={handleExportAll}>
             <div className="setting-info">
-              <span className="setting-label">Export to CSV</span>
-              <span className="setting-desc">Download all entries as spreadsheet</span>
+              <span className="setting-label">{t('exportToCSV', lang)}</span>
+              <span className="setting-desc">{t('downloadAllEntries', lang)}</span>
             </div>
             <DownloadIcon className="setting-icon" />
           </button>
 
           <button className="setting-item clickable" onClick={handleBackup}>
             <div className="setting-info">
-              <span className="setting-label">Backup Data</span>
-              <span className="setting-desc">Save all data to a file</span>
+              <span className="setting-label">{t('backupData', lang)}</span>
+              <span className="setting-desc">{t('saveAllData', lang)}</span>
             </div>
             <ChevronRightIcon className="setting-icon" />
           </button>
 
           <label className="setting-item clickable">
             <div className="setting-info">
-              <span className="setting-label">Restore Backup</span>
-              <span className="setting-desc">Import data from backup file</span>
+              <span className="setting-label">{t('restoreBackup', lang)}</span>
+              <span className="setting-desc">{t('importFromBackup', lang)}</span>
             </div>
             <ChevronRightIcon className="setting-icon" />
             <input type="file" accept=".json" onChange={handleRestore} style={{ display: 'none' }} />
           </label>
 
-          <button className="setting-item clickable danger" onClick={onClearData}>
+          <button className="setting-item clickable danger" onClick={handleClearData}>
             <div className="setting-info">
-              <span className="setting-label">Clear All Data</span>
-              <span className="setting-desc">Delete all income entries</span>
+              <span className="setting-label">{t('clearAllData', lang)}</span>
+              <span className="setting-desc">{t('deleteAllEntries', lang)}</span>
             </div>
             <TrashIcon className="setting-icon" />
           </button>
@@ -136,25 +166,24 @@ export function SettingsPage({ settings, updateSetting, onClearData, entries }) 
       </section>
 
       <section className="settings-section">
-        <h3 className="settings-title">About</h3>
+        <h3 className="settings-title">{t('about', lang)}</h3>
         <div className="settings-group">
           <div className="setting-item">
             <div className="setting-info">
-              <span className="setting-label">Version</span>
+              <span className="setting-label">{t('version', lang)}</span>
             </div>
-            <span className="setting-value">1.0.0</span>
+            <span className="setting-value">1.1.0</span>
           </div>
           <div className="setting-item">
             <div className="setting-info">
-              <span className="setting-label">Total Entries</span>
+              <span className="setting-label">{t('totalEntries', lang)}</span>
             </div>
             <span className="setting-value">{entries.length}</span>
           </div>
         </div>
       </section>
 
-      <p className="settings-footer">Guruji Income Tracker • Made with 🙏</p>
+      <p className="settings-footer">{t('madeWith', lang)}</p>
     </>
   )
 }
-

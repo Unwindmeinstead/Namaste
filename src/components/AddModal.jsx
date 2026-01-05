@@ -1,24 +1,32 @@
 import { useState } from 'react'
 import { CloseIcon } from './Icons'
-import { CATEGORIES } from '../utils/categories'
+import { INCOME_CATEGORIES, EXPENSE_CATEGORIES } from '../utils/categories'
+import { t } from '../utils/translations'
 
 export function AddModal({ isOpen, onClose, onAdd, settings }) {
   const today = new Date().toISOString().split('T')[0]
+  const [type, setType] = useState('income') // 'income' or 'expense'
   const [amount, setAmount] = useState('')
   const [source, setSource] = useState('')
   const [date, setDate] = useState(today)
   const [notes, setNotes] = useState('')
   const [category, setCategory] = useState('other')
 
+  const lang = settings.language || 'en'
+  const categories = type === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES
+
   const handleSubmit = (e) => {
     e.preventDefault()
     const amountNum = parseFloat(amount)
     if (!amountNum || amountNum <= 0) return
 
+    const selectedCat = categories.find(c => c.id === category)
+    
     onAdd({
       id: Date.now().toString(),
+      type,
       amount: amountNum,
-      source: source.trim() || CATEGORIES.find(c => c.id === category)?.name || 'Income',
+      source: source.trim() || (lang === 'hi' ? selectedCat?.nameHi : selectedCat?.name) || (type === 'income' ? 'Income' : 'Expense'),
       date,
       notes: notes.trim(),
       category,
@@ -30,6 +38,7 @@ export function AddModal({ isOpen, onClose, onAdd, settings }) {
   }
 
   const resetForm = () => {
+    setType('income')
     setAmount('')
     setSource('')
     setDate(today)
@@ -42,6 +51,11 @@ export function AddModal({ isOpen, onClose, onAdd, settings }) {
     onClose()
   }
 
+  const handleTypeChange = (newType) => {
+    setType(newType)
+    setCategory(newType === 'income' ? 'other' : 'other_expense')
+  }
+
   const symbols = { USD: '$', EUR: '€', GBP: '£', INR: '₹' }
   const symbol = symbols[settings.currency] || '$'
 
@@ -52,13 +66,36 @@ export function AddModal({ isOpen, onClose, onAdd, settings }) {
           <button className="close-btn" onClick={handleClose}>
             <CloseIcon />
           </button>
-          <h2>Add Income</h2>
+          <h2>{t('addEntry', lang)}</h2>
           <div></div>
         </div>
 
         <form className="income-form" onSubmit={handleSubmit}>
+          {/* Income/Expense Toggle */}
           <div className="form-group">
-            <label>Amount</label>
+            <label>{t('type', lang)}</label>
+            <div className="type-toggle">
+              <button 
+                type="button"
+                className={`type-btn income ${type === 'income' ? 'active' : ''}`}
+                onClick={() => handleTypeChange('income')}
+              >
+                <span className="type-icon">💰</span>
+                <span>{t('incomeType', lang)}</span>
+              </button>
+              <button 
+                type="button"
+                className={`type-btn expense ${type === 'expense' ? 'active' : ''}`}
+                onClick={() => handleTypeChange('expense')}
+              >
+                <span className="type-icon">💸</span>
+                <span>{t('expenseType', lang)}</span>
+              </button>
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label>{t('amount', lang)}</label>
             <div className="amount-input-wrap">
               <span className="currency">{symbol}</span>
               <input
@@ -74,9 +111,9 @@ export function AddModal({ isOpen, onClose, onAdd, settings }) {
           </div>
 
           <div className="form-group">
-            <label>Category</label>
+            <label>{t('category', lang)}</label>
             <div className="category-grid">
-              {CATEGORIES.map(cat => (
+              {categories.map(cat => (
                 <button
                   key={cat.id}
                   type="button"
@@ -85,17 +122,17 @@ export function AddModal({ isOpen, onClose, onAdd, settings }) {
                   style={{ '--cat-color': cat.color }}
                 >
                   <span className="cat-icon">{cat.icon}</span>
-                  <span className="cat-name">{cat.name}</span>
+                  <span className="cat-name">{lang === 'hi' ? cat.nameHi : cat.name}</span>
                 </button>
               ))}
             </div>
           </div>
 
           <div className="form-group">
-            <label>Source (optional)</label>
+            <label>{t('sourceOptional', lang)}</label>
             <input
               type="text"
-              placeholder="Custom description"
+              placeholder={t('customDescription', lang)}
               value={source}
               onChange={(e) => setSource(e.target.value)}
             />
@@ -103,7 +140,7 @@ export function AddModal({ isOpen, onClose, onAdd, settings }) {
 
           <div className="form-row">
             <div className="form-group flex-1">
-              <label>Date</label>
+              <label>{t('date', lang)}</label>
               <input
                 type="date"
                 value={date}
@@ -113,16 +150,18 @@ export function AddModal({ isOpen, onClose, onAdd, settings }) {
           </div>
 
           <div className="form-group">
-            <label>Notes (optional)</label>
+            <label>{t('notesOptional', lang)}</label>
             <input
               type="text"
-              placeholder="Additional details"
+              placeholder={t('additionalDetails', lang)}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
             />
           </div>
 
-          <button type="submit" className="submit-btn">Save Entry</button>
+          <button type="submit" className={`submit-btn ${type === 'expense' ? 'expense' : ''}`}>
+            {t('saveEntry', lang)}
+          </button>
         </form>
       </div>
     </div>

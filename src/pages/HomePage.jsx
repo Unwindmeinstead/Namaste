@@ -1,14 +1,31 @@
 import { ClockIcon, MenuIcon, PlusIcon, TrendUpIcon, TrendDownIcon } from '../components/Icons'
 import { formatCurrency, getThisMonthEntries, getLastMonthEntries, getCurrentFiscalYear } from '../utils/format'
 import { EntryItem } from '../components/EntryItem'
+import { t } from '../utils/translations'
 
 export function HomePage({ entries, settings, onAddClick, onViewAll, onEditEntry, onDeleteEntry }) {
-  const total = entries.reduce((sum, e) => sum + e.amount, 0)
+  const lang = settings.language || 'en'
+  
+  // Calculate income and expenses
+  const incomeEntries = entries.filter(e => e.type !== 'expense')
+  const expenseEntries = entries.filter(e => e.type === 'expense')
+  
+  const totalIncome = incomeEntries.reduce((sum, e) => sum + e.amount, 0)
+  const totalExpenses = expenseEntries.reduce((sum, e) => sum + e.amount, 0)
+  const netIncome = totalIncome - totalExpenses
+  
   const thisMonth = getThisMonthEntries(entries)
   const lastMonth = getLastMonthEntries(entries)
-  const thisMonthTotal = thisMonth.reduce((sum, e) => sum + e.amount, 0)
-  const lastMonthTotal = lastMonth.reduce((sum, e) => sum + e.amount, 0)
-  const trend = lastMonthTotal > 0 ? ((thisMonthTotal - lastMonthTotal) / lastMonthTotal * 100).toFixed(0) : 0
+  
+  const thisMonthIncome = thisMonth.filter(e => e.type !== 'expense').reduce((sum, e) => sum + e.amount, 0)
+  const thisMonthExpenses = thisMonth.filter(e => e.type === 'expense').reduce((sum, e) => sum + e.amount, 0)
+  const thisMonthNet = thisMonthIncome - thisMonthExpenses
+  
+  const lastMonthIncome = lastMonth.filter(e => e.type !== 'expense').reduce((sum, e) => sum + e.amount, 0)
+  const lastMonthExpenses = lastMonth.filter(e => e.type === 'expense').reduce((sum, e) => sum + e.amount, 0)
+  const lastMonthNet = lastMonthIncome - lastMonthExpenses
+  
+  const trend = lastMonthNet !== 0 ? ((thisMonthNet - lastMonthNet) / Math.abs(lastMonthNet) * 100).toFixed(0) : 0
   const recent = entries.slice(0, 5)
 
   return (
@@ -17,7 +34,7 @@ export function HomePage({ entries, settings, onAddClick, onViewAll, onEditEntry
         <div className="header-left">
           <ClockIcon className="logo-icon" />
         </div>
-        <h1 className="header-title">Income</h1>
+        <h1 className="header-title">{t('income', lang)}</h1>
         <div className="header-right">
           <button className="icon-btn" onClick={onViewAll}>
             <MenuIcon className="menu-icon" />
@@ -26,20 +43,30 @@ export function HomePage({ entries, settings, onAddClick, onViewAll, onEditEntry
       </header>
 
       <section className="summary-card">
-        <p className="summary-label">Total Earnings</p>
-        <h2 className="summary-amount">{formatCurrency(total, settings.currency)}</h2>
+        <p className="summary-label">{t('netIncome', lang)}</p>
+        <h2 className={`summary-amount ${netIncome < 0 ? 'negative' : ''}`}>
+          {netIncome < 0 ? '-' : ''}{formatCurrency(Math.abs(netIncome), settings.currency)}
+        </h2>
         <p className="summary-period">{getCurrentFiscalYear()}</p>
+        <div className="summary-breakdown">
+          <span className="income-total">+{formatCurrency(totalIncome, settings.currency)}</span>
+          <span className="expense-total">-{formatCurrency(totalExpenses, settings.currency)}</span>
+        </div>
       </section>
 
       <div className="stats-row">
         <div className="stat-card">
-          <p className="stat-label">This Month</p>
-          <p className="stat-value">{formatCurrency(thisMonthTotal, settings.currency)}</p>
-          <p className="stat-entries">{thisMonth.length} entries</p>
+          <p className="stat-label">{t('thisMonth', lang)}</p>
+          <p className={`stat-value ${thisMonthNet < 0 ? 'negative' : ''}`}>
+            {thisMonthNet < 0 ? '-' : ''}{formatCurrency(Math.abs(thisMonthNet), settings.currency)}
+          </p>
+          <p className="stat-entries">{thisMonth.length} {t('entries', lang)}</p>
         </div>
         <div className="stat-card">
-          <p className="stat-label">Last Month</p>
-          <p className="stat-value">{formatCurrency(lastMonthTotal, settings.currency)}</p>
+          <p className="stat-label">{t('lastMonth', lang)}</p>
+          <p className={`stat-value ${lastMonthNet < 0 ? 'negative' : ''}`}>
+            {lastMonthNet < 0 ? '-' : ''}{formatCurrency(Math.abs(lastMonthNet), settings.currency)}
+          </p>
           <div className="stat-trend">
             {trend > 0 ? <TrendUpIcon className="trend-icon up" /> : trend < 0 ? <TrendDownIcon className="trend-icon down" /> : null}
             {trend !== 0 && <span className={trend > 0 ? 'up' : 'down'}>{trend > 0 ? '+' : ''}{trend}%</span>}
@@ -50,21 +77,21 @@ export function HomePage({ entries, settings, onAddClick, onViewAll, onEditEntry
       <section className="quick-add">
         <button className="add-btn" onClick={onAddClick}>
           <PlusIcon className="add-icon" />
-          <span>Add Income</span>
+          <span>{t('addTransaction', lang)}</span>
         </button>
       </section>
 
       <section className="entries-section">
         <div className="section-header">
-          <h3>Recent</h3>
-          <button className="text-btn" onClick={onViewAll}>View All ({entries.length})</button>
+          <h3>{t('recent', lang)}</h3>
+          <button className="text-btn" onClick={onViewAll}>{t('viewAll', lang)} ({entries.length})</button>
         </div>
         <div className="entries-list">
           {entries.length === 0 ? (
             <div className="empty-state">
               <div className="empty-icon">💰</div>
-              <p>No income recorded yet</p>
-              <p className="empty-hint">Tap + to add your first entry</p>
+              <p>{t('noIncomeYet', lang)}</p>
+              <p className="empty-hint">{t('tapToAdd', lang)}</p>
             </div>
           ) : (
             recent.map(entry => (
@@ -82,4 +109,3 @@ export function HomePage({ entries, settings, onAddClick, onViewAll, onEditEntry
     </>
   )
 }
-
