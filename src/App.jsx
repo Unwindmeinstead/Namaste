@@ -8,17 +8,20 @@ import { BottomNav } from './components/BottomNav'
 import { AddModal } from './components/AddModal'
 import { EditModal } from './components/EditModal'
 import { EntriesModal } from './components/EntriesModal'
+import { ActivityModal } from './components/ActivityModal'
 import { ScheduleModal } from './components/ScheduleModal'
 import { PinLock } from './components/PinLock'
 
 function App() {
   const [entries, setEntries] = useLocalStorage('guruji_income_entries', [])
   const [scheduledServices, setScheduledServices] = useLocalStorage('guruji_scheduled_services', [])
-  const [settings, updateSetting] = useSettings()
+  const [activities, setActivities] = useLocalStorage('guruji_activities', [])
+  const [settings, updateSetting, setSettings] = useSettings()
   const [profile, updateProfile] = useProfile()
   const [activePage, setActivePage] = useState('home')
   const [showAddModal, setShowAddModal] = useState(false)
   const [showEntriesModal, setShowEntriesModal] = useState(false)
+  const [showActivityModal, setShowActivityModal] = useState(false)
   const [showScheduleModal, setShowScheduleModal] = useState(false)
   const [selectedDate, setSelectedDate] = useState(null)
   const [editingEntry, setEditingEntry] = useState(null)
@@ -28,10 +31,21 @@ function App() {
     return !!localStorage.getItem('guruji_pin')
   })
 
+  // Log activity helper
+  const logActivity = (type, details = '') => {
+    const activity = {
+      id: Date.now().toString(),
+      type,
+      details,
+      timestamp: new Date().toISOString()
+    }
+    // Keep only last 100 activities
+    setActivities(prev => [activity, ...prev].slice(0, 100))
+  }
+
   // Apply theme to document
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', settings.theme || 'dark')
-    // Update meta theme-color for mobile browsers
     const metaTheme = document.querySelector('meta[name="theme-color"]')
     if (metaTheme) {
       metaTheme.setAttribute('content', settings.theme === 'light' ? '#ffffff' : '#0a0a0a')
@@ -40,41 +54,54 @@ function App() {
 
   const addEntry = (entry) => {
     setEntries([entry, ...entries])
+    logActivity('add_entry', entry.type === 'expense' ? `Expense: ${entry.source}` : `Income: ${entry.source}`)
     haptic()
   }
 
   const updateEntry = (updatedEntry) => {
     setEntries(entries.map(e => e.id === updatedEntry.id ? updatedEntry : e))
+    logActivity('edit_entry', updatedEntry.source)
     setEditingEntry(null)
     haptic()
   }
 
   const deleteEntry = (id) => {
-    // Also unlink any expenses that were linked to this entry
+    const entry = entries.find(e => e.id === id)
     setEntries(entries.filter(e => e.id !== id).map(e => 
       e.relatedTo === id ? { ...e, relatedTo: null } : e
     ))
+    logActivity('delete_entry', entry?.source || '')
     haptic()
   }
 
   const addScheduledService = (service) => {
     setScheduledServices([...scheduledServices, service])
+    logActivity('add_schedule', service.title)
     haptic()
   }
 
   const updateScheduledService = (updatedService) => {
     setScheduledServices(scheduledServices.map(s => s.id === updatedService.id ? updatedService : s))
+    logActivity('edit_schedule', updatedService.title)
     haptic()
   }
 
   const deleteScheduledService = (id) => {
+    const service = scheduledServices.find(s => s.id === id)
     setScheduledServices(scheduledServices.filter(s => s.id !== id))
+    logActivity('delete_schedule', service?.title || '')
     haptic()
+  }
+
+  const handleUpdateSetting = (key, value) => {
+    updateSetting(key, value)
+    logActivity('settings_change', `${key}: ${value}`)
   }
 
   const clearAllData = () => {
     setEntries([])
     setScheduledServices([])
+    logActivity('clear_data', 'All entries and schedules cleared')
     haptic()
   }
 
@@ -84,7 +111,6 @@ function App() {
     }
   }
 
-  // Get expenses linked to a specific income entry
   const getLinkedExpenses = (incomeId) => {
     return entries.filter(e => e.type === 'expense' && e.relatedTo === incomeId)
   }
@@ -104,7 +130,6 @@ function App() {
     setShowScheduleModal(true)
   }
 
-  // Show PIN lock screen if locked
   if (isLocked) {
     return (
       <PinLock 
@@ -125,6 +150,7 @@ function App() {
             settings={settings}
             onAddClick={() => setShowAddModal(true)}
             onViewAll={() => setShowEntriesModal(true)}
+            onActivityClick={() => setShowActivityModal(true)}
             onEditEntry={setEditingEntry}
             onDeleteEntry={deleteEntry}
             getLinkedExpenses={getLinkedExpenses}
@@ -141,7 +167,7 @@ function App() {
         return (
           <SettingsPage
             settings={settings}
-            updateSetting={updateSetting}
+            updateSetting={handleUpdateSetting}
             onClearData={clearAllData}
             entries={entries}
             profile={profile}
@@ -187,6 +213,13 @@ function App() {
         }}
         onDeleteEntry={deleteEntry}
         getLinkedExpenses={getLinkedExpenses}
+      />
+
+      <ActivityModal
+        isOpen={showActivityModal}
+        onClose={() => setShowActivityModal(false)}
+        activities={activities}
+        settings={settings}
       />
 
       <ScheduleModal

@@ -73,6 +73,21 @@ export const translations = {
     editSchedule: 'तालिका सम्पादन',
     noScheduled: 'कुनै तालिकाबद्ध सेवा छैन',
     
+    // Activity Log
+    recentActivity: 'हालको गतिविधि',
+    noActivity: 'कुनै हालको गतिविधि छैन',
+    justNow: 'अहिले',
+    today: 'आज',
+    yesterday: 'हिजो',
+    activityAddEntry: 'लेनदेन थपियो',
+    activityEditEntry: 'लेनदेन अद्यावधिक गरियो',
+    activityDeleteEntry: 'लेनदेन मेटाइयो',
+    activityAddSchedule: 'सेवा तालिकाबद्ध गरियो',
+    activityEditSchedule: 'तालिका अद्यावधिक गरियो',
+    activityDeleteSchedule: 'तालिका रद्द गरियो',
+    activitySettingsChange: 'सेटिङहरू परिवर्तन गरियो',
+    activityClearData: 'सबै डाटा हटाइयो',
+    
     // Categories
     teaching: 'शिक्षण',
     satsang: 'सत्संग',
@@ -279,6 +294,21 @@ export const translations = {
     editSchedule: 'Edit Schedule',
     noScheduled: 'No scheduled services',
     
+    // Activity Log
+    recentActivity: 'Recent Activity',
+    noActivity: 'No recent activity',
+    justNow: 'Just now',
+    today: 'Today',
+    yesterday: 'Yesterday',
+    activityAddEntry: 'Added transaction',
+    activityEditEntry: 'Updated transaction',
+    activityDeleteEntry: 'Deleted transaction',
+    activityAddSchedule: 'Scheduled service',
+    activityEditSchedule: 'Updated schedule',
+    activityDeleteSchedule: 'Cancelled schedule',
+    activitySettingsChange: 'Changed settings',
+    activityClearData: 'Cleared all data',
+    
     // Categories
     teaching: 'Teaching',
     satsang: 'Satsang',
@@ -484,6 +514,21 @@ export const translations = {
     addressPlaceholder: 'सेवा स्थान का पता',
     editSchedule: 'शेड्यूल संपादित करें',
     noScheduled: 'कोई शेड्यूल्ड सेवा नहीं',
+    
+    // Activity Log
+    recentActivity: 'हाल की गतिविधि',
+    noActivity: 'कोई हाल की गतिविधि नहीं',
+    justNow: 'अभी',
+    today: 'आज',
+    yesterday: 'कल',
+    activityAddEntry: 'लेन-देन जोड़ा',
+    activityEditEntry: 'लेन-देन अपडेट किया',
+    activityDeleteEntry: 'लेन-देन हटाया',
+    activityAddSchedule: 'सेवा शेड्यूल की',
+    activityEditSchedule: 'शेड्यूल अपडेट किया',
+    activityDeleteSchedule: 'शेड्यूल रद्द किया',
+    activitySettingsChange: 'सेटिंग्स बदली',
+    activityClearData: 'सारा डेटा साफ़ किया',
     
     // Categories
     teaching: 'शिक्षण',

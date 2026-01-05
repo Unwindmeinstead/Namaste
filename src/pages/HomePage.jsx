@@ -4,7 +4,7 @@ import { EntryItem } from '../components/EntryItem'
 import { Calendar } from '../components/Calendar'
 import { t } from '../utils/translations'
 
-export function HomePage({ entries, scheduledServices, settings, onAddClick, onViewAll, onEditEntry, onDeleteEntry, getLinkedExpenses, onProfileClick, onDayClick, onAddService }) {
+export function HomePage({ entries, scheduledServices, settings, onAddClick, onViewAll, onActivityClick, onEditEntry, onDeleteEntry, getLinkedExpenses, onProfileClick, onDayClick, onAddService }) {
   const lang = settings.language || 'en'
   
   // Calculate income and expenses
@@ -42,7 +42,7 @@ export function HomePage({ entries, scheduledServices, settings, onAddClick, onV
     <>
       <header className="header">
         <div className="header-left">
-          <button className="icon-btn" onClick={onViewAll} title={t('recent', lang)}>
+          <button className="icon-btn" onClick={onActivityClick} title={t('recentActivity', lang)}>
             <ClockIcon className="logo-icon" />
           </button>
         </div>
