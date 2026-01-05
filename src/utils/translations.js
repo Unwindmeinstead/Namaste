@@ -65,6 +65,9 @@ export const translations = {
     time: 'समय',
     upcoming: 'आगामी',
     noUpcoming: 'कुनै आगामी सेवा छैन',
+    poc: 'सम्पर्क व्यक्ति',
+    pocPlaceholder: 'सम्पर्क व्यक्तिको नाम र फोन',
+    addressPlaceholder: 'सेवा स्थानको ठेगाना',
     
     // Categories
     teaching: 'शिक्षण',
@@ -264,6 +267,9 @@ export const translations = {
     time: 'Time',
     upcoming: 'Upcoming',
     noUpcoming: 'No upcoming services',
+    poc: 'Point of Contact',
+    pocPlaceholder: 'Contact person name & phone',
+    addressPlaceholder: 'Service location address',
     
     // Categories
     teaching: 'Teaching',
@@ -463,6 +469,9 @@ export const translations = {
     time: 'समय',
     upcoming: 'आगामी',
     noUpcoming: 'कोई आगामी सेवा नहीं',
+    poc: 'संपर्क व्यक्ति',
+    pocPlaceholder: 'संपर्क व्यक्ति का नाम और फोन',
+    addressPlaceholder: 'सेवा स्थान का पता',
     
     // Categories
     teaching: 'शिक्षण',

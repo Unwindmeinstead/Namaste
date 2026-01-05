@@ -5,13 +5,17 @@ import { getCategoryIcon } from './CategoryIcons'
 import { t } from '../utils/translations'
 import { formatCurrency } from '../utils/format'
 
+const HOURS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+
 export function ScheduleModal({ isOpen, onClose, onAdd, onDelete, settings, selectedDate, scheduledServices = [], entries = [] }) {
   const [title, setTitle] = useState('')
   const [category, setCategory] = useState('teaching')
   const [date, setDate] = useState(selectedDate || new Date().toISOString().split('T')[0])
-  const [time, setTime] = useState('')
+  const [hour, setHour] = useState('9')
+  const [period, setPeriod] = useState('AM')
+  const [address, setAddress] = useState('')
+  const [poc, setPoc] = useState('')
   const [notes, setNotes] = useState('')
-  const [expectedAmount, setExpectedAmount] = useState('')
 
   const lang = settings.language || 'en'
 
@@ -24,9 +28,10 @@ export function ScheduleModal({ isOpen, onClose, onAdd, onDelete, settings, sele
       title: title.trim(),
       category,
       date,
-      time,
+      time: `${hour} ${period}`,
+      address: address.trim(),
+      poc: poc.trim(),
       notes: notes.trim(),
-      expectedAmount: expectedAmount ? parseFloat(expectedAmount) : null,
       completed: false,
       createdAt: new Date().toISOString()
     })
@@ -39,9 +44,11 @@ export function ScheduleModal({ isOpen, onClose, onAdd, onDelete, settings, sele
     setTitle('')
     setCategory('teaching')
     setDate(selectedDate || new Date().toISOString().split('T')[0])
-    setTime('')
+    setHour('9')
+    setPeriod('AM')
+    setAddress('')
+    setPoc('')
     setNotes('')
-    setExpectedAmount('')
   }
 
   const handleClose = () => {
@@ -58,9 +65,6 @@ export function ScheduleModal({ isOpen, onClose, onAdd, onDelete, settings, sele
   // Get services for the selected date
   const dayServices = scheduledServices.filter(s => s.date === selectedDate)
   const dayEntries = entries.filter(e => e.date === selectedDate && e.type !== 'expense')
-
-  const symbols = { USD: '$', EUR: '€', GBP: '£', INR: '₹' }
-  const symbol = symbols[settings.currency] || '$'
 
   const formatDateDisplay = (dateStr) => {
     const date = new Date(dateStr)
@@ -85,7 +89,6 @@ export function ScheduleModal({ isOpen, onClose, onAdd, onDelete, settings, sele
               <div className="day-section">
                 <h4 className="day-section-title">{t('completedServices', lang) || 'Completed Services'}</h4>
                 {dayEntries.map(entry => {
-                  const cat = INCOME_CATEGORIES.find(c => c.id === entry.category) || INCOME_CATEGORIES[0]
                   const CatIcon = getCategoryIcon(entry.category)
                   return (
                     <div key={entry.id} className="day-entry completed">
@@ -111,12 +114,13 @@ export function ScheduleModal({ isOpen, onClose, onAdd, onDelete, settings, sele
                       <CatIcon className="day-entry-icon" />
                       <div className="day-entry-info">
                         <span className="day-entry-title">{service.title}</span>
-                        {service.time && <span className="day-entry-sub">{service.time}</span>}
+                        <span className="day-entry-sub">
+                          {service.time}
+                          {service.poc && ` • ${service.poc}`}
+                        </span>
+                        {service.address && <span className="day-entry-address">{service.address}</span>}
                       </div>
                       <div className="day-entry-actions">
-                        {service.expectedAmount && (
-                          <span className="day-entry-expected">~{formatCurrency(service.expectedAmount, settings.currency)}</span>
-                        )}
                         <button className="day-entry-delete" onClick={() => onDelete(service.id)}>
                           <TrashIcon className="day-entry-delete-icon" />
                         </button>
@@ -165,38 +169,57 @@ export function ScheduleModal({ isOpen, onClose, onAdd, onDelete, settings, sele
             </div>
           </div>
 
-          <div className="form-row">
-            <div className="form-group flex-1">
-              <label>{t('date', lang)}</label>
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                required
-              />
-            </div>
-            <div className="form-group flex-1">
-              <label>{t('time', lang) || 'Time'}</label>
-              <input
-                type="time"
-                value={time}
-                onChange={(e) => setTime(e.target.value)}
-              />
+          <div className="form-group">
+            <label>{t('date', lang)}</label>
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>{t('time', lang) || 'Time'}</label>
+            <div className="time-picker">
+              <select 
+                className="time-select hour"
+                value={hour}
+                onChange={(e) => setHour(e.target.value)}
+              >
+                {HOURS.map(h => (
+                  <option key={h} value={h}>{h}</option>
+                ))}
+              </select>
+              <select 
+                className="time-select period"
+                value={period}
+                onChange={(e) => setPeriod(e.target.value)}
+              >
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+              </select>
             </div>
           </div>
 
           <div className="form-group">
-            <label>{t('expectedAmount', lang) || 'Expected Amount (optional)'}</label>
-            <div className="amount-input-wrap small">
-              <span className="currency">{symbol}</span>
-              <input
-                type="number"
-                placeholder="0"
-                value={expectedAmount}
-                onChange={(e) => setExpectedAmount(e.target.value)}
-                step="0.01"
-              />
-            </div>
+            <label>{t('poc', lang) || 'Point of Contact'}</label>
+            <input
+              type="text"
+              placeholder={t('pocPlaceholder', lang) || 'Contact person name & phone'}
+              value={poc}
+              onChange={(e) => setPoc(e.target.value)}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>{t('address', lang)}</label>
+            <input
+              type="text"
+              placeholder={t('addressPlaceholder', lang) || 'Service location address'}
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
           </div>
 
           <div className="form-group">
@@ -217,4 +240,3 @@ export function ScheduleModal({ isOpen, onClose, onAdd, onDelete, settings, sele
     </div>
   )
 }
-
