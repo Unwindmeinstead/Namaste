@@ -5,10 +5,14 @@ import { getCategoryIcon } from './CategoryIcons'
 import { t } from '../utils/translations'
 import { formatCurrency, formatDate } from '../utils/format'
 
+const PAYMENT_METHODS = ['cash', 'check', 'card', 'bankTransfer', 'upi', 'otherPayment']
+
 export function AddModal({ isOpen, onClose, onAdd, settings, entries = [] }) {
   const today = new Date().toISOString().split('T')[0]
   const [type, setType] = useState('income')
   const [amount, setAmount] = useState('')
+  const [payerName, setPayerName] = useState('')
+  const [paymentMethod, setPaymentMethod] = useState('cash')
   const [source, setSource] = useState('')
   const [date, setDate] = useState(today)
   const [notes, setNotes] = useState('')
@@ -34,6 +38,8 @@ export function AddModal({ isOpen, onClose, onAdd, settings, entries = [] }) {
       id: Date.now().toString(),
       type,
       amount: amountNum,
+      payerName: type === 'income' ? payerName.trim() : '',
+      paymentMethod: paymentMethod,
       source: source.trim() || (lang === 'hi' ? selectedCat?.nameHi : lang === 'ne' ? selectedCat?.nameNe : selectedCat?.name) || (type === 'income' ? 'Income' : 'Expense'),
       date,
       notes: notes.trim(),
@@ -49,6 +55,8 @@ export function AddModal({ isOpen, onClose, onAdd, settings, entries = [] }) {
   const resetForm = () => {
     setType('income')
     setAmount('')
+    setPayerName('')
+    setPaymentMethod('cash')
     setSource('')
     setDate(today)
     setNotes('')
@@ -121,6 +129,36 @@ export function AddModal({ isOpen, onClose, onAdd, settings, entries = [] }) {
             </div>
           </div>
 
+          {/* Payer Name - only for income */}
+          {type === 'income' && (
+            <div className="form-group">
+              <label>{t('payerName', lang)}</label>
+              <input
+                type="text"
+                placeholder={t('payerNamePlaceholder', lang)}
+                value={payerName}
+                onChange={(e) => setPayerName(e.target.value)}
+              />
+            </div>
+          )}
+
+          {/* Payment Method */}
+          <div className="form-group">
+            <label>{t('paymentMethod', lang)}</label>
+            <div className="payment-method-grid">
+              {PAYMENT_METHODS.map(method => (
+                <button
+                  key={method}
+                  type="button"
+                  className={`payment-btn ${paymentMethod === method ? 'active' : ''}`}
+                  onClick={() => setPaymentMethod(method)}
+                >
+                  {t(method, lang)}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Link expense to job */}
           {type === 'expense' && recentJobs.length > 0 && (
             <div className="form-group">
@@ -170,15 +208,13 @@ export function AddModal({ isOpen, onClose, onAdd, settings, entries = [] }) {
             />
           </div>
 
-          <div className="form-row">
-            <div className="form-group flex-1">
-              <label>{t('date', lang)}</label>
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-              />
-            </div>
+          <div className="form-group">
+            <label>{t('date', lang)}</label>
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
           </div>
 
           <div className="form-group">

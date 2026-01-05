@@ -5,9 +5,13 @@ import { getCategoryIcon } from './CategoryIcons'
 import { t } from '../utils/translations'
 import { formatCurrency, formatDate } from '../utils/format'
 
+const PAYMENT_METHODS = ['cash', 'check', 'card', 'bankTransfer', 'upi', 'otherPayment']
+
 export function EditModal({ isOpen, entry, onClose, onSave, onDelete, settings, entries = [] }) {
   const [type, setType] = useState('income')
   const [amount, setAmount] = useState('')
+  const [payerName, setPayerName] = useState('')
+  const [paymentMethod, setPaymentMethod] = useState('cash')
   const [source, setSource] = useState('')
   const [date, setDate] = useState('')
   const [notes, setNotes] = useState('')
@@ -25,6 +29,8 @@ export function EditModal({ isOpen, entry, onClose, onSave, onDelete, settings, 
     if (entry) {
       setType(entry.type || 'income')
       setAmount(entry.amount.toString())
+      setPayerName(entry.payerName || '')
+      setPaymentMethod(entry.paymentMethod || 'cash')
       setSource(entry.source || '')
       setDate(entry.date)
       setNotes(entry.notes || '')
@@ -50,6 +56,8 @@ export function EditModal({ isOpen, entry, onClose, onSave, onDelete, settings, 
       ...entry,
       type,
       amount: amountNum,
+      payerName: type === 'income' ? payerName.trim() : '',
+      paymentMethod: paymentMethod,
       source: source.trim() || getCatName(selectedCat) || (type === 'income' ? 'Income' : 'Expense'),
       date,
       notes: notes.trim(),
@@ -129,6 +137,36 @@ export function EditModal({ isOpen, entry, onClose, onSave, onDelete, settings, 
                 required
                 step="0.01"
               />
+            </div>
+          </div>
+
+          {/* Payer Name - only for income */}
+          {type === 'income' && (
+            <div className="form-group">
+              <label>{t('payerName', lang)}</label>
+              <input
+                type="text"
+                placeholder={t('payerNamePlaceholder', lang)}
+                value={payerName}
+                onChange={(e) => setPayerName(e.target.value)}
+              />
+            </div>
+          )}
+
+          {/* Payment Method */}
+          <div className="form-group">
+            <label>{t('paymentMethod', lang)}</label>
+            <div className="payment-method-grid">
+              {PAYMENT_METHODS.map(method => (
+                <button
+                  key={method}
+                  type="button"
+                  className={`payment-btn ${paymentMethod === method ? 'active' : ''}`}
+                  onClick={() => setPaymentMethod(method)}
+                >
+                  {t(method, lang)}
+                </button>
+              ))}
             </div>
           </div>
 

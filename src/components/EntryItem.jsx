@@ -21,6 +21,10 @@ export function EntryItem({ entry, settings, onEdit, onDelete, showActions = tru
   }
 
   const CategoryIcon = getCategoryIcon(entry.category)
+  
+  const getPaymentMethodLabel = (method) => {
+    return t(method || 'cash', lang)
+  }
 
   return (
     <div className={`entry-item-wrapper ${expanded ? 'expanded' : ''}`}>
@@ -36,13 +40,15 @@ export function EntryItem({ entry, settings, onEdit, onDelete, showActions = tru
             <h4>{entry.source || getCatName(category)}</h4>
             <p>
               {formatDate(entry.date)}
-              {entry.notes ? ` • ${entry.notes}` : ''}
+              {entry.payerName && ` • ${entry.payerName}`}
+              {entry.paymentMethod && ` • ${getPaymentMethodLabel(entry.paymentMethod)}`}
               {hasExpenses && !expanded && (
                 <span className="expense-badge">
                   {linkedExpenses.length} {t('jobExpenses', lang)}
                 </span>
               )}
             </p>
+            {entry.notes && <p className="entry-notes">{entry.notes}</p>}
           </div>
         </div>
         <div className="entry-right">
