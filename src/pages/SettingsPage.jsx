@@ -11,7 +11,8 @@ const CURRENCIES = [
 
 const LANGUAGES = [
   { code: 'en', name: 'English', native: 'English' },
-  { code: 'hi', name: 'Hindi', native: 'हिंदी' }
+  { code: 'hi', name: 'Hindi', native: 'हिंदी' },
+  { code: 'ne', name: 'Nepali', native: 'नेपाली' }
 ]
 
 export function SettingsPage({ settings, updateSetting, onClearData, entries }) {

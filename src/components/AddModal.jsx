@@ -2,18 +2,25 @@ import { useState } from 'react'
 import { CloseIcon } from './Icons'
 import { INCOME_CATEGORIES, EXPENSE_CATEGORIES } from '../utils/categories'
 import { t } from '../utils/translations'
+import { formatCurrency, formatDate } from '../utils/format'
 
-export function AddModal({ isOpen, onClose, onAdd, settings }) {
+export function AddModal({ isOpen, onClose, onAdd, settings, entries = [] }) {
   const today = new Date().toISOString().split('T')[0]
-  const [type, setType] = useState('income') // 'income' or 'expense'
+  const [type, setType] = useState('income')
   const [amount, setAmount] = useState('')
   const [source, setSource] = useState('')
   const [date, setDate] = useState(today)
   const [notes, setNotes] = useState('')
   const [category, setCategory] = useState('other')
+  const [relatedTo, setRelatedTo] = useState('')
 
   const lang = settings.language || 'en'
   const categories = type === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES
+  
+  // Get recent income entries to link expenses to
+  const recentJobs = entries
+    .filter(e => e.type !== 'expense')
+    .slice(0, 10)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -26,10 +33,11 @@ export function AddModal({ isOpen, onClose, onAdd, settings }) {
       id: Date.now().toString(),
       type,
       amount: amountNum,
-      source: source.trim() || (lang === 'hi' ? selectedCat?.nameHi : selectedCat?.name) || (type === 'income' ? 'Income' : 'Expense'),
+      source: source.trim() || (lang === 'hi' ? selectedCat?.nameHi : lang === 'ne' ? selectedCat?.nameNe : selectedCat?.name) || (type === 'income' ? 'Income' : 'Expense'),
       date,
       notes: notes.trim(),
       category,
+      relatedTo: type === 'expense' && relatedTo ? relatedTo : null,
       createdAt: new Date().toISOString()
     })
 
@@ -44,6 +52,7 @@ export function AddModal({ isOpen, onClose, onAdd, settings }) {
     setDate(today)
     setNotes('')
     setCategory('other')
+    setRelatedTo('')
   }
 
   const handleClose = () => {
@@ -54,6 +63,7 @@ export function AddModal({ isOpen, onClose, onAdd, settings }) {
   const handleTypeChange = (newType) => {
     setType(newType)
     setCategory(newType === 'income' ? 'other' : 'other_expense')
+    if (newType === 'income') setRelatedTo('')
   }
 
   const symbols = { USD: '$', EUR: '€', GBP: '£', INR: '₹' }
@@ -110,6 +120,25 @@ export function AddModal({ isOpen, onClose, onAdd, settings }) {
             </div>
           </div>
 
+          {/* Link expense to job */}
+          {type === 'expense' && recentJobs.length > 0 && (
+            <div className="form-group">
+              <label>{t('relatedJob', lang)}</label>
+              <select 
+                className="job-select"
+                value={relatedTo} 
+                onChange={(e) => setRelatedTo(e.target.value)}
+              >
+                <option value="">{t('selectJob', lang)}</option>
+                {recentJobs.map(job => (
+                  <option key={job.id} value={job.id}>
+                    {job.source} - {formatCurrency(job.amount, settings.currency)} ({formatDate(job.date)})
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
           <div className="form-group">
             <label>{t('category', lang)}</label>
             <div className="category-grid">
@@ -122,7 +151,7 @@ export function AddModal({ isOpen, onClose, onAdd, settings }) {
                   style={{ '--cat-color': cat.color }}
                 >
                   <span className="cat-icon">{cat.icon}</span>
-                  <span className="cat-name">{lang === 'hi' ? cat.nameHi : cat.name}</span>
+                  <span className="cat-name">{lang === 'hi' ? cat.nameHi : lang === 'ne' ? cat.nameNe : cat.name}</span>
                 </button>
               ))}
             </div>

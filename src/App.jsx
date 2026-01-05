@@ -29,21 +29,27 @@ function App() {
   }
 
   const deleteEntry = (id) => {
-    setEntries(entries.filter(e => e.id !== id))
+    // Also unlink any expenses that were linked to this entry
+    setEntries(entries.filter(e => e.id !== id).map(e => 
+      e.relatedTo === id ? { ...e, relatedTo: null } : e
+    ))
     haptic()
   }
 
   const clearAllData = () => {
-    if (confirm('Are you sure you want to delete ALL income entries? This cannot be undone.')) {
-      setEntries([])
-      haptic()
-    }
+    setEntries([])
+    haptic()
   }
 
   const haptic = () => {
     if (settings.hapticFeedback && navigator.vibrate) {
       navigator.vibrate(10)
     }
+  }
+
+  // Get expenses linked to a specific income entry
+  const getLinkedExpenses = (incomeId) => {
+    return entries.filter(e => e.type === 'expense' && e.relatedTo === incomeId)
   }
 
   const renderPage = () => {
@@ -57,6 +63,7 @@ function App() {
             onViewAll={() => setShowEntriesModal(true)}
             onEditEntry={setEditingEntry}
             onDeleteEntry={deleteEntry}
+            getLinkedExpenses={getLinkedExpenses}
           />
         )
       case 'reports':
@@ -80,13 +87,14 @@ function App() {
   return (
     <div className="app">
       {renderPage()}
-      <BottomNav activePage={activePage} onPageChange={setActivePage} />
+      <BottomNav activePage={activePage} onPageChange={setActivePage} settings={settings} />
 
       <AddModal
         isOpen={showAddModal}
         onClose={() => setShowAddModal(false)}
         onAdd={addEntry}
         settings={settings}
+        entries={entries}
       />
 
       <EditModal
@@ -96,6 +104,7 @@ function App() {
         onSave={updateEntry}
         onDelete={deleteEntry}
         settings={settings}
+        entries={entries}
       />
 
       <EntriesModal
@@ -108,6 +117,7 @@ function App() {
           setEditingEntry(entry)
         }}
         onDeleteEntry={deleteEntry}
+        getLinkedExpenses={getLinkedExpenses}
       />
     </div>
   )

@@ -2,17 +2,23 @@ import { useState, useEffect } from 'react'
 import { CloseIcon, TrashIcon } from './Icons'
 import { INCOME_CATEGORIES, EXPENSE_CATEGORIES } from '../utils/categories'
 import { t } from '../utils/translations'
+import { formatCurrency, formatDate } from '../utils/format'
 
-export function EditModal({ isOpen, entry, onClose, onSave, onDelete, settings }) {
+export function EditModal({ isOpen, entry, onClose, onSave, onDelete, settings, entries = [] }) {
   const [type, setType] = useState('income')
   const [amount, setAmount] = useState('')
   const [source, setSource] = useState('')
   const [date, setDate] = useState('')
   const [notes, setNotes] = useState('')
   const [category, setCategory] = useState('other')
+  const [relatedTo, setRelatedTo] = useState('')
 
   const lang = settings.language || 'en'
   const categories = type === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES
+  
+  const recentJobs = entries
+    .filter(e => e.type !== 'expense' && e.id !== entry?.id)
+    .slice(0, 10)
 
   useEffect(() => {
     if (entry) {
@@ -22,8 +28,15 @@ export function EditModal({ isOpen, entry, onClose, onSave, onDelete, settings }
       setDate(entry.date)
       setNotes(entry.notes || '')
       setCategory(entry.category || 'other')
+      setRelatedTo(entry.relatedTo || '')
     }
   }, [entry])
+
+  const getCatName = (cat) => {
+    if (lang === 'hi') return cat.nameHi
+    if (lang === 'ne') return cat.nameNe
+    return cat.name
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -36,10 +49,11 @@ export function EditModal({ isOpen, entry, onClose, onSave, onDelete, settings }
       ...entry,
       type,
       amount: amountNum,
-      source: source.trim() || (lang === 'hi' ? selectedCat?.nameHi : selectedCat?.name) || (type === 'income' ? 'Income' : 'Expense'),
+      source: source.trim() || getCatName(selectedCat) || (type === 'income' ? 'Income' : 'Expense'),
       date,
       notes: notes.trim(),
       category,
+      relatedTo: type === 'expense' && relatedTo ? relatedTo : null,
       updatedAt: new Date().toISOString()
     })
   }
@@ -53,9 +67,9 @@ export function EditModal({ isOpen, entry, onClose, onSave, onDelete, settings }
 
   const handleTypeChange = (newType) => {
     setType(newType)
-    // Update category if switching types
     if (newType === 'income' && EXPENSE_CATEGORIES.find(c => c.id === category)) {
       setCategory('other')
+      setRelatedTo('')
     } else if (newType === 'expense' && INCOME_CATEGORIES.find(c => c.id === category)) {
       setCategory('other_expense')
     }
@@ -80,7 +94,6 @@ export function EditModal({ isOpen, entry, onClose, onSave, onDelete, settings }
         </div>
 
         <form className="income-form" onSubmit={handleSubmit}>
-          {/* Income/Expense Toggle */}
           <div className="form-group">
             <label>{t('type', lang)}</label>
             <div className="type-toggle">
@@ -118,6 +131,24 @@ export function EditModal({ isOpen, entry, onClose, onSave, onDelete, settings }
             </div>
           </div>
 
+          {type === 'expense' && recentJobs.length > 0 && (
+            <div className="form-group">
+              <label>{t('relatedJob', lang)}</label>
+              <select 
+                className="job-select"
+                value={relatedTo} 
+                onChange={(e) => setRelatedTo(e.target.value)}
+              >
+                <option value="">{t('none', lang)}</option>
+                {recentJobs.map(job => (
+                  <option key={job.id} value={job.id}>
+                    {job.source} - {formatCurrency(job.amount, settings.currency)} ({formatDate(job.date)})
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
           <div className="form-group">
             <label>{t('category', lang)}</label>
             <div className="category-grid">
@@ -130,7 +161,7 @@ export function EditModal({ isOpen, entry, onClose, onSave, onDelete, settings }
                   style={{ '--cat-color': cat.color }}
                 >
                   <span className="cat-icon">{cat.icon}</span>
-                  <span className="cat-name">{lang === 'hi' ? cat.nameHi : cat.name}</span>
+                  <span className="cat-name">{getCatName(cat)}</span>
                 </button>
               ))}
             </div>

@@ -3,7 +3,7 @@ import { formatCurrency, getThisMonthEntries, getLastMonthEntries, getCurrentFis
 import { EntryItem } from '../components/EntryItem'
 import { t } from '../utils/translations'
 
-export function HomePage({ entries, settings, onAddClick, onViewAll, onEditEntry, onDeleteEntry }) {
+export function HomePage({ entries, settings, onAddClick, onViewAll, onEditEntry, onDeleteEntry, getLinkedExpenses }) {
   const lang = settings.language || 'en'
   
   // Calculate income and expenses
@@ -26,7 +26,9 @@ export function HomePage({ entries, settings, onAddClick, onViewAll, onEditEntry
   const lastMonthNet = lastMonthIncome - lastMonthExpenses
   
   const trend = lastMonthNet !== 0 ? ((thisMonthNet - lastMonthNet) / Math.abs(lastMonthNet) * 100).toFixed(0) : 0
-  const recent = entries.slice(0, 5)
+  
+  // Get recent income entries (not expenses that are linked)
+  const recentIncomeEntries = incomeEntries.slice(0, 5)
 
   return (
     <>
@@ -94,13 +96,16 @@ export function HomePage({ entries, settings, onAddClick, onViewAll, onEditEntry
               <p className="empty-hint">{t('tapToAdd', lang)}</p>
             </div>
           ) : (
-            recent.map(entry => (
+            recentIncomeEntries.map(entry => (
               <EntryItem
                 key={entry.id}
                 entry={entry}
                 settings={settings}
                 onEdit={() => onEditEntry(entry)}
                 onDelete={() => onDeleteEntry(entry.id)}
+                linkedExpenses={getLinkedExpenses(entry.id)}
+                onEditExpense={onEditEntry}
+                onDeleteExpense={onDeleteEntry}
               />
             ))
           )}
