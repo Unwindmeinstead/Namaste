@@ -58,7 +58,7 @@ export function generateTaxReport(entries, profile, settings, year) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Income Tax Report ${year} - ${profile.name || 'Guruji'}</title>
+  <title>Income Tax Report ${year} - ${profile.name || 'Dakshina'}</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
@@ -568,7 +568,7 @@ export function downloadTaxReport(entries, profile, settings, year) {
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
-  a.download = `tax-report-${year}-${profile.name?.replace(/\s+/g, '-') || 'guruji'}.html`
+  a.download = `tax-report-${year}-${profile.name?.replace(/\s+/g, '-') || 'dakshina'}.html`
   a.click()
   URL.revokeObjectURL(url)
 }
@@ -579,7 +579,7 @@ export function emailTaxReport(entries, profile, settings, year) {
   const netIncome = totalIncome - totalExpenses
   const currency = settings.currency || 'USD'
   
-  const subject = encodeURIComponent(`Income Tax Report ${year} - ${profile.name || 'Guruji'}`)
+  const subject = encodeURIComponent(`Income Tax Report ${year} - ${profile.name || 'Dakshina'}`)
   const body = encodeURIComponent(`
 Income Tax Report Summary for ${year}
 
@@ -593,7 +593,7 @@ Total Income: ${formatCurrency(totalIncome, currency)}
 Total Expenses: ${formatCurrency(totalExpenses, currency)}
 Net Income: ${formatCurrency(netIncome, currency)}
 
-Please find the detailed report attached or download it from the Guruji Income Tracker app.
+Please find the detailed report attached or download it from the Dakshina app.
 
 Generated on: ${new Date().toLocaleDateString()}
   `.trim())
@@ -679,7 +679,7 @@ export function generatePDFReport(entries, profile, settings, year) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tax Report ${year} - ${profile.name || 'Guruji'}</title>
+  <title>Tax Report ${year} - ${profile.name || 'Dakshina'}</title>
   <style>
     @page {
       size: letter;

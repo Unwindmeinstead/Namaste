@@ -1,4 +1,4 @@
-import { ClockIcon, UserIcon, PlusIcon, TrendUpIcon, TrendDownIcon } from '../components/Icons'
+import { ClockIcon, UserIcon, PlusIcon, TrendUpIcon, TrendDownIcon, DakshinaLogo } from '../components/Icons'
 import { formatCurrency, getThisMonthEntries, getLastMonthEntries, getCurrentFiscalYear } from '../utils/format'
 import { EntryItem } from '../components/EntryItem'
 import { Calendar } from '../components/Calendar'
@@ -46,7 +46,10 @@ export function HomePage({ entries, scheduledServices, settings, onAddClick, onV
             <ClockIcon className="logo-icon" />
           </button>
         </div>
-        <h1 className="header-title">{t('income', lang)}</h1>
+        <div className="header-brand">
+          <DakshinaLogo className="header-logo" />
+          <span className="header-brand-name">Dakshina</span>
+        </div>
         <div className="header-right">
           <button className="icon-btn" onClick={onProfileClick} title={t('profile', lang)}>
             <UserIcon className="menu-icon" />

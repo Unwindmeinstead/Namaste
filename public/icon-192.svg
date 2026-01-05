@@ -1,5 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
-  <rect width="192" height="192" fill="#0a0a0a"/>
-  <text x="96" y="120" text-anchor="middle" font-family="system-ui" font-size="80" font-weight="300" fill="#ffffff">G</text>
+<svg viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="192" height="192" rx="32" fill="#0a0a0a"/>
+  <g transform="translate(46, 36) scale(1)">
+    <!-- Kalash (sacred pot) body -->
+    <path d="M35 75 L35 55 Q35 45, 50 42 Q65 45, 65 55 L65 75 Q65 80, 50 82 Q35 80, 35 75Z" 
+          stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <!-- Neck -->
+    <path d="M42 42 L42 35 Q42 30, 50 28 Q58 30, 58 35 L58 42" 
+          stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <!-- Top leaves/flourish -->
+    <path d="M50 28 Q45 20, 50 12" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    <path d="M50 28 Q55 18, 60 15" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
+    <path d="M50 28 Q45 18, 40 15" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
+    <!-- Decorative band -->
+    <path d="M38 60 Q50 55, 62 60" stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7"/>
+  </g>
 </svg>
-

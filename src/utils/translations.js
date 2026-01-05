@@ -211,7 +211,7 @@ export const translations = {
     deleteAllEntries: 'सबै आम्दानी प्रविष्टि मेटाउनुहोस्',
     about: 'बारेमा',
     version: 'संस्करण',
-    madeWith: 'गुरुजी आम्दानी ट्र्याकर • 🙏 सँग बनाइएको',
+    madeWith: 'दक्षिणा • 🙏 सँग बनाइएको',
     
     // All Entries
     allEntries: 'सबै प्रविष्टि',
@@ -496,7 +496,7 @@ export const translations = {
     deleteAllEntries: 'Delete all income entries',
     about: 'About',
     version: 'Version',
-    madeWith: 'Guruji Income Tracker • Made with 🙏',
+    madeWith: 'Dakshina • Made with 🙏',
     
     // All Entries
     allEntries: 'All Entries',
@@ -781,7 +781,7 @@ export const translations = {
     deleteAllEntries: 'सभी आय प्रविष्टियाँ हटाएं',
     about: 'के बारे में',
     version: 'संस्करण',
-    madeWith: 'गुरुजी आय ट्रैकर • 🙏 के साथ बनाया गया',
+    madeWith: 'दक्षिणा • 🙏 के साथ बनाया गया',
     
     // All Entries
     allEntries: 'सभी प्रविष्टियाँ',

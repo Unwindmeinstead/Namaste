@@ -1,3 +1,19 @@
+// Dakshina Logo - Sacred Kalash
+export const DakshinaLogo = ({ className }) => (
+  <svg className={className} viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+    {/* Kalash (sacred pot) body */}
+    <path d="M35 75 L35 55 Q35 45, 50 42 Q65 45, 65 55 L65 75 Q65 80, 50 82 Q35 80, 35 75Z" strokeWidth="2.5"/>
+    {/* Neck */}
+    <path d="M42 42 L42 35 Q42 30, 50 28 Q58 30, 58 35 L58 42" strokeWidth="2"/>
+    {/* Top leaves/flourish */}
+    <path d="M50 28 Q45 20, 50 12" strokeWidth="2"/>
+    <path d="M50 28 Q55 18, 60 15" strokeWidth="1.5" opacity="0.8"/>
+    <path d="M50 28 Q45 18, 40 15" strokeWidth="1.5" opacity="0.8"/>
+    {/* Decorative band */}
+    <path d="M38 60 Q50 55, 62 60" strokeWidth="1.5" opacity="0.7"/>
+  </svg>
+)
+
 export const HomeIcon = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
