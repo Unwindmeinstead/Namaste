@@ -3,6 +3,7 @@ import { ChevronRightIcon, TrashIcon, DownloadIcon, UserIcon, EmailIcon, PhoneIc
 import { downloadCSV } from '../utils/format'
 import { t } from '../utils/translations'
 import { PinLock } from '../components/PinLock'
+import { HelpGuide } from '../components/HelpGuide'
 
 const CURRENCIES = [
   { code: 'USD', name: 'US Dollar', symbol: '$' },
@@ -31,6 +32,7 @@ export function SettingsPage({ settings, updateSetting, onClearData, onBackup, e
   const [securityExpanded, setSecurityExpanded] = useState(false)
   const [preferencesExpanded, setPreferencesExpanded] = useState(false)
   const [dataExpanded, setDataExpanded] = useState(false)
+  const [showHelpGuide, setShowHelpGuide] = useState(false)
   const [pinMode, setPinMode] = useState(null) // 'setup', 'change', 'verify-remove', 'verify-change'
   const [hasPin, setHasPin] = useState(() => !!localStorage.getItem('guruji_pin'))
   const [toast, setToast] = useState('')
@@ -484,11 +486,18 @@ export function SettingsPage({ settings, updateSetting, onClearData, onBackup, e
       <section className="settings-section">
         <h3 className="settings-title">{t('about', lang)}</h3>
         <div className="settings-group">
+          <button className="setting-item clickable" onClick={() => setShowHelpGuide(true)}>
+            <div className="setting-info">
+              <span className="setting-label">{t('helpGuide', lang)}</span>
+              <span className="setting-desc">{t('helpGuideDesc', lang)}</span>
+            </div>
+            <ChevronRightIcon className="setting-icon" />
+          </button>
           <div className="setting-item">
             <div className="setting-info">
               <span className="setting-label">{t('version', lang)}</span>
             </div>
-            <span className="setting-value">1.3.0</span>
+            <span className="setting-value">1.0.0</span>
           </div>
           <div className="setting-item">
             <div className="setting-info">
@@ -500,6 +509,13 @@ export function SettingsPage({ settings, updateSetting, onClearData, onBackup, e
       </section>
 
       <p className="settings-footer">{t('madeWith', lang)}</p>
+
+      {/* Help Guide Modal */}
+      <HelpGuide
+        isOpen={showHelpGuide}
+        onClose={() => setShowHelpGuide(false)}
+        settings={settings}
+      />
     </>
   )
 }
