@@ -1,16 +1,66 @@
-# React + Vite
+# Dakshina
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Income and expense tracker for spiritual service providers**
 
-Currently, two official plugins are available:
+Dakshina is a beautiful, secure Progressive Web App (PWA) designed specifically for priests, pandits, gurujis, and spiritual service providers to track income, manage expenses, schedule services, and generate tax reports.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+- 💰 **Income Tracking** - Record payments with payer names, categories, and payment methods
+- 📉 **Expense Management** - Track business expenses and link them to specific jobs
+- 🗓️ **Calendar & Scheduling** - Schedule future services and view past transactions
+- 📊 **Reports & Analytics** - Visual breakdowns of income, expenses, and profitability
+- 🏛️ **Tax Center** - Generate detailed tax reports and export data
+- 🔒 **Security** - PIN lock protection for your financial data
+- 🌍 **Multi-language** - English, Hindi, and Nepali support
+- 📱 **PWA** - Install as an app on your device
+- ☁️ **Backup & Restore** - Google Sheets, Drive, Email, and local backups
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- React 19
+- Vite
+- PWA (Service Worker + Web App Manifest)
+- Local Storage for data persistence
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Development
+
+```bash
+# Install dependencies
+npm install
+
+# Start dev server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+## GitHub Pages Deployment
+
+The app is automatically deployed to GitHub Pages via GitHub Actions when you push to the `main` branch.
+
+### Manual Setup (if needed)
+
+1. Go to your repository **Settings** → **Pages**
+2. Under **Source**, select **GitHub Actions**
+3. The workflow will automatically deploy on every push to `main`
+
+### Manual Deployment
+
+```bash
+npm run deploy
+```
+
+This will build the app and deploy it to the `gh-pages` branch.
+
+## Live Site
+
+The app is available at: `https://unwindmeinstead.github.io/guruji-income/`
+
+## License
+
+Private project

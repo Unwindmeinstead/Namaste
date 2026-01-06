@@ -2,8 +2,11 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
+// Base path for GitHub Pages (repo name: guruji-income)
+const base = process.env.GITHUB_PAGES === 'true' ? '/guruji-income/' : './'
+
 export default defineConfig({
-  base: './',
+  base,
   plugins: [
     react(),
     VitePWA({

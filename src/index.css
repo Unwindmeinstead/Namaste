@@ -104,31 +104,13 @@ html, body, #root {
 .header-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
 }
 
-.header-logo {
-  width: 36px;
-  height: 36px;
+.header-logo-text {
+  width: 140px;
+  height: 42px;
   color: var(--text-primary);
-}
-
-.header-brand-name {
-  font-size: 20px;
-  font-weight: 300;
-  letter-spacing: 0.12em;
-  color: var(--text-primary);
-  text-transform: lowercase;
-  font-style: italic;
-}
-
-.brand-d {
-  font-size: 22px;
-  font-weight: 500;
-  font-style: normal;
-  letter-spacing: 0;
-  margin-right: -2px;
-  opacity: 0.9;
 }
 
 .icon-btn {
@@ -3466,17 +3448,48 @@ input[type="number"] {
 }
 
 /* ========== HELP GUIDE ========== */
+.help-guide-overlay {
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.help-guide-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
 .help-guide-modal {
-  width: 100%;
+  width: 90%;
   max-width: 900px;
-  height: 90vh;
+  height: 85vh;
   max-height: 700px;
   background: var(--bg-primary);
   border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  animation: modalSlideIn 0.3s ease;
+  animation: helpGuideSlideIn 0.3s ease;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  position: relative;
+  z-index: 1000;
+  transform: scale(0.95);
+  opacity: 0;
+}
+
+.help-guide-overlay.active .help-guide-modal {
+  transform: scale(1);
+  opacity: 1;
+}
+
+@keyframes helpGuideSlideIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .help-guide-header {

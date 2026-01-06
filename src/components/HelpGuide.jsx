@@ -531,7 +531,7 @@ export function HelpGuide({ isOpen, onClose, settings }) {
   }
 
   return (
-    <div className="modal-overlay active" onClick={(e) => e.target === e.currentTarget && onClose()}>
+    <div className="modal-overlay help-guide-overlay active" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="help-guide-modal">
         <div className="help-guide-header">
           <button className="close-btn" onClick={onClose}>
