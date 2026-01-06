@@ -1,11 +1,28 @@
 // Dakshina Logo - Text with integrated Kalasha (matching provided design)
 export const DakshinaLogoText = ({ className }) => (
   <svg className={className} viewBox="0 0 240 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <style>{`
+        .logo-devanagari {
+          font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+          font-size: 38px;
+          font-weight: 700;
+        }
+        .logo-latin {
+          font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+          font-size: 30px;
+          font-weight: 300;
+          font-style: italic;
+          letter-spacing: 0.02em;
+        }
+      `}</style>
+    </defs>
+    
     {/* Devanagari "द" - bold sans-serif */}
-    <text x="2" y="48" fontFamily="Poppins, sans-serif" fontSize="38" fontWeight="700" fill="currentColor">द</text>
+    <text x="2" y="48" className="logo-devanagari" fill="currentColor">द</text>
     
     {/* Latin "aksh" - connected flowing style */}
-    <text x="42" y="48" fontFamily="Poppins, sans-serif" fontSize="30" fontWeight="300" fill="currentColor" letterSpacing="0.02em">aksh</text>
+    <text x="42" y="48" className="logo-latin" fill="currentColor">aksh</text>
     
     {/* Kalasha replacing the dot of 'i' - detailed design */}
     <g transform="translate(125, 10)">
@@ -41,7 +58,7 @@ export const DakshinaLogoText = ({ className }) => (
     </g>
     
     {/* Continue "na" after Kalasha */}
-    <text x="150" y="48" fontFamily="Poppins, sans-serif" fontSize="30" fontWeight="300" fill="currentColor" letterSpacing="0.02em">na</text>
+    <text x="150" y="48" className="logo-latin" fill="currentColor">na</text>
     
     {/* Upper decorative swoosh - thinner curved line */}
     <path d="M0 18 Q60 12, 120 14 Q180 16, 240 18" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
