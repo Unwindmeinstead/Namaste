@@ -109,7 +109,7 @@ html, body, #root {
 }
 
 .header-brand-name {
-  font-size: 32px;
+  font-size: 22.4px;
   font-weight: 400;
   letter-spacing: 0.08em;
   color: var(--text-primary);
@@ -118,11 +118,11 @@ html, body, #root {
 }
 
 .brand-d {
-  font-size: 40px;
+  font-size: 28px;
   font-weight: 600;
   font-style: normal;
   letter-spacing: 0;
-  margin-right: 6px;
+  margin-right: 4px;
 }
 
 .icon-btn {
