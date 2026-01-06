@@ -104,15 +104,31 @@ html, body, #root {
 .header-brand {
   display: flex;
   align-items: center;
-  justify-content: center;
-  flex: 1;
+  gap: 10px;
 }
 
-.header-logo-text {
-  width: 160px;
-  height: 45px;
+.header-logo {
+  width: 36px;
+  height: 36px;
   color: var(--text-primary);
-  display: block;
+}
+
+.header-brand-name {
+  font-size: 20px;
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  color: var(--text-primary);
+  text-transform: lowercase;
+  font-style: italic;
+}
+
+.brand-d {
+  font-size: 22px;
+  font-weight: 500;
+  font-style: normal;
+  letter-spacing: 0;
+  margin-right: -2px;
+  opacity: 0.9;
 }
 
 .icon-btn {
