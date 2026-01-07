@@ -1,13 +1,24 @@
 // Clean, minimal SVG category icons
 
-export const TeachingIcon = ({ className }) => (
+export const PuranIcon = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/>
-    <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
+    <path d="M4 19.5A2.5 2.5 0 006.5 17H20"/>
+    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+    <line x1="8" y1="6" x2="16" y2="6"/>
+    <line x1="8" y1="10" x2="14" y2="10"/>
+    <line x1="8" y1="14" x2="12" y2="14"/>
   </svg>
 )
 
-export const SatsangIcon = ({ className }) => (
+export const BartamanIcon = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10"/>
+    <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+    <circle cx="12" cy="12" r="3"/>
+  </svg>
+)
+
+export const PujaIcon = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <path d="M12 2L12 6"/>
     <path d="M12 18L12 22"/>
@@ -21,19 +32,13 @@ export const SatsangIcon = ({ className }) => (
   </svg>
 )
 
-export const DonationIcon = ({ className }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
-  </svg>
-)
-
 export const ConsultationIcon = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
   </svg>
 )
 
-export const WorkshopIcon = ({ className }) => (
+export const MarauIcon = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="12" r="10"/>
     <circle cx="12" cy="12" r="3"/>
@@ -44,9 +49,9 @@ export const WorkshopIcon = ({ className }) => (
   </svg>
 )
 
-export const RetreatIcon = ({ className }) => (
+export const SaradIcon = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M8 3l4 8 5-5 5 15H2L8 3z"/>
+    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2z"/>
   </svg>
 )
 
@@ -128,13 +133,13 @@ export const OtherExpenseIcon = ({ className }) => (
 
 // Icon map for easy lookup
 export const CATEGORY_ICONS = {
-  teaching: TeachingIcon,
-  satsang: SatsangIcon,
-  donation: DonationIcon,
-  consultation: ConsultationIcon,
-  workshop: WorkshopIcon,
-  retreat: RetreatIcon,
+  puran: PuranIcon,
+  bartaman: BartamanIcon,
+  puja: PujaIcon,
   books: BooksIcon,
+  marau: MarauIcon,
+  sarad: SaradIcon,
+  consultation: ConsultationIcon,
   other: OtherIncomeIcon,
   travel: TravelIcon,
   supplies: SuppliesIcon,

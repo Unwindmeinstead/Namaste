@@ -6,7 +6,7 @@ import { t } from '../utils/translations'
 import { formatCurrency, formatDate } from '../utils/format'
 import { calculateMiles, calculateMileageExpense, DEFAULT_HOME_ADDRESS } from '../utils/mileage'
 
-const PAYMENT_METHODS = ['cash', 'check', 'card', 'bankTransfer', 'upi', 'otherPayment']
+const PAYMENT_METHODS = ['cash', 'applePay', 'check', 'bankTransfer', 'moneyOrder', 'otherPayment']
 
 // Car icon for mileage
 const CarIcon = ({ className }) => (

@@ -5,7 +5,7 @@ import { getCategoryIcon } from './CategoryIcons'
 import { t } from '../utils/translations'
 import { formatCurrency, formatDate } from '../utils/format'
 
-const PAYMENT_METHODS = ['cash', 'check', 'card', 'bankTransfer', 'upi', 'otherPayment']
+const PAYMENT_METHODS = ['cash', 'applePay', 'check', 'bankTransfer', 'moneyOrder', 'otherPayment']
 
 export function EditModal({ isOpen, entry, onClose, onSave, onDelete, settings, entries = [] }) {
   const [type, setType] = useState('income')
