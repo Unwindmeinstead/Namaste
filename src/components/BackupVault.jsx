@@ -133,7 +133,7 @@ export function BackupVault({ isOpen, onClose, onRestore, settings }) {
   const groupedSnapshots = groupSnapshotsByDate(snapshots)
 
   return (
-    <div className="modal-overlay active" onClick={(e) => e.target === e.currentTarget && onClose()}>
+    <div className="modal-overlay active vault-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="modal-content vault-modal">
         <div className="modal-header">
           <button className="close-btn" onClick={onClose}>
