@@ -53,7 +53,8 @@ export function HomePage({ entries, scheduledServices, settings, profile, onAddC
         </div>
         <button className="header-brand-btn" onClick={() => { haptic(); onLogoClick() }} title="How to use Yagya">
           <span className="header-brand-name">
-            <span className="brand-d">य</span>agya
+            <span className="brand-nepali">यज्ञ</span>
+            <span className="brand-english">Yagya</span>
           </span>
         </button>
         <div className="header-right">
