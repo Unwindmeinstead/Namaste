@@ -210,6 +210,7 @@ function App() {
             entries={entries}
             scheduledServices={scheduledServices}
             settings={settings}
+            profile={profile}
             onAddClick={() => setShowAddModal(true)}
             onViewAll={() => setShowEntriesModal(true)}
             onActivityClick={() => setShowActivityModal(true)}

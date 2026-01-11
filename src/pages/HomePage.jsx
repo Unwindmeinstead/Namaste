@@ -8,7 +8,7 @@ import { StatsModal } from '../components/StatsModal'
 import { t } from '../utils/translations'
 import { haptic } from '../utils/haptic'
 
-export function HomePage({ entries, scheduledServices, settings, onAddClick, onViewAll, onActivityClick, onEditEntry, onDeleteEntry, getLinkedExpenses, onProfileClick, onDayClick, onAddService, onLogoClick, onQRClick }) {
+export function HomePage({ entries, scheduledServices, settings, profile, onAddClick, onViewAll, onActivityClick, onEditEntry, onDeleteEntry, getLinkedExpenses, onProfileClick, onDayClick, onAddService, onLogoClick, onQRClick }) {
   const lang = settings.language || 'en'
   const [statsModal, setStatsModal] = useState({ isOpen: false, type: '', entries: [], title: '' })
   
@@ -64,6 +64,15 @@ export function HomePage({ entries, scheduledServices, settings, onAddClick, onV
       </header>
 
       <section className="summary-card">
+        <button className="profile-btn" onClick={() => { haptic(); onProfileClick?.() }} title={t('profile', lang) || 'Profile'}>
+          {profile?.profilePic ? (
+            <img src={profile.profilePic} alt="Profile" className="profile-btn-img" />
+          ) : profile?.name ? (
+            <span className="profile-btn-letter">{profile.name.charAt(0).toUpperCase()}</span>
+          ) : (
+            <UserIcon className="profile-btn-icon" />
+          )}
+        </button>
         <button className="qr-btn" onClick={() => { haptic(); onQRClick?.() }} title={t('scanToPay', lang) || 'Scan to Pay'}>
           <QRIcon className="qr-btn-icon" />
         </button>
