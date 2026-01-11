@@ -1,5 +1,6 @@
 import { HomeIcon, ChartIcon, TaxIcon, SettingsIcon } from './Icons'
 import { t } from '../utils/translations'
+import { haptic } from '../utils/haptic'
 
 export function BottomNav({ activePage, onPageChange, settings = {} }) {
   const lang = settings.language || 'en'
@@ -11,13 +12,18 @@ export function BottomNav({ activePage, onPageChange, settings = {} }) {
     { id: 'settings', labelKey: 'settings', Icon: SettingsIcon }
   ]
 
+  const handleNavClick = (id) => {
+    if (id !== activePage) haptic()
+    onPageChange(id)
+  }
+
   return (
     <nav className="bottom-nav">
       {navItems.map(({ id, labelKey, Icon }) => (
         <button
           key={id}
           className={`nav-item ${activePage === id ? 'active' : ''}`}
-          onClick={() => onPageChange(id)}
+          onClick={() => handleNavClick(id)}
         >
           <Icon className="nav-icon" />
           <span>{t(labelKey, lang)}</span>

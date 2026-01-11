@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { ChevronRightIcon, BackIcon, PlusIcon } from './Icons'
 import { t } from '../utils/translations'
 import { toLocalDateString } from '../utils/format'
+import { haptic } from '../utils/haptic'
 
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
@@ -21,14 +22,17 @@ export function Calendar({ entries, scheduledServices, settings, onAddService, o
   const totalDays = lastDayOfMonth.getDate()
 
   const prevMonth = () => {
+    haptic()
     setCurrentDate(new Date(year, month - 1, 1))
   }
 
   const nextMonth = () => {
+    haptic()
     setCurrentDate(new Date(year, month + 1, 1))
   }
 
   const goToToday = () => {
+    haptic('medium')
     setCurrentDate(new Date())
   }
 
@@ -121,7 +125,7 @@ export function Calendar({ entries, scheduledServices, settings, onAddService, o
             <div
               key={index}
               className={`calendar-day ${!isCurrent ? 'other-month' : ''} ${isTodayDate ? 'today' : ''} ${isPastDate && isCurrent ? 'past' : ''}`}
-              onClick={() => onDayClick?.(date, dayEntries, dayScheduled)}
+              onClick={() => { haptic(); onDayClick?.(date, dayEntries, dayScheduled) }}
             >
               <span className="calendar-day-number">{date.getDate()}</span>
               <div className="calendar-day-indicators">
@@ -133,7 +137,7 @@ export function Calendar({ entries, scheduledServices, settings, onAddService, o
         })}
       </div>
 
-      <button className="calendar-add-btn" onClick={onAddService}>
+      <button className="calendar-add-btn" onClick={() => { haptic('medium'); onAddService() }}>
         <PlusIcon className="calendar-add-icon" />
         <span>{t('scheduleService', lang) || 'Schedule Service'}</span>
       </button>

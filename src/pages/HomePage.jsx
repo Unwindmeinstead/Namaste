@@ -3,6 +3,7 @@ import { formatCurrency, getThisMonthEntries, getLastMonthEntries, getCurrentFis
 import { EntryItem } from '../components/EntryItem'
 import { Calendar } from '../components/Calendar'
 import { t } from '../utils/translations'
+import { haptic } from '../utils/haptic'
 
 export function HomePage({ entries, scheduledServices, settings, onAddClick, onViewAll, onActivityClick, onEditEntry, onDeleteEntry, getLinkedExpenses, onProfileClick, onDayClick, onAddService, onLogoClick }) {
   const lang = settings.language || 'en'
@@ -42,17 +43,17 @@ export function HomePage({ entries, scheduledServices, settings, onAddClick, onV
     <>
       <header className="header">
         <div className="header-left">
-          <button className="icon-btn" onClick={onActivityClick} title={t('recentActivity', lang)}>
+          <button className="icon-btn" onClick={() => { haptic(); onActivityClick() }} title={t('recentActivity', lang)}>
             <ClockIcon className="logo-icon" />
           </button>
         </div>
-        <button className="header-brand-btn" onClick={onLogoClick} title="How to use Yagya">
+        <button className="header-brand-btn" onClick={() => { haptic(); onLogoClick() }} title="How to use Yagya">
           <span className="header-brand-name">
             <span className="brand-d">य</span>agya
           </span>
         </button>
         <div className="header-right">
-          <button className="icon-btn" onClick={onProfileClick} title={t('profile', lang)}>
+          <button className="icon-btn" onClick={() => { haptic(); onProfileClick() }} title={t('profile', lang)}>
             <UserIcon className="menu-icon" />
           </button>
         </div>
@@ -108,7 +109,7 @@ export function HomePage({ entries, scheduledServices, settings, onAddClick, onV
       </div>
 
       <section className="quick-add">
-        <button className="add-btn" onClick={onAddClick}>
+        <button className="add-btn" onClick={() => { haptic('medium'); onAddClick() }}>
           <PlusIcon className="add-icon" />
           <span>{t('addTransaction', lang)}</span>
         </button>

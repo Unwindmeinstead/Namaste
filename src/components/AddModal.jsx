@@ -4,6 +4,7 @@ import { INCOME_CATEGORIES, EXPENSE_CATEGORIES } from '../utils/categories'
 import { getCategoryIcon } from './CategoryIcons'
 import { t } from '../utils/translations'
 import { formatCurrency, formatDate, toLocalDateString } from '../utils/format'
+import { haptic } from '../utils/haptic'
 
 const PAYMENT_METHODS = ['cash', 'applePay', 'check', 'bankTransfer', 'moneyOrder', 'otherPayment']
 const IRS_MILEAGE_RATE = 0.67
@@ -76,11 +77,13 @@ export function AddModal({ isOpen, onClose, onAdd, settings, entries = [] }) {
   }
 
   const handleClose = () => {
+    haptic()
     resetForm()
     onClose()
   }
 
   const handleTypeChange = (newType) => {
+    haptic()
     setType(newType)
     setCategory(newType === 'income' ? 'saptahah' : 'other_expense')
     if (newType === 'income') {

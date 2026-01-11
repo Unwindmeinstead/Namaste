@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { CloseIcon, ChevronIcon } from './Icons'
+import { haptic } from '../utils/haptic'
 
 const SLIDES = {
   en: [
@@ -230,6 +231,7 @@ export function TutorialSlides({ isOpen, onClose, settings }) {
 
   const goToSlide = (index) => {
     if (isAnimating || index === currentSlide || index < 0 || index >= slides.length) return
+    haptic()
     setIsAnimating(true)
     setCurrentSlide(index)
     setTimeout(() => setIsAnimating(false), 400)
