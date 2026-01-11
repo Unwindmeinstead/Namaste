@@ -172,7 +172,7 @@ export function PinLock({ mode, onSuccess, onCancel, language = 'en' }) {
         )}
 
         {mode === 'unlock' && (
-          <p className="pin-footer">Yagya</p>
+          <p className="pin-footer">Dakshina</p>
         )}
       </div>
     </div>

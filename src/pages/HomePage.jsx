@@ -48,7 +48,7 @@ export function HomePage({ entries, scheduledServices, settings, onAddClick, onV
         </div>
         <div className="header-brand">
           <span className="header-brand-name">
-            <span className="brand-d">य</span>agya
+            <span className="brand-d">द</span>akshina
           </span>
         </div>
         <div className="header-right">

@@ -18,8 +18,8 @@ export default defineConfig({
         skipWaiting: true
       },
       manifest: {
-        name: 'Yagya',
-        short_name: 'Yagya',
+        name: 'Dakshina',
+        short_name: 'Dakshina',
         description: 'Income tracker for spiritual service providers',
         theme_color: '#0a0a0a',
         background_color: '#0a0a0a',

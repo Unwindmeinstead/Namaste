@@ -498,9 +498,9 @@ export const translations = {
     deleteAllEntries: 'Delete all income entries',
     about: 'About',
     helpGuide: 'User Guide',
-    helpGuideDesc: 'Learn how to use Yagya',
+    helpGuideDesc: 'Learn how to use Dakshina',
     version: 'Version',
-    madeWith: 'Yagya • Made with 🙏',
+    madeWith: 'Dakshina • Made with 🙏',
     
     // All Entries
     allEntries: 'All Entries',

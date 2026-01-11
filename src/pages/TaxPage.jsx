@@ -33,7 +33,7 @@ export function TaxPage({ entries, settings, profile }) {
   if (!years.includes(selectedYear)) years.unshift(selectedYear)
 
   const handleExportCSV = () => {
-    downloadCSV(yearEntries, `yagya-income-${selectedYear}.csv`)
+    downloadCSV(yearEntries, `dakshina-income-${selectedYear}.csv`)
   }
 
   const handleDownloadReport = () => {
