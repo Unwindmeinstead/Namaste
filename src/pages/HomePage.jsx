@@ -1,13 +1,16 @@
+import { useState } from 'react'
 import { ClockIcon, UserIcon, PlusIcon, TrendUpIcon, TrendDownIcon } from '../components/Icons'
 import { QRIcon } from '../components/QRCodeModal'
-import { formatCurrency, getThisMonthEntries, getLastMonthEntries, getCurrentFiscalYear, toLocalDateString } from '../utils/format'
+import { formatCurrency, getThisMonthEntries, getLastMonthEntries, getCurrentFiscalYear, toLocalDateString, getMonthFullName } from '../utils/format'
 import { EntryItem } from '../components/EntryItem'
 import { Calendar } from '../components/Calendar'
+import { StatsModal } from '../components/StatsModal'
 import { t } from '../utils/translations'
 import { haptic } from '../utils/haptic'
 
 export function HomePage({ entries, scheduledServices, settings, onAddClick, onViewAll, onActivityClick, onEditEntry, onDeleteEntry, getLinkedExpenses, onProfileClick, onDayClick, onAddService, onLogoClick, onQRClick }) {
   const lang = settings.language || 'en'
+  const [statsModal, setStatsModal] = useState({ isOpen: false, type: '', entries: [], title: '' })
   
   // Calculate income and expenses
   const incomeEntries = entries.filter(e => e.type !== 'expense')
@@ -76,14 +79,39 @@ export function HomePage({ entries, scheduledServices, settings, onAddClick, onV
       </section>
 
       <div className="stats-row">
-        <div className="stat-card">
+        <button 
+          className="stat-card clickable"
+          onClick={() => { 
+            haptic(); 
+            const now = new Date()
+            setStatsModal({ 
+              isOpen: true, 
+              type: 'thisMonth', 
+              entries: thisMonth,
+              title: `${getMonthFullName(now.getMonth())} ${now.getFullYear()}`
+            }) 
+          }}
+        >
           <p className="stat-label">{t('thisMonth', lang)}</p>
           <p className={`stat-value ${thisMonthNet < 0 ? 'negative' : ''}`}>
             {thisMonthNet < 0 ? '-' : ''}{formatCurrency(Math.abs(thisMonthNet), settings.currency)}
           </p>
           <p className="stat-entries">{thisMonth.length} {t('entries', lang)}</p>
-        </div>
-        <div className="stat-card">
+        </button>
+        <button 
+          className="stat-card clickable"
+          onClick={() => { 
+            haptic(); 
+            const lastMonthDate = new Date()
+            lastMonthDate.setMonth(lastMonthDate.getMonth() - 1)
+            setStatsModal({ 
+              isOpen: true, 
+              type: 'lastMonth', 
+              entries: lastMonth,
+              title: `${getMonthFullName(lastMonthDate.getMonth())} ${lastMonthDate.getFullYear()}`
+            }) 
+          }}
+        >
           <p className="stat-label">{t('lastMonth', lang)}</p>
           <p className={`stat-value ${lastMonthNet < 0 ? 'negative' : ''}`}>
             {lastMonthNet < 0 ? '-' : ''}{formatCurrency(Math.abs(lastMonthNet), settings.currency)}
@@ -92,11 +120,22 @@ export function HomePage({ entries, scheduledServices, settings, onAddClick, onV
             {trend > 0 ? <TrendUpIcon className="trend-icon up" /> : trend < 0 ? <TrendDownIcon className="trend-icon down" /> : null}
             {trend !== 0 && <span className={trend > 0 ? 'up' : 'down'}>{trend > 0 ? '+' : ''}{trend}%</span>}
           </div>
-        </div>
+        </button>
       </div>
 
       {/* Total Expenses Card */}
-      <div className="expense-card">
+      <button 
+        className="expense-card clickable"
+        onClick={() => { 
+          haptic(); 
+          setStatsModal({ 
+            isOpen: true, 
+            type: 'expenses', 
+            entries: expenseEntries,
+            title: t('totalExpenses', lang) || 'Total Expenses'
+          }) 
+        }}
+      >
         <div className="expense-card-content">
           <div className="expense-card-icon">
             <TrendDownIcon className="expense-icon-svg" />
@@ -110,7 +149,7 @@ export function HomePage({ entries, scheduledServices, settings, onAddClick, onV
             <span className="expense-month">{t('thisMonth', lang)}: -{formatCurrency(thisMonthExpenses, settings.currency)}</span>
           </div>
         </div>
-      </div>
+      </button>
 
       <section className="quick-add">
         <button className="add-btn" onClick={() => { haptic('medium'); onAddClick() }}>
@@ -156,6 +195,16 @@ export function HomePage({ entries, scheduledServices, settings, onAddClick, onV
           )}
         </div>
       </section>
+
+      {/* Stats Modal */}
+      <StatsModal
+        isOpen={statsModal.isOpen}
+        onClose={() => setStatsModal({ isOpen: false, type: '', entries: [], title: '' })}
+        type={statsModal.type}
+        entries={statsModal.entries}
+        settings={settings}
+        title={statsModal.title}
+      />
     </>
   )
 }
