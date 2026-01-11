@@ -3,6 +3,14 @@ import { CloseIcon } from './Icons'
 import { t } from '../utils/translations'
 import { haptic } from '../utils/haptic'
 
+// Capitalize name helper
+function capitalizeName(name) {
+  if (!name) return ''
+  return name.split(' ').map(word => 
+    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+  ).join(' ')
+}
+
 // Simple QR Code icon for the button
 export const QRIcon = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -82,6 +90,8 @@ export function QRCodeModal({ isOpen, onClose, profile, settings }) {
   const cellSize = 10
   const size = matrix.length * cellSize
 
+  const displayName = capitalizeName(profile?.name) || 'Yagya'
+
   return (
     <div className="qr-modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="qr-modal">
@@ -90,46 +100,57 @@ export function QRCodeModal({ isOpen, onClose, profile, settings }) {
         </button>
         
         <div className="qr-content">
-          <h2 className="qr-title">{t('scanToPay', lang) || 'Scan to Pay'}</h2>
-          <p className="qr-subtitle">{profile?.name || 'Yagya'}</p>
-          
-          <div className="qr-code-container">
-            <svg 
-              viewBox={`0 0 ${size + 20} ${size + 20}`} 
-              className="qr-code-svg"
-            >
-              <rect x="0" y="0" width={size + 20} height={size + 20} fill="white" rx="12"/>
-              <g transform="translate(10, 10)">
-                {matrix.map((row, y) =>
-                  row.map((cell, x) =>
-                    cell ? (
-                      <rect
-                        key={`${x}-${y}`}
-                        x={x * cellSize}
-                        y={y * cellSize}
-                        width={cellSize}
-                        height={cellSize}
-                        fill="#0a0a0a"
-                      />
-                    ) : null
-                  )
-                )}
-              </g>
-            </svg>
+          {/* Header */}
+          <div className="qr-header">
+            <div className="qr-avatar">
+              {displayName.charAt(0)}
+            </div>
+            <h2 className="qr-title">{displayName}</h2>
+            {profile?.businessName && (
+              <p className="qr-business">{profile.businessName}</p>
+            )}
           </div>
           
-          <div className="qr-info">
+          {/* QR Code */}
+          <div className="qr-code-wrapper">
+            <div className="qr-code-container">
+              <svg 
+                viewBox={`0 0 ${size + 20} ${size + 20}`} 
+                className="qr-code-svg"
+              >
+                <rect x="0" y="0" width={size + 20} height={size + 20} fill="white" rx="8"/>
+                <g transform="translate(10, 10)">
+                  {matrix.map((row, y) =>
+                    row.map((cell, x) =>
+                      cell ? (
+                        <rect
+                          key={`${x}-${y}`}
+                          x={x * cellSize}
+                          y={y * cellSize}
+                          width={cellSize}
+                          height={cellSize}
+                          fill="#0a0a0a"
+                          rx="1"
+                        />
+                      ) : null
+                    )
+                  )}
+                </g>
+              </svg>
+            </div>
+            <p className="qr-scan-text">{t('scanToPay', lang) || 'Scan to Pay'}</p>
+          </div>
+          
+          {/* Payment Info Input */}
+          <div className="qr-input-section">
             <label className="qr-label">{t('paymentId', lang) || 'Payment ID / UPI'}</label>
             <input
               type="text"
               className="qr-input"
-              placeholder={t('enterPaymentId', lang) || 'e.g., name@upi or phone number'}
+              placeholder={t('enterPaymentId', lang) || 'e.g., yourname@upi'}
               value={paymentInfo}
               onChange={(e) => setPaymentInfo(e.target.value)}
             />
-            <p className="qr-hint">
-              {t('qrHint', lang) || 'Enter your UPI ID or payment info to generate a personalized QR code'}
-            </p>
           </div>
         </div>
       </div>

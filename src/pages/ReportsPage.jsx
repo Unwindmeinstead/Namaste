@@ -7,6 +7,14 @@ import { EXPENSE_CATEGORIES, getCategoryById } from '../utils/categories'
 import { getCategoryIcon } from '../components/CategoryIcons'
 import { haptic } from '../utils/haptic'
 
+// Capitalize name helper
+function capitalizeName(name) {
+  if (!name) return ''
+  return name.split(' ').map(word => 
+    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+  ).join(' ')
+}
+
 // Car icon
 const CarIcon = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -465,9 +473,12 @@ export function ReportsPage({ entries, settings }) {
                           {customer.name.charAt(0).toUpperCase()}
                         </div>
                         <div className="customer-info">
-                          <span className="customer-name">{customer.name}</span>
+                          <span className="customer-name">{capitalizeName(customer.name)}</span>
                           <span className="customer-meta">
-                            {customer.entries.length} {t('services', lang) || 'services'} • {t('last', lang) || 'Last'}: {formatDate(customer.lastDate)}
+                            {customer.entries.length} {customer.entries.length === 1 ? (t('service', lang) || 'service') : (t('services', lang) || 'services')}
+                          </span>
+                          <span className="customer-last-date">
+                            {t('last', lang) || 'Last'}: {formatDate(customer.lastDate)}
                           </span>
                         </div>
                         <div className="customer-total">
@@ -531,7 +542,7 @@ export function ReportsPage({ entries, settings }) {
               </div>
               <div className="summary-item">
                 <span className="summary-item-label">{t('topCustomer', lang) || 'Top Customer'}</span>
-                <span className="summary-item-value">{customers[0]?.name?.slice(0, 12) || '-'}</span>
+                <span className="summary-item-value">{customers[0] ? capitalizeName(customers[0].name).slice(0, 12) : '-'}</span>
               </div>
             </div>
           </section>
