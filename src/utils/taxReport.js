@@ -1000,213 +1000,234 @@ export function generatePDFReport(entries, profile, settings, year) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tax Report ${year} - ${profile.name || 'Yagya'}</title>
   <style>
-    @page { size: letter; margin: 0.75in; }
+    @page { size: letter; margin: 0; }
     
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
     body {
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      color: #1a1a1a;
-      line-height: 1.5;
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      color: #333;
+      line-height: 1.6;
       font-size: 10pt;
       background: white;
     }
     
     .page {
+      width: 8.5in;
+      min-height: 11in;
+      padding: 0;
       page-break-after: always;
-      min-height: 100vh;
+      position: relative;
     }
     
     .page:last-child { page-break-after: auto; }
     
-    /* ===== COVER HEADER ===== */
-    .cover {
-      text-align: center;
-      padding: 60px 0 50px;
-      border-bottom: 1px solid #e0e0e0;
-      margin-bottom: 40px;
+    /* ===== HEADER BAR ===== */
+    .header-bar {
+      background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);
+      color: white;
+      padding: 40px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
     }
     
-    .cover-brand {
+    .header-left {
+      flex: 1;
+    }
+    
+    .brand-name {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      opacity: 0.7;
+      margin-bottom: 15px;
+    }
+    
+    .profile-name {
+      font-size: 32px;
+      font-weight: 300;
+      letter-spacing: -0.5px;
+      margin-bottom: 5px;
+    }
+    
+    .business-name {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+    
+    .header-right {
+      text-align: right;
+    }
+    
+    .report-title {
       font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 3px;
-      color: #888;
-      margin-bottom: 30px;
-    }
-    
-    .cover-name {
-      font-size: 36px;
-      font-weight: 300;
-      color: #1a1a1a;
-      margin-bottom: 8px;
-      letter-spacing: -0.5px;
-    }
-    
-    .cover-business {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 40px;
-    }
-    
-    .cover-title {
-      font-size: 13px;
-      text-transform: uppercase;
       letter-spacing: 2px;
-      color: #888;
-      margin-bottom: 12px;
+      opacity: 0.7;
+      margin-bottom: 8px;
     }
     
-    .cover-year {
-      font-size: 48px;
+    .report-year {
+      font-size: 42px;
       font-weight: 700;
-      color: #1a1a1a;
-      letter-spacing: -2px;
+      letter-spacing: -1px;
     }
     
-    /* ===== PROFILE INFO ===== */
-    .profile-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+    /* ===== CONTENT AREA ===== */
+    .content {
+      padding: 40px 50px;
+    }
+    
+    /* ===== PROFILE ROW ===== */
+    .profile-row {
+      display: flex;
+      gap: 40px;
       padding: 25px 30px;
-      background: #f8f8f8;
-      border-radius: 8px;
-      margin-bottom: 40px;
+      background: #f8fafc;
+      border-left: 4px solid #1e3a5f;
+      margin-bottom: 35px;
     }
     
-    .profile-field {
+    .profile-item {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3px;
     }
     
     .profile-label {
       font-size: 9px;
       text-transform: uppercase;
       letter-spacing: 1px;
-      color: #888;
+      color: #64748b;
     }
     
     .profile-value {
       font-size: 11px;
-      font-weight: 500;
-      color: #1a1a1a;
+      font-weight: 600;
+      color: #1e293b;
     }
     
-    /* ===== SUMMARY SECTION ===== */
-    .summary-section {
-      margin-bottom: 50px;
-    }
-    
-    .summary-title {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: #888;
-      margin-bottom: 20px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #e0e0e0;
-    }
-    
-    .summary-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+    /* ===== SUMMARY BOXES ===== */
+    .summary-row {
+      display: flex;
       gap: 20px;
+      margin-bottom: 40px;
     }
     
-    .summary-card {
+    .summary-box {
+      flex: 1;
       padding: 25px;
-      border-radius: 8px;
-      text-align: center;
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
     }
     
-    .summary-card.income { background: #f0fdf4; }
-    .summary-card.expense { background: #fef2f2; }
-    .summary-card.net { background: #f0f9ff; }
+    .summary-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+    }
     
-    .summary-card-label {
+    .summary-box.income { background: #f0fdf4; }
+    .summary-box.income::before { background: #22c55e; }
+    .summary-box.expense { background: #fef2f2; }
+    .summary-box.expense::before { background: #ef4444; }
+    .summary-box.net { background: #eff6ff; }
+    .summary-box.net::before { background: #3b82f6; }
+    
+    .summary-label {
       font-size: 10px;
       text-transform: uppercase;
       letter-spacing: 1px;
       margin-bottom: 10px;
     }
     
-    .summary-card.income .summary-card-label { color: #166534; }
-    .summary-card.expense .summary-card-label { color: #991b1b; }
-    .summary-card.net .summary-card-label { color: #1e40af; }
+    .summary-box.income .summary-label { color: #166534; }
+    .summary-box.expense .summary-label { color: #991b1b; }
+    .summary-box.net .summary-label { color: #1e40af; }
     
-    .summary-card-amount {
-      font-size: 28px;
-      font-weight: 600;
-      letter-spacing: -1px;
+    .summary-amount {
+      font-size: 26px;
+      font-weight: 700;
       margin-bottom: 5px;
     }
     
-    .summary-card.income .summary-card-amount { color: #15803d; }
-    .summary-card.expense .summary-card-amount { color: #b91c1c; }
-    .summary-card.net .summary-card-amount { color: #1d4ed8; }
+    .summary-box.income .summary-amount { color: #15803d; }
+    .summary-box.expense .summary-amount { color: #dc2626; }
+    .summary-box.net .summary-amount { color: #2563eb; }
     
-    .summary-card-meta {
+    .summary-meta {
       font-size: 10px;
-      color: #666;
+      color: #64748b;
     }
     
-    /* ===== QUARTERS ===== */
-    .quarters-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
-      margin-bottom: 50px;
+    /* ===== SECTION ===== */
+    .section {
+      margin-bottom: 35px;
     }
     
-    .quarter-box {
-      padding: 20px;
-      background: #fafafa;
-      border: 1px solid #eee;
-      border-radius: 8px;
-    }
-    
-    .quarter-label {
-      font-size: 14px;
+    .section-title {
+      font-size: 13px;
       font-weight: 600;
-      color: #1a1a1a;
-      margin-bottom: 15px;
-      text-align: center;
+      color: #1e3a5f;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #1e3a5f;
+      margin-bottom: 20px;
     }
     
-    .quarter-row {
+    /* ===== QUARTERLY GRID ===== */
+    .quarter-grid {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .quarter-card {
+      flex: 1;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      padding: 18px;
+    }
+    
+    .quarter-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1e3a5f;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+    
+    .quarter-months {
+      font-size: 9px;
+      color: #64748b;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    
+    .quarter-line {
       display: flex;
       justify-content: space-between;
       font-size: 10px;
-      padding: 5px 0;
+      padding: 6px 0;
     }
     
-    .quarter-row.income { color: #16a34a; }
-    .quarter-row.expense { color: #dc2626; }
-    .quarter-row.net {
-      font-weight: 600;
-      color: #1a1a1a;
-      border-top: 1px solid #ddd;
+    .quarter-line.income { color: #16a34a; }
+    .quarter-line.expense { color: #dc2626; }
+    .quarter-line.net {
+      font-weight: 700;
+      color: #1e293b;
+      border-top: 1px solid #e2e8f0;
       margin-top: 8px;
       padding-top: 10px;
     }
     
-    /* ===== DATA TABLE ===== */
-    .data-section {
-      margin-bottom: 40px;
-    }
-    
-    .section-header {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: #888;
-      margin-bottom: 15px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #e0e0e0;
-    }
-    
+    /* ===== TABLES ===== */
     .data-table {
       width: 100%;
       border-collapse: collapse;
@@ -1214,118 +1235,96 @@ export function generatePDFReport(entries, profile, settings, year) {
     
     .data-table th {
       text-align: left;
-      padding: 12px 10px;
+      padding: 12px 15px;
       font-size: 9px;
+      font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      color: #666;
-      border-bottom: 2px solid #e0e0e0;
-      background: #fafafa;
+      color: #64748b;
+      background: #f8fafc;
+      border-bottom: 2px solid #e2e8f0;
     }
     
     .data-table td {
-      padding: 10px;
+      padding: 12px 15px;
       font-size: 10px;
-      border-bottom: 1px solid #f0f0f0;
+      border-bottom: 1px solid #f1f5f9;
+      color: #334155;
     }
     
-    .data-table .income-val { color: #16a34a; font-weight: 500; }
-    .data-table .expense-val { color: #dc2626; font-weight: 500; }
-    .data-table .net-val { font-weight: 600; }
+    .data-table tbody tr:hover { background: #f8fafc; }
+    
+    .data-table .income { color: #16a34a; font-weight: 600; }
+    .data-table .expense { color: #dc2626; font-weight: 600; }
+    .data-table .bold { font-weight: 700; color: #1e293b; }
     
     .data-table tfoot td {
-      background: #f8f8f8;
+      background: #1e3a5f;
+      color: white;
       font-weight: 600;
-      border-bottom: none;
-      padding: 12px 10px;
+      font-size: 11px;
     }
     
-    /* ===== CATEGORY BREAKDOWN ===== */
-    .category-list {
+    .data-table tfoot .income,
+    .data-table tfoot .expense { color: white; }
+    
+    /* ===== CATEGORY LIST ===== */
+    .category-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
+      gap: 12px;
     }
     
-    .category-row {
+    .category-item {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      padding: 12px 15px;
-      background: #fafafa;
-      border-radius: 6px;
+      align-items: center;
+      padding: 15px 18px;
+      background: #f8fafc;
+      border-left: 3px solid #1e3a5f;
     }
     
-    .category-name {
+    .category-info .name {
       font-size: 11px;
-      font-weight: 500;
-      color: #1a1a1a;
-    }
-    
-    .category-count {
-      font-size: 9px;
-      color: #888;
-    }
-    
-    .category-amount {
-      font-size: 12px;
       font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 2px;
     }
     
-    .category-amount.income { color: #16a34a; }
-    .category-amount.expense { color: #dc2626; }
-    
-    /* ===== TRANSACTION LIST ===== */
-    .tx-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    
-    .tx-table th {
-      text-align: left;
-      padding: 10px 8px;
-      font-size: 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #666;
-      border-bottom: 2px solid #e0e0e0;
-      background: #fafafa;
-    }
-    
-    .tx-table td {
-      padding: 8px;
+    .category-info .count {
       font-size: 9px;
-      border-bottom: 1px solid #f0f0f0;
+      color: #64748b;
     }
     
-    .tx-table .tx-date { color: #888; }
-    .tx-table .tx-amount { font-weight: 500; text-align: right; }
-    .tx-table .tx-amount.income { color: #16a34a; }
-    .tx-table .tx-amount.expense { color: #dc2626; }
-    
-    .tx-table tfoot td {
-      background: #f8f8f8;
-      font-weight: 600;
-      font-size: 10px;
+    .category-total {
+      font-size: 13px;
+      font-weight: 700;
     }
+    
+    .category-total.income { color: #16a34a; }
+    .category-total.expense { color: #dc2626; }
     
     /* ===== FOOTER ===== */
     .footer {
-      margin-top: 50px;
-      padding-top: 20px;
-      border-top: 1px solid #e0e0e0;
+      background: #f8fafc;
+      padding: 25px 50px;
+      border-top: 1px solid #e2e8f0;
       text-align: center;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
     }
     
-    .footer-text {
+    .footer-line {
       font-size: 9px;
-      color: #888;
+      color: #64748b;
       margin-bottom: 5px;
     }
     
     .footer-disclaimer {
       font-size: 8px;
-      color: #aaa;
+      color: #94a3b8;
       font-style: italic;
     }
     
@@ -1334,36 +1333,35 @@ export function generatePDFReport(entries, profile, settings, year) {
       position: fixed;
       top: 20px;
       right: 20px;
-      padding: 12px 24px;
-      background: #1a1a1a;
+      padding: 14px 28px;
+      background: #1e3a5f;
       color: white;
       border: none;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 500;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
     
-    .print-btn:hover { background: #333; }
-    .print-btn svg { width: 18px; height: 18px; }
+    .print-btn:hover { background: #2d5a87; }
+    .print-btn svg { width: 20px; height: 20px; }
     
     @media print {
       .print-btn { display: none !important; }
+      .page { box-shadow: none; }
     }
     
     @media screen {
-      body { background: #e5e5e5; padding: 30px; }
+      body { background: #94a3b8; padding: 40px; }
       .page {
-        max-width: 8.5in;
-        margin: 0 auto 30px;
+        margin: 0 auto 40px;
         background: white;
-        padding: 0.75in;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        border-radius: 4px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
       }
     }
   </style>
@@ -1378,230 +1376,236 @@ export function generatePDFReport(entries, profile, settings, year) {
   </button>
 
   <div class="page">
-    <!-- Cover Header -->
-    <div class="cover">
-      <div class="cover-brand">Yagya</div>
-      ${profile.name ? `<div class="cover-name">${profile.name}</div>` : ''}
-      ${profile.businessName ? `<div class="cover-business">${profile.businessName}</div>` : (!profile.name ? '<div class="cover-business">Spiritual Services & Ceremonies</div>' : '')}
-      <div class="cover-title">Income Tax Report</div>
-      <div class="cover-year">${year}</div>
-    </div>
-    
-    <!-- Profile Information -->
-    ${(profile.taxId || profile.email || profile.phone || profile.address) ? `
-    <div class="profile-grid">
-      ${profile.taxId ? `<div class="profile-field"><span class="profile-label">Tax ID / PAN</span><span class="profile-value">${profile.taxId}</span></div>` : ''}
-      ${profile.email ? `<div class="profile-field"><span class="profile-label">Email</span><span class="profile-value">${profile.email}</span></div>` : ''}
-      ${profile.phone ? `<div class="profile-field"><span class="profile-label">Phone</span><span class="profile-value">${profile.phone}</span></div>` : ''}
-      ${profile.address ? `<div class="profile-field"><span class="profile-label">Address</span><span class="profile-value">${profile.address}</span></div>` : ''}
-    </div>
-    ` : ''}
-    
-    <!-- Financial Summary -->
-    <div class="summary-section">
-      <div class="summary-title">Financial Summary</div>
-      <div class="summary-grid">
-        <div class="summary-card income">
-          <div class="summary-card-label">Total Income</div>
-          <div class="summary-card-amount">+${formatAmt(totalIncome)}</div>
-          <div class="summary-card-meta">${incomeEntries.length} transactions</div>
-        </div>
-        <div class="summary-card expense">
-          <div class="summary-card-label">Total Expenses</div>
-          <div class="summary-card-amount">-${formatAmt(totalExpenses)}</div>
-          <div class="summary-card-meta">${expenseEntries.length} transactions</div>
-        </div>
-        <div class="summary-card net">
-          <div class="summary-card-label">Net Income</div>
-          <div class="summary-card-amount">${formatAmt(netIncome)}</div>
-          <div class="summary-card-meta">Taxable Amount</div>
-        </div>
+    <!-- Header Bar -->
+    <div class="header-bar">
+      <div class="header-left">
+        <div class="brand-name">Yagya</div>
+        <div class="profile-name">${profile.name || 'Financial Report'}</div>
+        ${profile.businessName ? `<div class="business-name">${profile.businessName}</div>` : ''}
+      </div>
+      <div class="header-right">
+        <div class="report-title">Tax Report</div>
+        <div class="report-year">${year}</div>
       </div>
     </div>
     
-    <!-- Quarterly Breakdown -->
-    <div class="data-section">
-      <div class="section-header">Quarterly Breakdown</div>
-      <div class="quarters-grid">
-        ${['Q1', 'Q2', 'Q3', 'Q4'].map((q, i) => `
-        <div class="quarter-box">
-          <div class="quarter-label">${q}<br><span style="font-size:10px;font-weight:400;color:#888">${['Jan–Mar', 'Apr–Jun', 'Jul–Sep', 'Oct–Dec'][i]}</span></div>
-          <div class="quarter-row income"><span>Income</span><span>+${formatAmt(quarters[q].income)}</span></div>
-          <div class="quarter-row expense"><span>Expenses</span><span>-${formatAmt(quarters[q].expenses)}</span></div>
-          <div class="quarter-row net"><span>Net</span><span>${formatAmt(quarters[q].income - quarters[q].expenses)}</span></div>
-        </div>
-        `).join('')}
+    <div class="content">
+      <!-- Profile Information -->
+      ${(profile.taxId || profile.email || profile.phone || profile.address) ? `
+      <div class="profile-row">
+        ${profile.taxId ? `<div class="profile-item"><span class="profile-label">Tax ID / PAN</span><span class="profile-value">${profile.taxId}</span></div>` : ''}
+        ${profile.email ? `<div class="profile-item"><span class="profile-label">Email</span><span class="profile-value">${profile.email}</span></div>` : ''}
+        ${profile.phone ? `<div class="profile-item"><span class="profile-label">Phone</span><span class="profile-value">${profile.phone}</span></div>` : ''}
+        ${profile.address ? `<div class="profile-item"><span class="profile-label">Address</span><span class="profile-value">${profile.address}</span></div>` : ''}
       </div>
-    </div>
-    
-    <!-- Monthly Performance -->
-    <div class="data-section">
-      <div class="section-header">Monthly Performance</div>
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Month</th>
-            <th style="text-align:right">Income</th>
-            <th style="text-align:right">Expenses</th>
-            <th style="text-align:right">Net</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${monthlyData.map((data, i) => data.income > 0 || data.expenses > 0 ? `
-          <tr>
-            <td>${monthNamesFull[i]}</td>
-            <td class="income-val" style="text-align:right">+${formatAmt(data.income)}</td>
-            <td class="expense-val" style="text-align:right">-${formatAmt(data.expenses)}</td>
-            <td class="net-val" style="text-align:right">${formatAmt(data.income - data.expenses)}</td>
-          </tr>
-          ` : '').join('')}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td>Total</td>
-            <td class="income-val" style="text-align:right">+${formatAmt(totalIncome)}</td>
-            <td class="expense-val" style="text-align:right">-${formatAmt(totalExpenses)}</td>
-            <td class="net-val" style="text-align:right">${formatAmt(netIncome)}</td>
-          </tr>
-        </tfoot>
-      </table>
+      ` : ''}
+      
+      <!-- Financial Summary -->
+      <div class="summary-row">
+        <div class="summary-box income">
+          <div class="summary-label">Total Income</div>
+          <div class="summary-amount">+${formatAmt(totalIncome)}</div>
+          <div class="summary-meta">${incomeEntries.length} transactions</div>
+        </div>
+        <div class="summary-box expense">
+          <div class="summary-label">Total Expenses</div>
+          <div class="summary-amount">-${formatAmt(totalExpenses)}</div>
+          <div class="summary-meta">${expenseEntries.length} transactions</div>
+        </div>
+        <div class="summary-box net">
+          <div class="summary-label">Net Income</div>
+          <div class="summary-amount">${formatAmt(netIncome)}</div>
+          <div class="summary-meta">Taxable Amount</div>
+        </div>
+      </div>
+      
+      <!-- Quarterly Breakdown -->
+      <div class="section">
+        <div class="section-title">Quarterly Breakdown</div>
+        <div class="quarter-grid">
+          ${['Q1', 'Q2', 'Q3', 'Q4'].map((q, i) => `
+          <div class="quarter-card">
+            <div class="quarter-name">${q}</div>
+            <div class="quarter-months">${['January – March', 'April – June', 'July – September', 'October – December'][i]}</div>
+            <div class="quarter-line income"><span>Income</span><span>+${formatAmt(quarters[q].income)}</span></div>
+            <div class="quarter-line expense"><span>Expenses</span><span>-${formatAmt(quarters[q].expenses)}</span></div>
+            <div class="quarter-line net"><span>Net</span><span>${formatAmt(quarters[q].income - quarters[q].expenses)}</span></div>
+          </div>
+          `).join('')}
+        </div>
+      </div>
+      
+      <!-- Monthly Performance -->
+      <div class="section">
+        <div class="section-title">Monthly Performance</div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th style="text-align:right">Income</th>
+              <th style="text-align:right">Expenses</th>
+              <th style="text-align:right">Net</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${monthlyData.map((data, i) => data.income > 0 || data.expenses > 0 ? `
+            <tr>
+              <td>${monthNamesFull[i]}</td>
+              <td class="income" style="text-align:right">+${formatAmt(data.income)}</td>
+              <td class="expense" style="text-align:right">-${formatAmt(data.expenses)}</td>
+              <td class="bold" style="text-align:right">${formatAmt(data.income - data.expenses)}</td>
+            </tr>
+            ` : '').join('')}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>Annual Total</td>
+              <td class="income" style="text-align:right">+${formatAmt(totalIncome)}</td>
+              <td class="expense" style="text-align:right">-${formatAmt(totalExpenses)}</td>
+              <td style="text-align:right">${formatAmt(netIncome)}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
     </div>
   </div>
   
   <div class="page">
-    <!-- Income by Category -->
-    ${Object.keys(incomeByCategory).length > 0 ? `
-    <div class="data-section">
-      <div class="section-header">Income by Category</div>
-      <div class="category-list">
-        ${Object.entries(incomeByCategory).sort((a, b) => b[1].total - a[1].total).map(([id, data]) => `
-        <div class="category-row">
-          <div>
-            <div class="category-name">${data.name}</div>
-            <div class="category-count">${data.count} service${data.count !== 1 ? 's' : ''}</div>
+    <div class="content" style="padding-top:50px">
+      <!-- Income by Category -->
+      ${Object.keys(incomeByCategory).length > 0 ? `
+      <div class="section">
+        <div class="section-title">Income by Category</div>
+        <div class="category-grid">
+          ${Object.entries(incomeByCategory).sort((a, b) => b[1].total - a[1].total).map(([id, data]) => `
+          <div class="category-item">
+            <div class="category-info">
+              <div class="name">${data.name}</div>
+              <div class="count">${data.count} service${data.count !== 1 ? 's' : ''}</div>
+            </div>
+            <div class="category-total income">+${formatAmt(data.total)}</div>
           </div>
-          <div class="category-amount income">+${formatAmt(data.total)}</div>
+          `).join('')}
         </div>
-        `).join('')}
       </div>
-    </div>
-    ` : ''}
-    
-    <!-- Expenses by Category -->
-    ${Object.keys(expensesByCategory).length > 0 ? `
-    <div class="data-section">
-      <div class="section-header">Expenses by Category</div>
-      <div class="category-list">
-        ${Object.entries(expensesByCategory).sort((a, b) => b[1].total - a[1].total).map(([id, data]) => `
-        <div class="category-row">
-          <div>
-            <div class="category-name">${data.name}</div>
-            <div class="category-count">${data.count} expense${data.count !== 1 ? 's' : ''}</div>
+      ` : ''}
+      
+      <!-- Expenses by Category -->
+      ${Object.keys(expensesByCategory).length > 0 ? `
+      <div class="section">
+        <div class="section-title">Expenses by Category</div>
+        <div class="category-grid">
+          ${Object.entries(expensesByCategory).sort((a, b) => b[1].total - a[1].total).map(([id, data]) => `
+          <div class="category-item">
+            <div class="category-info">
+              <div class="name">${data.name}</div>
+              <div class="count">${data.count} expense${data.count !== 1 ? 's' : ''}</div>
+            </div>
+            <div class="category-total expense">-${formatAmt(data.total)}</div>
           </div>
-          <div class="category-amount expense">-${formatAmt(data.total)}</div>
+          `).join('')}
         </div>
-        `).join('')}
       </div>
-    </div>
-    ` : ''}
-    
-    <!-- Income Transactions -->
-    <div class="data-section">
-      <div class="section-header">Income Transactions (${incomeEntries.length})</div>
-      <table class="tx-table">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Service</th>
-            <th>Location</th>
-            <th style="text-align:right">Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${incomeEntries.slice(0, 25).map(e => {
-            const cat = getCategoryById(e.category)
-            return `
+      ` : ''}
+      
+      <!-- Income Transactions -->
+      <div class="section">
+        <div class="section-title">Income Transactions</div>
+        <table class="data-table">
+          <thead>
             <tr>
-              <td class="tx-date">${formatDateStr(e.date)}</td>
-              <td>${e.source || cat.name}</td>
-              <td>${e.address || '—'}</td>
-              <td class="tx-amount income">+${formatAmt(e.amount)}</td>
+              <th style="width:80px">Date</th>
+              <th>Service</th>
+              <th>Location</th>
+              <th style="text-align:right;width:100px">Amount</th>
             </tr>
-            `
-          }).join('')}
-          ${incomeEntries.length > 25 ? `<tr><td colspan="4" style="text-align:center;color:#888;font-style:italic">... and ${incomeEntries.length - 25} more transactions</td></tr>` : ''}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="3" style="text-align:right">Total Income</td>
-            <td class="tx-amount income" style="text-align:right">+${formatAmt(totalIncome)}</td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-    
-    <!-- Expense Transactions -->
-    ${expenseEntries.length > 0 ? `
-    <div class="data-section">
-      <div class="section-header">Expense Transactions (${expenseEntries.length})</div>
-      <table class="tx-table">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Description</th>
-            <th>Category</th>
-            <th style="text-align:right">Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${expenseEntries.slice(0, 25).map(e => {
-            const cat = getCategoryById(e.category)
-            return `
+          </thead>
+          <tbody>
+            ${incomeEntries.slice(0, 20).map(e => {
+              const cat = getCategoryById(e.category)
+              return `
+              <tr>
+                <td>${formatDateStr(e.date)}</td>
+                <td>${e.source || cat.name}</td>
+                <td>${e.address || '—'}</td>
+                <td class="income" style="text-align:right">+${formatAmt(e.amount)}</td>
+              </tr>
+              `
+            }).join('')}
+            ${incomeEntries.length > 20 ? `<tr><td colspan="4" style="text-align:center;color:#64748b;font-style:italic;padding:15px">+ ${incomeEntries.length - 20} more transactions</td></tr>` : ''}
+          </tbody>
+          <tfoot>
             <tr>
-              <td class="tx-date">${formatDateStr(e.date)}</td>
-              <td>${e.source || cat.name}</td>
-              <td>${cat.name}</td>
-              <td class="tx-amount expense">-${formatAmt(e.amount)}</td>
+              <td colspan="3" style="text-align:right">Total Income</td>
+              <td class="income" style="text-align:right">+${formatAmt(totalIncome)}</td>
             </tr>
-            `
-          }).join('')}
-          ${expenseEntries.length > 25 ? `<tr><td colspan="4" style="text-align:center;color:#888;font-style:italic">... and ${expenseEntries.length - 25} more expenses</td></tr>` : ''}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="3" style="text-align:right">Total Expenses</td>
-            <td class="tx-amount expense" style="text-align:right">-${formatAmt(totalExpenses)}</td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-    ` : ''}
-    
-    ${totalMiles > 0 ? `
-    <div class="data-section">
-      <div class="section-header">Mileage Summary</div>
-      <div class="category-list">
-        <div class="category-row">
-          <div>
-            <div class="category-name">Total Business Miles</div>
-            <div class="category-count">IRS Rate: $0.67/mile</div>
+          </tfoot>
+        </table>
+      </div>
+      
+      <!-- Expense Transactions -->
+      ${expenseEntries.length > 0 ? `
+      <div class="section">
+        <div class="section-title">Expense Transactions</div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width:80px">Date</th>
+              <th>Description</th>
+              <th>Category</th>
+              <th style="text-align:right;width:100px">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${expenseEntries.slice(0, 15).map(e => {
+              const cat = getCategoryById(e.category)
+              return `
+              <tr>
+                <td>${formatDateStr(e.date)}</td>
+                <td>${e.source || cat.name}</td>
+                <td>${cat.name}</td>
+                <td class="expense" style="text-align:right">-${formatAmt(e.amount)}</td>
+              </tr>
+              `
+            }).join('')}
+            ${expenseEntries.length > 15 ? `<tr><td colspan="4" style="text-align:center;color:#64748b;font-style:italic;padding:15px">+ ${expenseEntries.length - 15} more expenses</td></tr>` : ''}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3" style="text-align:right">Total Expenses</td>
+              <td class="expense" style="text-align:right">-${formatAmt(totalExpenses)}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      ` : ''}
+      
+      ${totalMiles > 0 ? `
+      <div class="section">
+        <div class="section-title">Mileage Deduction</div>
+        <div class="category-grid">
+          <div class="category-item">
+            <div class="category-info">
+              <div class="name">Total Business Miles</div>
+              <div class="count">IRS Standard Rate: $0.67/mile</div>
+            </div>
+            <div class="category-total">${totalMiles.toFixed(1)} mi</div>
           </div>
-          <div class="category-amount">${totalMiles.toFixed(1)} mi</div>
-        </div>
-        <div class="category-row">
-          <div>
-            <div class="category-name">Estimated Deduction</div>
-            <div class="category-count">Standard mileage rate</div>
+          <div class="category-item">
+            <div class="category-info">
+              <div class="name">Estimated Deduction</div>
+              <div class="count">Standard mileage rate applied</div>
+            </div>
+            <div class="category-total income">${formatAmt(totalMiles * 0.67)}</div>
           </div>
-          <div class="category-amount income">${formatAmt(totalMiles * 0.67)}</div>
         </div>
       </div>
+      ` : ''}
     </div>
-    ` : ''}
     
     <div class="footer">
-      <div class="footer-text">Report generated on ${new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
-      <div class="footer-disclaimer">This document is for informational purposes only. Please consult a qualified tax professional for official tax filing.</div>
+      <div class="footer-line">Report generated on ${new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
+      <div class="footer-disclaimer">This document is for informational and record-keeping purposes only. Please consult a qualified tax professional for official tax filing.</div>
     </div>
   </div>
 </body>
