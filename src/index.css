@@ -3185,20 +3185,18 @@ input[type="number"] {
 /* ========== ENHANCED TAX PAGE ========== */
 .tax-summary-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 24px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
 .tax-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 16px 12px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
   gap: 6px;
 }
 
@@ -3725,18 +3723,7 @@ input[type="number"] {
 /* Fix for mobile */
 @media (max-width: 380px) {
   .tax-summary-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .tax-card {
-    flex-direction: row;
-    justify-content: space-between;
-    text-align: left;
-    padding: 14px 16px;
-  }
-  
-  .tax-card-amount {
-    font-size: 20px;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
