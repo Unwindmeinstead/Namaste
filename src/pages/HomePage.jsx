@@ -1,4 +1,34 @@
 import { ClockIcon, UserIcon, PlusIcon, TrendUpIcon, TrendDownIcon } from '../components/Icons'
+
+// Kalash Logo Component
+const KalashLogo = ({ className }) => (
+  <svg className={className} viewBox="0 0 60 70" fill="currentColor">
+    {/* Flames */}
+    <path d="M30 0 C33 4, 35 8, 30 12 C25 8, 27 4, 30 0Z"/>
+    <path d="M24 3 C26 6, 27 9, 24 12 C21 9, 22 6, 24 3Z"/>
+    <path d="M36 3 C38 6, 39 9, 36 12 C33 9, 34 6, 36 3Z"/>
+    {/* Coconut */}
+    <ellipse cx="30" cy="18" rx="9" ry="7"/>
+    {/* Leaves left */}
+    <path d="M21 24 C14 20, 6 22, 2 14 C10 18, 18 18, 21 24Z"/>
+    <path d="M21 28 C12 26, 4 30, 0 24 C8 26, 16 24, 21 28Z"/>
+    {/* Leaves right */}
+    <path d="M39 24 C46 20, 54 22, 58 14 C50 18, 42 18, 39 24Z"/>
+    <path d="M39 28 C48 26, 56 30, 60 24 C52 26, 44 24, 39 28Z"/>
+    {/* Neck band */}
+    <rect x="22" y="30" width="16" height="7" rx="1"/>
+    {/* Beads on neck */}
+    <circle cx="26" cy="33.5" r="1.5" fill="#0a0a0a"/>
+    <circle cx="30" cy="33.5" r="1.5" fill="#0a0a0a"/>
+    <circle cx="34" cy="33.5" r="1.5" fill="#0a0a0a"/>
+    {/* Pot body */}
+    <path d="M21 37 Q14 48, 17 62 Q24 70, 30 70 Q36 70, 43 62 Q46 48, 39 37 Z"/>
+    {/* Lotus on pot */}
+    <path d="M22 56 C26 52, 34 52, 38 56 C34 53, 26 53, 22 56Z" fill="#0a0a0a"/>
+    {/* Diamond */}
+    <path d="M30 44 L34 50 L30 56 L26 50 Z" fill="#0a0a0a"/>
+  </svg>
+)
 import { formatCurrency, getThisMonthEntries, getLastMonthEntries, getCurrentFiscalYear, toLocalDateString } from '../utils/format'
 import { EntryItem } from '../components/EntryItem'
 import { Calendar } from '../components/Calendar'
@@ -47,6 +77,7 @@ export function HomePage({ entries, scheduledServices, settings, onAddClick, onV
           </button>
         </div>
         <div className="header-brand">
+          <KalashLogo className="header-logo" />
           <span className="header-brand-name">
             <span className="brand-d">द</span>akshina
           </span>

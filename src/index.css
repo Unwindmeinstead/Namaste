@@ -105,7 +105,14 @@ html, body, #root {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   flex: 1;
+}
+
+.header-logo {
+  width: 32px;
+  height: 38px;
+  color: var(--text-primary);
 }
 
 .header-brand-name {
