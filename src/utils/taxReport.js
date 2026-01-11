@@ -978,6 +978,12 @@ export function generatePDFReport(entries, profile, settings, year) {
     expensesByCategory[cat.id].count++
   })
 
+  const currency = settings.currency || 'USD'
+  
+  const formatAmt = (amt) => formatCurrency(amt, currency)
+  const formatDateStr = (dateStr) => new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  const monthNamesFull = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
   // Monthly breakdown
   const monthlyData = Array(12).fill(null).map(() => ({ income: 0, expenses: 0 }))
   yearEntries.forEach(e => {
@@ -985,15 +991,6 @@ export function generatePDFReport(entries, profile, settings, year) {
     if (e.type === 'expense') monthlyData[month].expenses += e.amount
     else monthlyData[month].income += e.amount
   })
-
-  const currency = settings.currency || 'USD'
-  const symbols = { USD: '$', EUR: '€', GBP: '£', INR: '₹' }
-  const symbol = symbols[currency] || '$'
-  
-  const formatAmt = (amt) => formatCurrency(amt, currency)
-  const formatDateStr = (dateStr) => new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-  const monthNamesFull = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
   const html = `
 <!DOCTYPE html>
@@ -1003,604 +1000,443 @@ export function generatePDFReport(entries, profile, settings, year) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tax Report ${year} - ${profile.name || 'Yagya'}</title>
   <style>
-    @page {
-      size: letter;
-      margin: 0.6in 0.5in;
-    }
-    
-    :root {
-      --text-primary: #0a0a0a;
-      --text-secondary: #525252;
-      --text-muted: #737373;
-      --border: #e5e5e5;
-      --border-strong: #d4d4d4;
-      --bg-subtle: #fafafa;
-      --bg-muted: #f5f5f5;
-      --accent: #0a0a0a;
-      --income: #16a34a;
-      --income-bg: #f0fdf4;
-      --expense: #dc2626;
-      --expense-bg: #fef2f2;
-      --net: #2563eb;
-      --net-bg: #eff6ff;
-    }
+    @page { size: letter; margin: 0.75in; }
     
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
     body {
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      color: var(--text-primary);
-      line-height: 1.4;
-      font-size: 9pt;
+      color: #1a1a1a;
+      line-height: 1.5;
+      font-size: 10pt;
       background: white;
     }
     
     .page {
       page-break-after: always;
       min-height: 100vh;
-      position: relative;
     }
     
-    .page:last-child {
-      page-break-after: auto;
-    }
+    .page:last-child { page-break-after: auto; }
     
-    /* Header - Clean, Professional */
-    .header {
+    /* ===== COVER HEADER ===== */
+    .cover {
       text-align: center;
-      padding-bottom: 24px;
-      margin-bottom: 24px;
-      border-bottom: 3px solid var(--accent);
+      padding: 60px 0 50px;
+      border-bottom: 1px solid #e0e0e0;
+      margin-bottom: 40px;
     }
     
-    .header-logo {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-    
-    .header-logo svg {
-      width: 32px;
-      height: 32px;
-      color: var(--accent);
-    }
-    
-    .header-logo-text {
-      font-size: 8pt;
+    .cover-brand {
+      font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--text-muted);
+      letter-spacing: 3px;
+      color: #888;
+      margin-bottom: 30px;
     }
     
-    .header-profile-name {
-      font-size: 22pt;
-      font-weight: 700;
-      color: var(--text-primary);
-      letter-spacing: -0.5px;
-      margin-bottom: 4px;
-    }
-    
-    .header-business {
-      font-size: 10pt;
-      color: var(--text-secondary);
-      margin-bottom: 16px;
-    }
-    
-    .header-divider {
-      width: 40px;
-      height: 2px;
-      background: var(--border-strong);
-      margin: 0 auto 16px;
-    }
-    
-    .header h1 {
-      font-size: 11pt;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--text-secondary);
+    .cover-name {
+      font-size: 36px;
+      font-weight: 300;
+      color: #1a1a1a;
       margin-bottom: 8px;
+      letter-spacing: -0.5px;
     }
     
-    .header-year-badge {
-      display: inline-block;
-      background: var(--accent);
-      color: white;
-      padding: 6px 20px;
-      border-radius: 16px;
-      font-size: 14pt;
+    .cover-business {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 40px;
+    }
+    
+    .cover-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #888;
+      margin-bottom: 12px;
+    }
+    
+    .cover-year {
+      font-size: 48px;
       font-weight: 700;
+      color: #1a1a1a;
+      letter-spacing: -2px;
     }
     
-    /* Profile Bar */
-    .profile-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 24px;
-      padding: 16px 20px;
-      background: var(--bg-muted);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      margin-bottom: 24px;
+    /* ===== PROFILE INFO ===== */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding: 25px 30px;
+      background: #f8f8f8;
+      border-radius: 8px;
+      margin-bottom: 40px;
     }
     
-    .profile-item {
+    .profile-field {
       display: flex;
       flex-direction: column;
-      gap: 1px;
+      gap: 4px;
     }
     
     .profile-label {
-      font-size: 7pt;
+      font-size: 9px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--text-muted);
+      letter-spacing: 1px;
+      color: #888;
     }
     
     .profile-value {
-      font-size: 9pt;
-      font-weight: 600;
-      color: var(--text-primary);
+      font-size: 11px;
+      font-weight: 500;
+      color: #1a1a1a;
     }
     
-    /* Summary Cards */
-    .summary-row {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 28px;
+    /* ===== SUMMARY SECTION ===== */
+    .summary-section {
+      margin-bottom: 50px;
+    }
+    
+    .summary-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #888;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
     }
     
     .summary-card {
-      flex: 1;
-      padding: 18px 16px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
+      padding: 25px;
+      border-radius: 8px;
+      text-align: center;
     }
     
-    .summary-card.income { background: var(--income-bg); border-color: #bbf7d0; }
-    .summary-card.expense { background: var(--expense-bg); border-color: #fecaca; }
-    .summary-card.net { background: var(--net-bg); border-color: #bfdbfe; }
-    .summary-card.mileage { background: #fffbeb; border-color: #fde68a; }
+    .summary-card.income { background: #f0fdf4; }
+    .summary-card.expense { background: #fef2f2; }
+    .summary-card.net { background: #f0f9ff; }
     
-    .summary-card .label {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 7pt;
+    .summary-card-label {
+      font-size: 10px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 6px;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
     }
     
-    .summary-card .label svg {
-      width: 12px;
-      height: 12px;
+    .summary-card.income .summary-card-label { color: #166534; }
+    .summary-card.expense .summary-card-label { color: #991b1b; }
+    .summary-card.net .summary-card-label { color: #1e40af; }
+    
+    .summary-card-amount {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -1px;
+      margin-bottom: 5px;
     }
     
-    .summary-card.income .label { color: #166534; }
-    .summary-card.expense .label { color: #991b1b; }
-    .summary-card.net .label { color: #1e40af; }
-    .summary-card.mileage .label { color: #92400e; }
+    .summary-card.income .summary-card-amount { color: #15803d; }
+    .summary-card.expense .summary-card-amount { color: #b91c1c; }
+    .summary-card.net .summary-card-amount { color: #1d4ed8; }
     
-    .summary-card .amount {
-      font-size: 18pt;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      margin-bottom: 2px;
+    .summary-card-meta {
+      font-size: 10px;
+      color: #666;
     }
     
-    .summary-card.income .amount { color: #15803d; }
-    .summary-card.expense .amount { color: #b91c1c; }
-    .summary-card.net .amount { color: #1d4ed8; }
-    .summary-card.mileage .amount { color: #b45309; }
-    
-    .summary-card .meta {
-      font-size: 7pt;
-      color: var(--text-muted);
+    /* ===== QUARTERS ===== */
+    .quarters-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-bottom: 50px;
     }
     
-    /* Section */
-    .section {
-      margin-bottom: 24px;
+    .quarter-box {
+      padding: 20px;
+      background: #fafafa;
+      border: 1px solid #eee;
+      border-radius: 8px;
+    }
+    
+    .quarter-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    
+    .quarter-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      padding: 5px 0;
+    }
+    
+    .quarter-row.income { color: #16a34a; }
+    .quarter-row.expense { color: #dc2626; }
+    .quarter-row.net {
+      font-weight: 600;
+      color: #1a1a1a;
+      border-top: 1px solid #ddd;
+      margin-top: 8px;
+      padding-top: 10px;
+    }
+    
+    /* ===== DATA TABLE ===== */
+    .data-section {
+      margin-bottom: 40px;
     }
     
     .section-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 14px;
-      padding-bottom: 8px;
-      border-bottom: 2px solid var(--accent);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #888;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e0e0e0;
     }
     
-    .section-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 24px;
-      height: 24px;
-      background: var(--accent);
-      color: white;
-      border-radius: 4px;
-    }
-    
-    .section-icon svg {
-      width: 14px;
-      height: 14px;
-    }
-    
-    .section-title {
-      font-size: 11pt;
-      font-weight: 700;
-      color: var(--text-primary);
-    }
-    
-    .section-desc {
-      font-size: 8pt;
-      color: var(--text-muted);
-      margin-left: auto;
-    }
-    
-    /* Quarterly Grid */
-    .quarterly-grid {
-      display: flex;
-      gap: 10px;
-    }
-    
-    .quarter-card {
-      flex: 1;
-      background: var(--bg-subtle);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 14px;
-    }
-    
-    .quarter-card .q-label {
-      font-size: 10pt;
-      font-weight: 700;
-      text-align: center;
-      color: var(--text-primary);
-      margin-bottom: 10px;
-      padding-bottom: 6px;
-      border-bottom: 1px solid var(--border);
-    }
-    
-    .quarter-card .q-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 8pt;
-      padding: 3px 0;
-    }
-    
-    .quarter-card .q-row.income { color: var(--income); }
-    .quarter-card .q-row.expense { color: var(--expense); }
-    .quarter-card .q-row.net {
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-top: 6px;
-      padding-top: 6px;
-      border-top: 1px solid var(--border);
-    }
-    
-    /* Data Table */
     .data-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 8pt;
     }
     
     .data-table th {
       text-align: left;
-      padding: 8px 10px;
-      background: var(--bg-muted);
-      font-weight: 700;
-      font-size: 7pt;
+      padding: 12px 10px;
+      font-size: 9px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      color: var(--text-secondary);
-      border-bottom: 2px solid var(--border-strong);
+      color: #666;
+      border-bottom: 2px solid #e0e0e0;
+      background: #fafafa;
     }
     
     .data-table td {
-      padding: 7px 10px;
-      border-bottom: 1px solid var(--border);
+      padding: 10px;
+      font-size: 10px;
+      border-bottom: 1px solid #f0f0f0;
     }
     
-    .data-table .income-val { color: var(--income); font-weight: 600; }
-    .data-table .expense-val { color: var(--expense); font-weight: 600; }
-    .data-table .net-val { font-weight: 700; }
+    .data-table .income-val { color: #16a34a; font-weight: 500; }
+    .data-table .expense-val { color: #dc2626; font-weight: 500; }
+    .data-table .net-val { font-weight: 600; }
     
     .data-table tfoot td {
-      background: var(--bg-muted);
-      font-weight: 700;
+      background: #f8f8f8;
+      font-weight: 600;
       border-bottom: none;
+      padding: 12px 10px;
     }
     
-    /* Category Grid */
-    .category-grid {
+    /* ===== CATEGORY BREAKDOWN ===== */
+    .category-list {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
+      gap: 10px;
     }
     
-    .category-item {
+    .category-row {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      background: var(--bg-subtle);
-      border: 1px solid var(--border);
+      justify-content: space-between;
+      padding: 12px 15px;
+      background: #fafafa;
       border-radius: 6px;
     }
     
-    .category-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 28px;
-      height: 28px;
-      border-radius: 5px;
-      color: white;
-      flex-shrink: 0;
-    }
-    
-    .category-icon svg {
-      width: 14px;
-      height: 14px;
-    }
-    
-    .category-info {
-      flex: 1;
-      min-width: 0;
-    }
-    
     .category-name {
-      font-size: 8pt;
-      font-weight: 600;
-      color: var(--text-primary);
+      font-size: 11px;
+      font-weight: 500;
+      color: #1a1a1a;
     }
     
     .category-count {
-      font-size: 7pt;
-      color: var(--text-muted);
+      font-size: 9px;
+      color: #888;
     }
     
     .category-amount {
-      font-size: 9pt;
-      font-weight: 700;
-      white-space: nowrap;
+      font-size: 12px;
+      font-weight: 600;
     }
     
-    .category-amount.income { color: var(--income); }
-    .category-amount.expense { color: var(--expense); }
+    .category-amount.income { color: #16a34a; }
+    .category-amount.expense { color: #dc2626; }
     
-    /* Transaction Table */
+    /* ===== TRANSACTION LIST ===== */
     .tx-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 7.5pt;
     }
     
     .tx-table th {
       text-align: left;
-      padding: 6px 8px;
-      background: var(--bg-muted);
-      font-weight: 700;
-      font-size: 6.5pt;
+      padding: 10px 8px;
+      font-size: 8px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      color: var(--text-secondary);
-      border-bottom: 2px solid var(--border-strong);
+      color: #666;
+      border-bottom: 2px solid #e0e0e0;
+      background: #fafafa;
     }
     
     .tx-table td {
-      padding: 5px 8px;
-      border-bottom: 1px solid var(--border);
-      vertical-align: middle;
+      padding: 8px;
+      font-size: 9px;
+      border-bottom: 1px solid #f0f0f0;
     }
     
-    .tx-table .tx-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 20px;
-      height: 20px;
-      border-radius: 4px;
-      color: white;
-    }
-    
-    .tx-table .tx-icon svg {
-      width: 11px;
-      height: 11px;
-    }
-    
-    .tx-table .tx-date {
-      color: var(--text-muted);
-      font-size: 7pt;
-      white-space: nowrap;
-    }
-    
-    .tx-table .tx-amount {
-      font-weight: 600;
-      text-align: right;
-      white-space: nowrap;
-    }
-    
-    .tx-table .tx-amount.income { color: var(--income); }
-    .tx-table .tx-amount.expense { color: var(--expense); }
+    .tx-table .tx-date { color: #888; }
+    .tx-table .tx-amount { font-weight: 500; text-align: right; }
+    .tx-table .tx-amount.income { color: #16a34a; }
+    .tx-table .tx-amount.expense { color: #dc2626; }
     
     .tx-table tfoot td {
-      background: var(--bg-muted);
-      font-weight: 700;
-      font-size: 8pt;
+      background: #f8f8f8;
+      font-weight: 600;
+      font-size: 10px;
     }
     
-    /* Footer */
+    /* ===== FOOTER ===== */
     .footer {
-      margin-top: 28px;
-      padding-top: 16px;
-      border-top: 1px solid var(--border);
+      margin-top: 50px;
+      padding-top: 20px;
+      border-top: 1px solid #e0e0e0;
       text-align: center;
     }
     
-    .footer .generated {
-      font-size: 7pt;
-      color: var(--text-muted);
-      margin-bottom: 4px;
+    .footer-text {
+      font-size: 9px;
+      color: #888;
+      margin-bottom: 5px;
     }
     
-    .footer .disclaimer {
-      font-size: 7pt;
-      color: var(--text-muted);
+    .footer-disclaimer {
+      font-size: 8px;
+      color: #aaa;
       font-style: italic;
     }
     
-    /* Print Controls */
-    .print-controls {
-      position: fixed;
-      top: 16px;
-      right: 16px;
-      display: flex;
-      gap: 8px;
-      z-index: 1000;
-    }
-    
+    /* ===== PRINT BUTTON ===== */
     .print-btn {
-      padding: 10px 20px;
-      background: var(--accent);
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 12px 24px;
+      background: #1a1a1a;
       color: white;
       border: none;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 600;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 8px;
-      transition: background 0.2s;
+      z-index: 1000;
     }
     
-    .print-btn:hover {
-      background: #262626;
-    }
-    
-    .print-btn svg {
-      width: 16px;
-      height: 16px;
-    }
+    .print-btn:hover { background: #333; }
+    .print-btn svg { width: 18px; height: 18px; }
     
     @media print {
-      .print-controls { display: none !important; }
-      body { background: white; padding: 0; }
+      .print-btn { display: none !important; }
     }
     
     @media screen {
-      body {
-        background: #d4d4d4;
-        padding: 24px;
-      }
-      
+      body { background: #e5e5e5; padding: 30px; }
       .page {
         max-width: 8.5in;
-        margin: 0 auto 24px auto;
+        margin: 0 auto 30px;
         background: white;
-        padding: 0.6in 0.5in;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        padding: 0.75in;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         border-radius: 4px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="print-controls">
-    <button class="print-btn" onclick="window.print()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/>
-        <rect x="6" y="14" width="12" height="8"/>
-      </svg>
-      Save as PDF
-    </button>
-  </div>
+  <button class="print-btn" onclick="window.print()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/>
+      <rect x="6" y="14" width="12" height="8"/>
+    </svg>
+    Save as PDF
+  </button>
 
-  <!-- Page 1: Summary -->
   <div class="page">
-    <div class="header">
-      <div class="header-logo">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-          <path d="M2 17l10 5 10-5"/>
-          <path d="M2 12l10 5 10-5"/>
-        </svg>
-        <span class="header-logo-text">Yagya</span>
-      </div>
-      ${profile.name ? `<div class="header-profile-name">${profile.name}</div>` : ''}
-      ${profile.businessName ? `<div class="header-business">${profile.businessName}</div>` : (!profile.name ? '<div class="header-business">Spiritual Services & Ceremonies</div>' : '')}
-      <div class="header-divider"></div>
-      <h1>Income Tax Report</h1>
-      <div class="header-year-badge">${year}</div>
+    <!-- Cover Header -->
+    <div class="cover">
+      <div class="cover-brand">Yagya</div>
+      ${profile.name ? `<div class="cover-name">${profile.name}</div>` : ''}
+      ${profile.businessName ? `<div class="cover-business">${profile.businessName}</div>` : (!profile.name ? '<div class="cover-business">Spiritual Services & Ceremonies</div>' : '')}
+      <div class="cover-title">Income Tax Report</div>
+      <div class="cover-year">${year}</div>
     </div>
     
-    ${profile.name || profile.email || profile.phone || profile.address || profile.taxId ? `
-    <div class="profile-bar">
-      ${profile.name ? `<div class="profile-item"><span class="profile-label">Full Name</span><span class="profile-value">${profile.name}</span></div>` : ''}
-      ${profile.taxId ? `<div class="profile-item"><span class="profile-label">Tax ID / PAN</span><span class="profile-value">${profile.taxId}</span></div>` : ''}
-      ${profile.email ? `<div class="profile-item"><span class="profile-label">Email</span><span class="profile-value">${profile.email}</span></div>` : ''}
-      ${profile.phone ? `<div class="profile-item"><span class="profile-label">Phone</span><span class="profile-value">${profile.phone}</span></div>` : ''}
-      ${profile.address ? `<div class="profile-item"><span class="profile-label">Address</span><span class="profile-value">${profile.address}</span></div>` : ''}
+    <!-- Profile Information -->
+    ${(profile.taxId || profile.email || profile.phone || profile.address) ? `
+    <div class="profile-grid">
+      ${profile.taxId ? `<div class="profile-field"><span class="profile-label">Tax ID / PAN</span><span class="profile-value">${profile.taxId}</span></div>` : ''}
+      ${profile.email ? `<div class="profile-field"><span class="profile-label">Email</span><span class="profile-value">${profile.email}</span></div>` : ''}
+      ${profile.phone ? `<div class="profile-field"><span class="profile-label">Phone</span><span class="profile-value">${profile.phone}</span></div>` : ''}
+      ${profile.address ? `<div class="profile-field"><span class="profile-label">Address</span><span class="profile-value">${profile.address}</span></div>` : ''}
     </div>
     ` : ''}
     
-    <div class="summary-row">
-      <div class="summary-card income">
-        <div class="label">${REPORT_ICONS.income} Total Income</div>
-        <div class="amount">+${formatAmt(totalIncome)}</div>
-        <div class="meta">${incomeEntries.length} transactions</div>
+    <!-- Financial Summary -->
+    <div class="summary-section">
+      <div class="summary-title">Financial Summary</div>
+      <div class="summary-grid">
+        <div class="summary-card income">
+          <div class="summary-card-label">Total Income</div>
+          <div class="summary-card-amount">+${formatAmt(totalIncome)}</div>
+          <div class="summary-card-meta">${incomeEntries.length} transactions</div>
+        </div>
+        <div class="summary-card expense">
+          <div class="summary-card-label">Total Expenses</div>
+          <div class="summary-card-amount">-${formatAmt(totalExpenses)}</div>
+          <div class="summary-card-meta">${expenseEntries.length} transactions</div>
+        </div>
+        <div class="summary-card net">
+          <div class="summary-card-label">Net Income</div>
+          <div class="summary-card-amount">${formatAmt(netIncome)}</div>
+          <div class="summary-card-meta">Taxable Amount</div>
+        </div>
       </div>
-      <div class="summary-card expense">
-        <div class="label">${REPORT_ICONS.expense} Total Expenses</div>
-        <div class="amount">-${formatAmt(totalExpenses)}</div>
-        <div class="meta">${expenseEntries.length} transactions</div>
-      </div>
-      <div class="summary-card net">
-        <div class="label">${REPORT_ICONS.chart} Net Income</div>
-        <div class="amount">${formatAmt(netIncome)}</div>
-        <div class="meta">Taxable amount</div>
-      </div>
-      ${totalMiles > 0 ? `
-      <div class="summary-card mileage">
-        <div class="label">${REPORT_ICONS.car} Mileage</div>
-        <div class="amount">${totalMiles.toFixed(0)} mi</div>
-        <div class="meta">≈${formatAmt(totalMiles * 0.67)} deduction</div>
-      </div>
-      ` : ''}
     </div>
     
-    <div class="section">
-      <div class="section-header">
-        <div class="section-icon">${REPORT_ICONS.calendar}</div>
-        <span class="section-title">Quarterly Financial Summary</span>
-        <span class="section-desc">Fiscal quarters ${year}</span>
-      </div>
-      <div class="quarterly-grid">
+    <!-- Quarterly Breakdown -->
+    <div class="data-section">
+      <div class="section-header">Quarterly Breakdown</div>
+      <div class="quarters-grid">
         ${['Q1', 'Q2', 'Q3', 'Q4'].map((q, i) => `
-        <div class="quarter-card">
-          <div class="q-label">${q} · ${['Jan–Mar', 'Apr–Jun', 'Jul–Sep', 'Oct–Dec'][i]}</div>
-          <div class="q-row income"><span>Income</span><span>+${formatAmt(quarters[q].income)}</span></div>
-          <div class="q-row expense"><span>Expenses</span><span>-${formatAmt(quarters[q].expenses)}</span></div>
-          <div class="q-row net"><span>Net</span><span>${formatAmt(quarters[q].income - quarters[q].expenses)}</span></div>
+        <div class="quarter-box">
+          <div class="quarter-label">${q}<br><span style="font-size:10px;font-weight:400;color:#888">${['Jan–Mar', 'Apr–Jun', 'Jul–Sep', 'Oct–Dec'][i]}</span></div>
+          <div class="quarter-row income"><span>Income</span><span>+${formatAmt(quarters[q].income)}</span></div>
+          <div class="quarter-row expense"><span>Expenses</span><span>-${formatAmt(quarters[q].expenses)}</span></div>
+          <div class="quarter-row net"><span>Net</span><span>${formatAmt(quarters[q].income - quarters[q].expenses)}</span></div>
         </div>
         `).join('')}
       </div>
     </div>
     
-    <div class="section">
-      <div class="section-header">
-        <div class="section-icon">${REPORT_ICONS.chart}</div>
-        <span class="section-title">Monthly Performance</span>
-        <span class="section-desc">Month-by-month breakdown</span>
-      </div>
+    <!-- Monthly Performance -->
+    <div class="data-section">
+      <div class="section-header">Monthly Performance</div>
       <table class="data-table">
         <thead>
           <tr>
@@ -1622,7 +1458,7 @@ export function generatePDFReport(entries, profile, settings, year) {
         </tbody>
         <tfoot>
           <tr>
-            <td>Annual Total</td>
+            <td>Total</td>
             <td class="income-val" style="text-align:right">+${formatAmt(totalIncome)}</td>
             <td class="expense-val" style="text-align:right">-${formatAmt(totalExpenses)}</td>
             <td class="net-val" style="text-align:right">${formatAmt(netIncome)}</td>
@@ -1630,19 +1466,17 @@ export function generatePDFReport(entries, profile, settings, year) {
         </tfoot>
       </table>
     </div>
-    
+  </div>
+  
+  <div class="page">
+    <!-- Income by Category -->
     ${Object.keys(incomeByCategory).length > 0 ? `
-    <div class="section">
-      <div class="section-header">
-        <div class="section-icon">${REPORT_ICONS.income}</div>
-        <span class="section-title">Income by Service Category</span>
-        <span class="section-desc">Revenue by ceremony type</span>
-      </div>
-      <div class="category-grid">
+    <div class="data-section">
+      <div class="section-header">Income by Category</div>
+      <div class="category-list">
         ${Object.entries(incomeByCategory).sort((a, b) => b[1].total - a[1].total).map(([id, data]) => `
-        <div class="category-item">
-          <div class="category-icon" style="background:${data.color}">${getCategoryIcon(id)}</div>
-          <div class="category-info">
+        <div class="category-row">
+          <div>
             <div class="category-name">${data.name}</div>
             <div class="category-count">${data.count} service${data.count !== 1 ? 's' : ''}</div>
           </div>
@@ -1653,18 +1487,14 @@ export function generatePDFReport(entries, profile, settings, year) {
     </div>
     ` : ''}
     
+    <!-- Expenses by Category -->
     ${Object.keys(expensesByCategory).length > 0 ? `
-    <div class="section">
-      <div class="section-header">
-        <div class="section-icon">${REPORT_ICONS.expense}</div>
-        <span class="section-title">Expenses by Category</span>
-        <span class="section-desc">Deductible business expenses</span>
-      </div>
-      <div class="category-grid">
+    <div class="data-section">
+      <div class="section-header">Expenses by Category</div>
+      <div class="category-list">
         ${Object.entries(expensesByCategory).sort((a, b) => b[1].total - a[1].total).map(([id, data]) => `
-        <div class="category-item">
-          <div class="category-icon" style="background:${data.color}">${getCategoryIcon(id)}</div>
-          <div class="category-info">
+        <div class="category-row">
+          <div>
             <div class="category-name">${data.name}</div>
             <div class="category-count">${data.count} expense${data.count !== 1 ? 's' : ''}</div>
           </div>
@@ -1674,95 +1504,104 @@ export function generatePDFReport(entries, profile, settings, year) {
       </div>
     </div>
     ` : ''}
-  </div>
-  
-  <!-- Page 2: Transaction Ledger -->
-  <div class="page">
-    <div class="section">
-      <div class="section-header">
-        <div class="section-icon">${REPORT_ICONS.list}</div>
-        <span class="section-title">Income Transaction Ledger</span>
-        <span class="section-desc">${incomeEntries.length} transaction${incomeEntries.length !== 1 ? 's' : ''} in ${year}</span>
-      </div>
+    
+    <!-- Income Transactions -->
+    <div class="data-section">
+      <div class="section-header">Income Transactions (${incomeEntries.length})</div>
       <table class="tx-table">
         <thead>
           <tr>
-            <th style="width:28px"></th>
-            <th style="width:65px">Date</th>
-            <th>Service / Source</th>
-            <th>Address</th>
-            <th style="text-align:right;width:80px">Amount</th>
+            <th>Date</th>
+            <th>Service</th>
+            <th>Location</th>
+            <th style="text-align:right">Amount</th>
           </tr>
         </thead>
         <tbody>
-          ${incomeEntries.map(e => {
+          ${incomeEntries.slice(0, 25).map(e => {
             const cat = getCategoryById(e.category)
             return `
             <tr>
-              <td><div class="tx-icon" style="background:${cat.color}">${getCategoryIcon(e.category)}</div></td>
               <td class="tx-date">${formatDateStr(e.date)}</td>
               <td>${e.source || cat.name}</td>
-              <td>${e.address || '-'}</td>
+              <td>${e.address || '—'}</td>
               <td class="tx-amount income">+${formatAmt(e.amount)}</td>
             </tr>
             `
           }).join('')}
+          ${incomeEntries.length > 25 ? `<tr><td colspan="4" style="text-align:center;color:#888;font-style:italic">... and ${incomeEntries.length - 25} more transactions</td></tr>` : ''}
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="4" style="text-align:right">Total Income</td>
-            <td class="tx-amount income">+${formatAmt(totalIncome)}</td>
+            <td colspan="3" style="text-align:right">Total Income</td>
+            <td class="tx-amount income" style="text-align:right">+${formatAmt(totalIncome)}</td>
           </tr>
         </tfoot>
       </table>
     </div>
     
+    <!-- Expense Transactions -->
     ${expenseEntries.length > 0 ? `
-    <div class="section">
-      <div class="section-header">
-        <div class="section-icon">${REPORT_ICONS.list}</div>
-        <span class="section-title">Expense Transaction Ledger</span>
-        <span class="section-desc">${expenseEntries.length} expense${expenseEntries.length !== 1 ? 's' : ''} in ${year}</span>
-      </div>
+    <div class="data-section">
+      <div class="section-header">Expense Transactions (${expenseEntries.length})</div>
       <table class="tx-table">
         <thead>
           <tr>
-            <th style="width:28px"></th>
-            <th style="width:65px">Date</th>
+            <th>Date</th>
             <th>Description</th>
             <th>Category</th>
-            <th>Miles</th>
-            <th style="text-align:right;width:80px">Amount</th>
+            <th style="text-align:right">Amount</th>
           </tr>
         </thead>
         <tbody>
-          ${expenseEntries.map(e => {
+          ${expenseEntries.slice(0, 25).map(e => {
             const cat = getCategoryById(e.category)
             return `
             <tr>
-              <td><div class="tx-icon" style="background:${cat.color}">${getCategoryIcon(e.category)}</div></td>
               <td class="tx-date">${formatDateStr(e.date)}</td>
               <td>${e.source || cat.name}</td>
               <td>${cat.name}</td>
-              <td>${e.miles ? e.miles + ' mi' : '-'}</td>
               <td class="tx-amount expense">-${formatAmt(e.amount)}</td>
             </tr>
             `
           }).join('')}
+          ${expenseEntries.length > 25 ? `<tr><td colspan="4" style="text-align:center;color:#888;font-style:italic">... and ${expenseEntries.length - 25} more expenses</td></tr>` : ''}
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="5" style="text-align:right">Total Expenses</td>
-            <td class="tx-amount expense">-${formatAmt(totalExpenses)}</td>
+            <td colspan="3" style="text-align:right">Total Expenses</td>
+            <td class="tx-amount expense" style="text-align:right">-${formatAmt(totalExpenses)}</td>
           </tr>
         </tfoot>
       </table>
     </div>
     ` : ''}
     
+    ${totalMiles > 0 ? `
+    <div class="data-section">
+      <div class="section-header">Mileage Summary</div>
+      <div class="category-list">
+        <div class="category-row">
+          <div>
+            <div class="category-name">Total Business Miles</div>
+            <div class="category-count">IRS Rate: $0.67/mile</div>
+          </div>
+          <div class="category-amount">${totalMiles.toFixed(1)} mi</div>
+        </div>
+        <div class="category-row">
+          <div>
+            <div class="category-name">Estimated Deduction</div>
+            <div class="category-count">Standard mileage rate</div>
+          </div>
+          <div class="category-amount income">${formatAmt(totalMiles * 0.67)}</div>
+        </div>
+      </div>
+    </div>
+    ` : ''}
+    
     <div class="footer">
-      <div class="generated">Report generated on ${new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} at ${new Date().toLocaleTimeString()}</div>
-      <div class="disclaimer">This document is for informational and record-keeping purposes only. Please consult a qualified tax professional for official tax filing and advice.</div>
+      <div class="footer-text">Report generated on ${new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
+      <div class="footer-disclaimer">This document is for informational purposes only. Please consult a qualified tax professional for official tax filing.</div>
     </div>
   </div>
 </body>
