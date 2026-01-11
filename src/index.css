@@ -3289,22 +3289,26 @@ input[type="number"] {
 
 .filing-toggle {
   display: flex;
-  background: var(--bg-secondary);
-  border-radius: 20px;
+  background: var(--bg-card);
+  border-radius: var(--radius);
   padding: 4px;
   border: 1px solid var(--border);
 }
 
 .filing-chip {
-  padding: 8px 16px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-muted);
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
   background: transparent;
   border: none;
-  border-radius: 16px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   transition: all 0.2s;
+}
+
+.filing-chip:hover {
+  color: var(--text-primary);
 }
 
 .filing-chip.active {
