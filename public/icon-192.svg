@@ -1,26 +1,49 @@
 <svg viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect width="192" height="192" rx="40" fill="#0a0a0a"/>
-  <g transform="translate(46, 32)">
-    <!-- Havan Kund (fire pit) base -->
-    <path d="M10 95 L20 75 L80 75 L90 95 Z" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M15 95 L85 95" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-    <ellipse cx="50" cy="75" rx="30" ry="6" stroke="white" stroke-width="2" fill="none"/>
+  <g transform="translate(46, 24)">
+    <!-- Flames at top -->
+    <path d="M50 8 Q55 4, 50 0 Q45 4, 50 8" stroke="white" stroke-width="1.5" fill="none"/>
+    <path d="M42 12 Q45 8, 42 5" stroke="white" stroke-width="1.5" fill="none"/>
+    <path d="M58 12 Q55 8, 58 5" stroke="white" stroke-width="1.5" fill="none"/>
     
-    <!-- Sacred Fire - main flame -->
-    <path d="M50 70 Q65 50, 55 35 Q60 45, 50 25 Q40 45, 45 35 Q35 50, 50 70" stroke="#ff6b35" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Coconut/Top bulb -->
+    <ellipse cx="50" cy="22" rx="10" ry="9" stroke="white" stroke-width="2" fill="none"/>
+    <path d="M43 20 Q50 25, 57 20" stroke="white" stroke-width="1.5" fill="none"/>
+    <path d="M44 24 Q50 28, 56 24" stroke="white" stroke-width="1.5" fill="none"/>
     
-    <!-- Inner flame -->
-    <path d="M50 68 Q58 55, 52 45 Q55 50, 50 38 Q45 50, 48 45 Q42 55, 50 68" stroke="#ffb347" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Mango leaves - left side -->
+    <path d="M40 30 Q28 28, 20 18" stroke="white" stroke-width="2" fill="none"/>
+    <path d="M40 30 Q25 32, 15 24" stroke="white" stroke-width="2" fill="none"/>
+    <path d="M40 30 Q30 36, 22 32" stroke="white" stroke-width="2" fill="none"/>
     
-    <!-- Side flames left -->
-    <path d="M35 70 Q30 58, 38 48 Q32 55, 35 70" stroke="#ff6b35" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Mango leaves - right side -->
+    <path d="M60 30 Q72 28, 80 18" stroke="white" stroke-width="2" fill="none"/>
+    <path d="M60 30 Q75 32, 85 24" stroke="white" stroke-width="2" fill="none"/>
+    <path d="M60 30 Q70 36, 78 32" stroke="white" stroke-width="2" fill="none"/>
     
-    <!-- Side flames right -->
-    <path d="M65 70 Q70 58, 62 48 Q68 55, 65 70" stroke="#ff6b35" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Pot neck with beads -->
+    <rect x="38" y="32" width="24" height="10" rx="2" stroke="white" stroke-width="2" fill="none"/>
+    <circle cx="42" cy="37" r="1.5" fill="white"/>
+    <circle cx="50" cy="37" r="1.5" fill="white"/>
+    <circle cx="58" cy="37" r="1.5" fill="white"/>
     
-    <!-- Sparks -->
-    <circle cx="42" cy="30" r="1.5" fill="#ffb347"/>
-    <circle cx="58" cy="28" r="1.5" fill="#ffb347"/>
-    <circle cx="50" cy="18" r="2" fill="#ff6b35"/>
+    <!-- Pot body - rounded kalash -->
+    <path d="M35 44 Q28 60, 32 80 Q38 95, 50 98 Q62 95, 68 80 Q72 60, 65 44" stroke="white" stroke-width="2.5" fill="none"/>
+    
+    <!-- Lotus petals on pot -->
+    <path d="M35 75 Q42 70, 50 75 Q58 70, 65 75" stroke="white" stroke-width="1.5" fill="none"/>
+    <path d="M38 82 Q44 78, 50 82 Q56 78, 62 82" stroke="white" stroke-width="1.5" fill="none"/>
+    
+    <!-- Diamond decoration -->
+    <path d="M50 55 L55 62 L50 69 L45 62 Z" stroke="white" stroke-width="1.5" fill="none"/>
+    
+    <!-- Beaded strings hanging -->
+    <path d="M38 44 Q32 52, 35 60" stroke="white" stroke-width="1" fill="none"/>
+    <circle cx="35" cy="61" r="1" fill="white"/>
+    <path d="M62 44 Q68 52, 65 60" stroke="white" stroke-width="1" fill="none"/>
+    <circle cx="65" cy="61" r="1" fill="white"/>
+    
+    <!-- Base -->
+    <ellipse cx="50" cy="100" rx="20" ry="4" stroke="white" stroke-width="2" fill="none"/>
   </g>
 </svg>

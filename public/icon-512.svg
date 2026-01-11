@@ -1,26 +1,51 @@
 <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect width="512" height="512" rx="100" fill="#0a0a0a"/>
-  <g transform="translate(120, 85)">
-    <!-- Havan Kund (fire pit) base -->
-    <path d="M25 255 L55 200 L215 200 L245 255 Z" stroke="white" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M40 255 L230 255" stroke="white" stroke-width="6" stroke-linecap="round"/>
-    <ellipse cx="135" cy="200" rx="80" ry="16" stroke="white" stroke-width="5" fill="none"/>
+  <g transform="translate(120, 60)">
+    <!-- Flames at top -->
+    <path d="M136 22 Q148 10, 136 0 Q124 10, 136 22" stroke="white" stroke-width="4" fill="none"/>
+    <path d="M114 32 Q122 20, 114 12" stroke="white" stroke-width="3.5" fill="none"/>
+    <path d="M158 32 Q150 20, 158 12" stroke="white" stroke-width="3.5" fill="none"/>
     
-    <!-- Sacred Fire - main flame -->
-    <path d="M135 190 Q175 130, 150 90 Q165 115, 135 60 Q105 115, 120 90 Q95 130, 135 190" stroke="#ff6b35" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Coconut/Top bulb -->
+    <ellipse cx="136" cy="58" rx="28" ry="24" stroke="white" stroke-width="5" fill="none"/>
+    <path d="M115 52 Q136 68, 157 52" stroke="white" stroke-width="4" fill="none"/>
+    <path d="M118 64 Q136 76, 154 64" stroke="white" stroke-width="4" fill="none"/>
     
-    <!-- Inner flame -->
-    <path d="M135 185 Q160 140, 145 115 Q155 130, 135 95 Q115 130, 125 115 Q110 140, 135 185" stroke="#ffb347" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Mango leaves - left side -->
+    <path d="M108 82 Q72 76, 48 46" stroke="white" stroke-width="5" fill="none"/>
+    <path d="M108 82 Q60 88, 32 62" stroke="white" stroke-width="5" fill="none"/>
+    <path d="M108 82 Q76 98, 52 86" stroke="white" stroke-width="5" fill="none"/>
     
-    <!-- Side flames left -->
-    <path d="M90 190 Q75 150, 100 120 Q80 145, 90 190" stroke="#ff6b35" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Mango leaves - right side -->
+    <path d="M164 82 Q200 76, 224 46" stroke="white" stroke-width="5" fill="none"/>
+    <path d="M164 82 Q212 88, 240 62" stroke="white" stroke-width="5" fill="none"/>
+    <path d="M164 82 Q196 98, 220 86" stroke="white" stroke-width="5" fill="none"/>
     
-    <!-- Side flames right -->
-    <path d="M180 190 Q195 150, 170 120 Q190 145, 180 190" stroke="#ff6b35" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Pot neck with beads -->
+    <rect x="100" y="86" width="72" height="28" rx="4" stroke="white" stroke-width="5" fill="none"/>
+    <circle cx="116" cy="100" r="4" fill="white"/>
+    <circle cx="136" cy="100" r="4" fill="white"/>
+    <circle cx="156" cy="100" r="4" fill="white"/>
     
-    <!-- Sparks -->
-    <circle cx="110" cy="75" r="4" fill="#ffb347"/>
-    <circle cx="160" cy="70" r="4" fill="#ffb347"/>
-    <circle cx="135" cy="45" r="5" fill="#ff6b35"/>
+    <!-- Pot body - rounded kalash -->
+    <path d="M92 118 Q68 165, 80 220 Q98 265, 136 275 Q174 265, 192 220 Q204 165, 180 118" stroke="white" stroke-width="6" fill="none"/>
+    
+    <!-- Lotus petals on pot -->
+    <path d="M92 205 Q114 190, 136 205 Q158 190, 180 205" stroke="white" stroke-width="4" fill="none"/>
+    <path d="M100 228 Q118 215, 136 228 Q154 215, 172 228" stroke="white" stroke-width="4" fill="none"/>
+    
+    <!-- Diamond decoration -->
+    <path d="M136 150 L150 172 L136 194 L122 172 Z" stroke="white" stroke-width="4" fill="none"/>
+    
+    <!-- Beaded strings hanging -->
+    <path d="M100 118 Q82 142, 88 165" stroke="white" stroke-width="3" fill="none"/>
+    <circle cx="88" cy="168" r="3" fill="white"/>
+    <circle cx="86" cy="178" r="3" fill="white"/>
+    <path d="M172 118 Q190 142, 184 165" stroke="white" stroke-width="3" fill="none"/>
+    <circle cx="184" cy="168" r="3" fill="white"/>
+    <circle cx="186" cy="178" r="3" fill="white"/>
+    
+    <!-- Base -->
+    <ellipse cx="136" cy="280" rx="56" ry="12" stroke="white" stroke-width="5" fill="none"/>
   </g>
 </svg>
