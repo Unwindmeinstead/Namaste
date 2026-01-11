@@ -3089,6 +3089,11 @@ input[type="number"] {
   transform: rotate(90deg);
 }
 
+.profile-avatar-upload {
+  cursor: pointer;
+  position: relative;
+}
+
 .profile-avatar {
   width: 64px;
   height: 64px;
@@ -3097,6 +3102,30 @@ input[type="number"] {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-avatar-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+  border-radius: 50%;
+}
+
+.profile-avatar-upload:hover .profile-avatar-overlay {
+  opacity: 1;
+}
+
+.profile-avatar-camera {
+  width: 22px;
+  height: 22px;
+  color: white;
 }
 
 .profile-avatar-icon {
