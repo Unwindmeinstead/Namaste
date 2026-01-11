@@ -3281,24 +3281,25 @@ input[type="number"] {
 .tax-controls {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
   margin-bottom: 20px;
 }
 
 .year-selector.compact {
-  flex: 1;
+  flex: 0 0 auto;
 }
 
 .filing-toggle {
   display: flex;
   background: var(--bg-secondary);
   border-radius: 20px;
-  padding: 4px;
+  padding: 3px;
   border: 1px solid var(--border);
 }
 
 .filing-chip {
-  padding: 8px 16px;
+  padding: 8px 14px;
   font-size: 12px;
   font-weight: 600;
   color: var(--text-muted);
