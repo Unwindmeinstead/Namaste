@@ -1,0 +1,29 @@
+<svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Minimal Kalash - Clean simplified version -->
+  <g fill="#1a1a1a">
+    <!-- Flames -->
+    <path d="M50 0 C55 8, 58 16, 50 24 C42 16, 45 8, 50 0Z"/>
+    <path d="M38 6 C42 12, 44 18, 38 24 C32 18, 34 12, 38 6Z"/>
+    <path d="M62 6 C66 12, 68 18, 62 24 C56 18, 58 12, 62 6Z"/>
+    
+    <!-- Coconut bud -->
+    <ellipse cx="50" cy="34" rx="16" ry="12"/>
+    
+    <!-- Lotus petals - left -->
+    <path d="M34 44 C22 36, 6 38, 0 26 Q14 38, 30 44 Z"/>
+    <path d="M34 52 C18 48, 2 54, 0 44 Q16 52, 32 52 Z"/>
+    
+    <!-- Lotus petals - right -->
+    <path d="M66 44 C78 36, 94 38, 100 26 Q86 38, 70 44 Z"/>
+    <path d="M66 52 C82 48, 98 54, 100 44 Q84 52, 68 52 Z"/>
+    
+    <!-- Neck -->
+    <rect x="36" y="54" width="28" height="10" rx="2"/>
+    
+    <!-- Pot body -->
+    <path d="M34 64 Q20 82, 24 104 Q36 118, 50 120 Q64 118, 76 104 Q80 82, 66 64 Z"/>
+    
+    <!-- Diamond cutout -->
+    <path d="M50 76 L58 88 L50 100 L42 88 Z" fill="white"/>
+  </g>
+</svg>

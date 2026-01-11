@@ -1,0 +1,19 @@
+<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Monogram - द with mini Kalash integrated -->
+  <g fill="#1a1a1a">
+    <!-- Large द character -->
+    <text x="10" y="95" font-family="Arial, sans-serif" font-size="100" font-weight="700">द</text>
+    
+    <!-- Mini Kalash on top right -->
+    <g transform="translate(70, 5) scale(0.4)">
+      <path d="M50 0 C54 6, 56 12, 50 18 C44 12, 46 6, 50 0Z"/>
+      <path d="M40 4 C43 9, 44 13, 40 17 C36 13, 37 9, 40 4Z"/>
+      <path d="M60 4 C63 9, 64 13, 60 17 C56 13, 57 9, 60 4Z"/>
+      <ellipse cx="50" cy="28" rx="14" ry="10"/>
+      <path d="M36 38 C26 32, 12 34, 4 24 Q16 34, 32 38 Z"/>
+      <path d="M64 38 C74 32, 88 34, 96 24 Q84 34, 68 38 Z"/>
+      <rect x="36" y="44" width="28" height="8" rx="2"/>
+      <path d="M34 52 Q24 68, 28 88 Q38 100, 50 102 Q62 100, 72 88 Q76 68, 66 52 Z"/>
+    </g>
+  </g>
+</svg>

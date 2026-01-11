@@ -1,0 +1,41 @@
+<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Circle Badge - Kalash in a circular frame -->
+  <circle cx="100" cy="100" r="96" stroke="#1a1a1a" stroke-width="4" fill="none"/>
+  <circle cx="100" cy="100" r="88" stroke="#1a1a1a" stroke-width="1" fill="none"/>
+  
+  <g transform="translate(50, 40)" fill="#1a1a1a">
+    <!-- Flames -->
+    <path d="M50 0 C54 6, 56 12, 50 18 C44 12, 46 6, 50 0Z"/>
+    <path d="M40 4 C43 9, 44 13, 40 17 C36 13, 37 9, 40 4Z"/>
+    <path d="M60 4 C63 9, 64 13, 60 17 C56 13, 57 9, 60 4Z"/>
+    
+    <!-- Coconut -->
+    <ellipse cx="50" cy="28" rx="14" ry="10"/>
+    <path d="M38 24 Q50 32, 62 24" stroke="white" stroke-width="2" fill="none"/>
+    
+    <!-- Petals left -->
+    <path d="M36 38 C26 32, 12 34, 4 24 Q16 34, 32 38 Z"/>
+    <path d="M36 44 C22 42, 8 48, 0 40 Q14 46, 32 44 Z"/>
+    
+    <!-- Petals right -->
+    <path d="M64 38 C74 32, 88 34, 96 24 Q84 34, 68 38 Z"/>
+    <path d="M64 44 C78 42, 92 48, 100 40 Q86 46, 68 44 Z"/>
+    
+    <!-- Neck -->
+    <rect x="36" y="48" width="28" height="8" rx="2"/>
+    <circle cx="44" cy="52" r="2" fill="white"/>
+    <circle cx="50" cy="52" r="2" fill="white"/>
+    <circle cx="56" cy="52" r="2" fill="white"/>
+    
+    <!-- Beads -->
+    <circle cx="34" cy="60" r="2"/>
+    <circle cx="32" cy="66" r="2"/>
+    <circle cx="66" cy="60" r="2"/>
+    <circle cx="68" cy="66" r="2"/>
+    
+    <!-- Pot -->
+    <path d="M34 56 Q24 72, 28 92 Q38 104, 50 106 Q62 104, 72 92 Q76 72, 66 56 Z"/>
+    <path d="M50 68 L56 78 L50 88 L44 78 Z" fill="white"/>
+    <path d="M34 90 C42 84, 58 84, 66 90" stroke="white" stroke-width="2" fill="none"/>
+  </g>
+</svg>

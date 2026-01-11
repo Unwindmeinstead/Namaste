@@ -1,50 +1,21 @@
 <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect width="512" height="512" rx="100" fill="#0a0a0a"/>
-  <g transform="translate(106, 46)" fill="white">
-    <!-- Three flames at top -->
-    <path d="M150 0 C160 18, 166 36, 150 54 C134 36, 140 18, 150 0Z"/>
-    <path d="M120 15 C129 30, 132 42, 120 54 C108 42, 111 30, 120 15Z"/>
-    <path d="M180 15 C189 30, 192 42, 180 54 C168 42, 171 30, 180 15Z"/>
-    
-    <!-- Coconut/bulb with horizontal lines -->
-    <ellipse cx="150" cy="90" rx="42" ry="36"/>
-    <path d="M114 78 Q150 102, 186 78" stroke="#0a0a0a" stroke-width="6" fill="none"/>
-    <path d="M120 96 Q150 114, 180 96" stroke="#0a0a0a" stroke-width="6" fill="none"/>
-    
-    <!-- Large lotus petals - left side -->
-    <path d="M108 120 C84 96, 42 96, 12 60 Q48 96, 96 114 Z"/>
-    <path d="M108 132 C72 120, 24 132, 0 108 Q42 126, 96 132 Z"/>
-    <path d="M108 150 C78 150, 36 168, 12 156 Q54 156, 102 150 Z"/>
-    
-    <!-- Large lotus petals - right side -->
-    <path d="M192 120 C216 96, 258 96, 288 60 Q252 96, 204 114 Z"/>
-    <path d="M192 132 C228 120, 276 132, 300 108 Q258 126, 204 132 Z"/>
-    <path d="M192 150 C222 150, 264 168, 288 156 Q246 156, 198 150 Z"/>
-    
-    <!-- Decorated neck band -->
-    <rect x="105" y="156" width="90" height="30" rx="6"/>
-    <circle cx="126" cy="171" r="7.5" fill="#0a0a0a"/>
-    <circle cx="150" cy="171" r="7.5" fill="#0a0a0a"/>
-    <circle cx="174" cy="171" r="7.5" fill="#0a0a0a"/>
-    
-    <!-- Hanging bead strings - left -->
-    <circle cx="99" cy="198" r="7.5"/>
-    <circle cx="90" cy="222" r="7.5"/>
-    <circle cx="84" cy="246" r="7.5"/>
-    
-    <!-- Hanging bead strings - right -->
-    <circle cx="201" cy="198" r="7.5"/>
-    <circle cx="210" cy="222" r="7.5"/>
-    <circle cx="216" cy="246" r="7.5"/>
-    
-    <!-- Pot body -->
-    <path d="M102 186 Q66 234, 78 300 Q108 342, 150 348 Q192 342, 222 300 Q234 234, 198 186 L198 186 Q174 186, 150 186 Q126 186, 102 186Z"/>
-    
-    <!-- Diamond decoration -->
-    <path d="M150 216 L168 246 L150 276 L132 246 Z" fill="#0a0a0a"/>
-    
-    <!-- Lotus petals at bottom of pot -->
-    <path d="M96 294 C120 270, 180 270, 204 294" stroke="#0a0a0a" stroke-width="7.5" fill="none"/>
-    <path d="M108 318 C132 300, 168 300, 192 318" stroke="#0a0a0a" stroke-width="7.5" fill="none"/>
+  <g transform="translate(116, 70)" fill="white">
+    <!-- Main flame -->
+    <path d="M140 0 C172 50, 185 100, 140 168 C95 100, 108 50, 140 0Z"/>
+    <!-- Inner flame -->
+    <path d="M140 35 C160 70, 166 108, 140 148 C114 108, 120 70, 140 35Z" fill="#0a0a0a"/>
+    <!-- Left flame -->
+    <path d="M85 85 C105 118, 112 150, 85 185 C58 150, 65 118, 85 85Z"/>
+    <!-- Right flame -->
+    <path d="M195 85 C215 118, 222 150, 195 185 C168 150, 175 118, 195 85Z"/>
+    <!-- Havan kund top -->
+    <path d="M40 218 L75 185 L205 185 L240 218 Z"/>
+    <rect x="32" y="218" width="216" height="28" rx="6"/>
+    <!-- Kund body -->
+    <path d="M20 246 L55 295 L225 295 L260 246 Z"/>
+    <rect x="45" y="295" width="190" height="22" rx="5"/>
+    <!-- Base -->
+    <rect x="68" y="317" width="144" height="16" rx="4"/>
   </g>
 </svg>

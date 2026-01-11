@@ -78,7 +78,7 @@ export function BackupModal({ isOpen, onClose, entries, scheduledServices, setti
   // Open in Google Sheets
   const handleOpenInSheets = (type) => {
     const csv = type === 'entries' ? generateCSV() : generateScheduleCSV()
-    const title = type === 'entries' ? 'Dakshina_Transactions' : 'Dakshina_Schedule'
+    const title = type === 'entries' ? 'Yagya_Transactions' : 'Yagya_Schedule'
     
     // Create a blob and upload approach - we'll use a data URI approach
     const blob = new Blob([csv], { type: 'text/csv' })
@@ -108,7 +108,7 @@ export function BackupModal({ isOpen, onClose, entries, scheduledServices, setti
     
     const a = document.createElement('a')
     a.href = url
-    a.download = `dakshina-backup-${new Date().toISOString().split('T')[0]}.json`
+    a.download = `yagya-backup-${new Date().toISOString().split('T')[0]}.json`
     a.click()
     URL.revokeObjectURL(url)
     
@@ -136,9 +136,9 @@ export function BackupModal({ isOpen, onClose, entries, scheduledServices, setti
     const totalIncome = entries.filter(e => e.type !== 'expense').reduce((sum, e) => sum + e.amount, 0)
     const totalExpenses = entries.filter(e => e.type === 'expense').reduce((sum, e) => sum + e.amount, 0)
     
-    const subject = encodeURIComponent(`Dakshina Backup - ${new Date().toLocaleDateString()}`)
+    const subject = encodeURIComponent(`Yagya Backup - ${new Date().toLocaleDateString()}`)
     const body = encodeURIComponent(`
-Dakshina Backup
+Yagya Backup
 =============================
 Date: ${new Date().toLocaleString()}
 
@@ -151,7 +151,7 @@ Summary:
 
 To restore this backup:
 1. Download the attached JSON file
-2. Open Dakshina app
+2. Open Yagya app
 3. Go to Settings > Restore Backup
 4. Select the downloaded file
 
@@ -177,7 +177,7 @@ ${jsonStr}
     
     const a = document.createElement('a')
     a.href = url
-    a.download = `dakshina-backup-${new Date().toISOString().split('T')[0]}.json`
+    a.download = `yagya-backup-${new Date().toISOString().split('T')[0]}.json`
     a.click()
     URL.revokeObjectURL(url)
     

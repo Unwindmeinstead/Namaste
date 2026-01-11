@@ -49,7 +49,7 @@ export function SettingsPage({ settings, updateSetting, onClearData, onBackup, e
   }
 
   const handleExportAll = () => {
-    downloadCSV(entries, 'dakshina-income-all.csv')
+    downloadCSV(entries, 'yagya-income-all.csv')
   }
 
   const handleBackup = () => {
@@ -63,7 +63,7 @@ export function SettingsPage({ settings, updateSetting, onClearData, onBackup, e
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `dakshina-backup-${new Date().toISOString().split('T')[0]}.json`
+    a.download = `yagya-backup-${new Date().toISOString().split('T')[0]}.json`
     a.click()
     URL.revokeObjectURL(url)
   }

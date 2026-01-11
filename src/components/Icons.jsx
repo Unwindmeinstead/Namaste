@@ -1,5 +1,5 @@
-// Dakshina Logo - Sacred Kalash
-export const DakshinaLogo = ({ className }) => (
+// Yagya Logo - Sacred Fire (Havan Kund)
+export const YagyaLogo = ({ className }) => (
   <svg className={className} viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
     {/* Pot base */}
     <ellipse cx="50" cy="82" rx="12" ry="3" strokeWidth="2"/>
