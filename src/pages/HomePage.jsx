@@ -1,32 +1,53 @@
 import { ClockIcon, UserIcon, PlusIcon, TrendUpIcon, TrendDownIcon } from '../components/Icons'
 
-// Kalash Logo Component
+// Kalash Logo Component - matching the provided image exactly
 const KalashLogo = ({ className }) => (
-  <svg className={className} viewBox="0 0 60 70" fill="currentColor">
-    {/* Flames */}
-    <path d="M30 0 C33 4, 35 8, 30 12 C25 8, 27 4, 30 0Z"/>
-    <path d="M24 3 C26 6, 27 9, 24 12 C21 9, 22 6, 24 3Z"/>
-    <path d="M36 3 C38 6, 39 9, 36 12 C33 9, 34 6, 36 3Z"/>
-    {/* Coconut */}
-    <ellipse cx="30" cy="18" rx="9" ry="7"/>
-    {/* Leaves left */}
-    <path d="M21 24 C14 20, 6 22, 2 14 C10 18, 18 18, 21 24Z"/>
-    <path d="M21 28 C12 26, 4 30, 0 24 C8 26, 16 24, 21 28Z"/>
-    {/* Leaves right */}
-    <path d="M39 24 C46 20, 54 22, 58 14 C50 18, 42 18, 39 24Z"/>
-    <path d="M39 28 C48 26, 56 30, 60 24 C52 26, 44 24, 39 28Z"/>
-    {/* Neck band */}
-    <rect x="22" y="30" width="16" height="7" rx="1"/>
-    {/* Beads on neck */}
-    <circle cx="26" cy="33.5" r="1.5" fill="#0a0a0a"/>
-    <circle cx="30" cy="33.5" r="1.5" fill="#0a0a0a"/>
-    <circle cx="34" cy="33.5" r="1.5" fill="#0a0a0a"/>
-    {/* Pot body */}
-    <path d="M21 37 Q14 48, 17 62 Q24 70, 30 70 Q36 70, 43 62 Q46 48, 39 37 Z"/>
-    {/* Lotus on pot */}
-    <path d="M22 56 C26 52, 34 52, 38 56 C34 53, 26 53, 22 56Z" fill="#0a0a0a"/>
-    {/* Diamond */}
-    <path d="M30 44 L34 50 L30 56 L26 50 Z" fill="#0a0a0a"/>
+  <svg className={className} viewBox="0 0 100 120" fill="currentColor">
+    {/* Three flames at top */}
+    <path d="M50 0 C54 6, 56 12, 50 18 C44 12, 46 6, 50 0Z"/>
+    <path d="M40 5 C43 10, 44 14, 40 18 C36 14, 37 10, 40 5Z"/>
+    <path d="M60 5 C63 10, 64 14, 60 18 C56 14, 57 10, 60 5Z"/>
+    
+    {/* Coconut/bulb with horizontal lines */}
+    <ellipse cx="50" cy="30" rx="14" ry="12"/>
+    <path d="M38 26 Q50 34, 62 26" stroke="var(--bg-primary, #0a0a0a)" strokeWidth="2" fill="none"/>
+    <path d="M40 32 Q50 38, 60 32" stroke="var(--bg-primary, #0a0a0a)" strokeWidth="2" fill="none"/>
+    
+    {/* Large lotus petals - left side (3 petals) */}
+    <path d="M36 40 C28 32, 14 32, 4 20 Q16 32, 32 38 Z"/>
+    <path d="M36 44 C24 40, 8 44, 0 36 Q14 42, 32 44 Z"/>
+    <path d="M36 50 C26 50, 12 56, 4 52 Q18 52, 34 50 Z"/>
+    
+    {/* Large lotus petals - right side (3 petals) */}
+    <path d="M64 40 C72 32, 86 32, 96 20 Q84 32, 68 38 Z"/>
+    <path d="M64 44 C76 40, 92 44, 100 36 Q86 42, 68 44 Z"/>
+    <path d="M64 50 C74 50, 88 56, 96 52 Q82 52, 66 50 Z"/>
+    
+    {/* Decorated neck band */}
+    <rect x="35" y="52" width="30" height="10" rx="2"/>
+    <circle cx="42" cy="57" r="2.5" fill="var(--bg-primary, #0a0a0a)"/>
+    <circle cx="50" cy="57" r="2.5" fill="var(--bg-primary, #0a0a0a)"/>
+    <circle cx="58" cy="57" r="2.5" fill="var(--bg-primary, #0a0a0a)"/>
+    
+    {/* Hanging bead strings - left */}
+    <circle cx="33" cy="66" r="2.5"/>
+    <circle cx="30" cy="74" r="2.5"/>
+    <circle cx="28" cy="82" r="2.5"/>
+    
+    {/* Hanging bead strings - right */}
+    <circle cx="67" cy="66" r="2.5"/>
+    <circle cx="70" cy="74" r="2.5"/>
+    <circle cx="72" cy="82" r="2.5"/>
+    
+    {/* Pot body - rounded kalash shape */}
+    <path d="M34 62 Q22 78, 26 100 Q36 114, 50 116 Q64 114, 74 100 Q78 78, 66 62 L66 62 Q58 62, 50 62 Q42 62, 34 62Z"/>
+    
+    {/* Diamond decoration in center */}
+    <path d="M50 72 L56 82 L50 92 L44 82 Z" fill="var(--bg-primary, #0a0a0a)"/>
+    
+    {/* Lotus petals at bottom of pot */}
+    <path d="M32 98 C40 90, 60 90, 68 98" stroke="var(--bg-primary, #0a0a0a)" strokeWidth="2.5" fill="none"/>
+    <path d="M36 106 C44 100, 56 100, 64 106" stroke="var(--bg-primary, #0a0a0a)" strokeWidth="2.5" fill="none"/>
   </svg>
 )
 import { formatCurrency, getThisMonthEntries, getLastMonthEntries, getCurrentFiscalYear, toLocalDateString } from '../utils/format'

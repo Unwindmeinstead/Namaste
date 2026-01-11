@@ -1,53 +1,50 @@
 <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect width="512" height="512" rx="100" fill="#0a0a0a"/>
-  <g transform="translate(96, 66)" fill="white">
-    <!-- Flames at top -->
-    <path d="M160 0 C168 14, 174 28, 160 44 C146 28, 152 14, 160 0Z"/>
-    <path d="M138 10 C144 22, 148 34, 138 44 C128 34, 132 22, 138 10Z"/>
-    <path d="M182 10 C188 22, 192 34, 182 44 C172 34, 176 22, 182 10Z"/>
+  <g transform="translate(106, 46)" fill="white">
+    <!-- Three flames at top -->
+    <path d="M150 0 C160 18, 166 36, 150 54 C134 36, 140 18, 150 0Z"/>
+    <path d="M120 15 C129 30, 132 42, 120 54 C108 42, 111 30, 120 15Z"/>
+    <path d="M180 15 C189 30, 192 42, 180 54 C168 42, 171 30, 180 15Z"/>
     
-    <!-- Coconut/lotus bud top -->
-    <ellipse cx="160" cy="74" rx="38" ry="32"/>
-    <path d="M132 64 C146 80, 174 80, 188 64" stroke="#0a0a0a" stroke-width="4" fill="none"/>
-    <path d="M138 76 C150 88, 170 88, 182 76" stroke="#0a0a0a" stroke-width="4" fill="none"/>
+    <!-- Coconut/bulb with horizontal lines -->
+    <ellipse cx="150" cy="90" rx="42" ry="36"/>
+    <path d="M114 78 Q150 102, 186 78" stroke="#0a0a0a" stroke-width="6" fill="none"/>
+    <path d="M120 96 Q150 114, 180 96" stroke="#0a0a0a" stroke-width="6" fill="none"/>
     
-    <!-- Lotus petals - left -->
-    <path d="M122 86 C100 74, 72 80, 56 58 C78 70, 106 70, 122 86Z"/>
-    <path d="M122 98 C94 92, 60 102, 38 86 C66 92, 100 88, 122 98Z"/>
-    <path d="M122 110 C100 110, 70 124, 54 114 C78 114, 106 108, 122 110Z"/>
+    <!-- Large lotus petals - left side -->
+    <path d="M108 120 C84 96, 42 96, 12 60 Q48 96, 96 114 Z"/>
+    <path d="M108 132 C72 120, 24 132, 0 108 Q42 126, 96 132 Z"/>
+    <path d="M108 150 C78 150, 36 168, 12 156 Q54 156, 102 150 Z"/>
     
-    <!-- Lotus petals - right -->
-    <path d="M198 86 C220 74, 248 80, 264 58 C242 70, 214 70, 198 86Z"/>
-    <path d="M198 98 C226 92, 260 102, 282 86 C254 92, 220 88, 198 98Z"/>
-    <path d="M198 110 C220 110, 250 124, 266 114 C242 114, 214 108, 198 110Z"/>
+    <!-- Large lotus petals - right side -->
+    <path d="M192 120 C216 96, 258 96, 288 60 Q252 96, 204 114 Z"/>
+    <path d="M192 132 C228 120, 276 132, 300 108 Q258 126, 204 132 Z"/>
+    <path d="M192 150 C222 150, 264 168, 288 156 Q246 156, 198 150 Z"/>
     
-    <!-- Pot neck band -->
-    <rect x="116" y="118" width="88" height="32" rx="4"/>
-    <circle cx="138" cy="134" r="7" fill="#0a0a0a"/>
-    <circle cx="160" cy="134" r="7" fill="#0a0a0a"/>
-    <circle cx="182" cy="134" r="7" fill="#0a0a0a"/>
+    <!-- Decorated neck band -->
+    <rect x="105" y="156" width="90" height="30" rx="6"/>
+    <circle cx="126" cy="171" r="7.5" fill="#0a0a0a"/>
+    <circle cx="150" cy="171" r="7.5" fill="#0a0a0a"/>
+    <circle cx="174" cy="171" r="7.5" fill="#0a0a0a"/>
     
-    <!-- Beaded strings - left -->
-    <circle cx="110" cy="156" r="6"/>
-    <circle cx="104" cy="172" r="6"/>
-    <circle cx="98" cy="188" r="6"/>
+    <!-- Hanging bead strings - left -->
+    <circle cx="99" cy="198" r="7.5"/>
+    <circle cx="90" cy="222" r="7.5"/>
+    <circle cx="84" cy="246" r="7.5"/>
     
-    <!-- Beaded strings - right -->
-    <circle cx="210" cy="156" r="6"/>
-    <circle cx="216" cy="172" r="6"/>
-    <circle cx="222" cy="188" r="6"/>
+    <!-- Hanging bead strings - right -->
+    <circle cx="201" cy="198" r="7.5"/>
+    <circle cx="210" cy="222" r="7.5"/>
+    <circle cx="216" cy="246" r="7.5"/>
     
     <!-- Pot body -->
-    <path d="M112 150 Q82 200, 98 270 Q124 318, 160 324 Q196 318, 222 270 Q238 200, 208 150 L208 150 Q186 150, 160 150 Q134 150, 112 150Z"/>
+    <path d="M102 186 Q66 234, 78 300 Q108 342, 150 348 Q192 342, 222 300 Q234 234, 198 186 L198 186 Q174 186, 150 186 Q126 186, 102 186Z"/>
     
-    <!-- Lotus decoration on pot -->
-    <path d="M116 256 C140 236, 180 236, 204 256 C180 242, 140 242, 116 256Z" fill="#0a0a0a"/>
-    <path d="M128 276 C148 260, 172 260, 192 276 C172 264, 148 264, 128 276Z" fill="#0a0a0a"/>
+    <!-- Diamond decoration -->
+    <path d="M150 216 L168 246 L150 276 L132 246 Z" fill="#0a0a0a"/>
     
-    <!-- Diamond on pot -->
-    <path d="M160 182 L178 210 L160 238 L142 210 Z" fill="#0a0a0a"/>
-    
-    <!-- Base -->
-    <ellipse cx="160" cy="330" rx="60" ry="14"/>
+    <!-- Lotus petals at bottom of pot -->
+    <path d="M96 294 C120 270, 180 270, 204 294" stroke="#0a0a0a" stroke-width="7.5" fill="none"/>
+    <path d="M108 318 C132 300, 168 300, 192 318" stroke="#0a0a0a" stroke-width="7.5" fill="none"/>
   </g>
 </svg>

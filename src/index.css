@@ -110,8 +110,8 @@ html, body, #root {
 }
 
 .header-logo {
-  width: 32px;
-  height: 38px;
+  width: 28px;
+  height: 34px;
   color: var(--text-primary);
 }
 
