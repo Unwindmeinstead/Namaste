@@ -41,6 +41,14 @@ function getFirstName(fullName) {
   return firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase()
 }
 
+// Camera icon
+const CameraIcon = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+    <circle cx="12" cy="13" r="4"/>
+  </svg>
+)
+
 export function SettingsPage({ settings, updateSetting, onClearData, onBackup, onVault, entries, profile, updateProfile }) {
   const lang = settings.language || 'en'
   const [showSaved, setShowSaved] = useState(false)
@@ -194,7 +202,9 @@ export function SettingsPage({ settings, updateSetting, onClearData, onBackup, o
       <section className={`settings-section profile-section-card ${profileExpanded ? 'expanded' : ''}`}>
         <div className="profile-header clickable" onClick={() => setProfileExpanded(!profileExpanded)}>
           <div className="profile-avatar">
-            {profile.name ? (
+            {profile.profilePic ? (
+              <img src={profile.profilePic} alt="Profile" className="profile-avatar-img" />
+            ) : profile.name ? (
               <span className="profile-avatar-letter">{profile.name.charAt(0).toUpperCase()}</span>
             ) : (
               <UserIcon className="profile-avatar-icon" />
@@ -227,6 +237,53 @@ export function SettingsPage({ settings, updateSetting, onClearData, onBackup, o
             </div>
 
             <h3 className="settings-title">{t('personalInfo', lang)}</h3>
+            
+            {/* Profile Picture Upload */}
+            <div className="profile-pic-section">
+              <div className="profile-pic-preview">
+                {profile.profilePic ? (
+                  <img src={profile.profilePic} alt="Profile" className="profile-pic-img" />
+                ) : profile.name ? (
+                  <span className="profile-pic-letter">{profile.name.charAt(0).toUpperCase()}</span>
+                ) : (
+                  <UserIcon className="profile-pic-icon" />
+                )}
+              </div>
+              <div className="profile-pic-actions">
+                <label className="profile-pic-btn upload">
+                  <CameraIcon className="profile-pic-btn-icon" />
+                  <span>{profile.profilePic ? (t('changePic', lang) || 'Change Photo') : (t('addPic', lang) || 'Add Photo')}</span>
+                  <input 
+                    type="file" 
+                    accept="image/*" 
+                    onChange={(e) => {
+                      const file = e.target.files?.[0]
+                      if (file) {
+                        if (file.size > 500000) {
+                          alert('Image too large. Please use an image under 500KB.')
+                          return
+                        }
+                        const reader = new FileReader()
+                        reader.onload = (ev) => {
+                          handleProfileChange('profilePic', ev.target.result)
+                        }
+                        reader.readAsDataURL(file)
+                      }
+                    }}
+                    style={{ display: 'none' }}
+                  />
+                </label>
+                {profile.profilePic && (
+                  <button 
+                    className="profile-pic-btn remove"
+                    onClick={() => handleProfileChange('profilePic', '')}
+                  >
+                    <TrashIcon className="profile-pic-btn-icon" />
+                    <span>{t('removePic', lang) || 'Remove'}</span>
+                  </button>
+                )}
+              </div>
+            </div>
             
             <div className="profile-form">
               <div className="profile-field">
