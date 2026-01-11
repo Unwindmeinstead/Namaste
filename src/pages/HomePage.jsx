@@ -116,10 +116,7 @@ export function HomePage({ entries, scheduledServices, settings, onAddClick, onV
           <p className={`stat-value ${lastMonthNet < 0 ? 'negative' : ''}`}>
             {lastMonthNet < 0 ? '-' : ''}{formatCurrency(Math.abs(lastMonthNet), settings.currency)}
           </p>
-          <div className="stat-trend">
-            {trend > 0 ? <TrendUpIcon className="trend-icon up" /> : trend < 0 ? <TrendDownIcon className="trend-icon down" /> : null}
-            {trend !== 0 && <span className={trend > 0 ? 'up' : 'down'}>{trend > 0 ? '+' : ''}{trend}%</span>}
-          </div>
+          <p className="stat-entries">{lastMonth.length} {t('entries', lang)}</p>
         </button>
       </div>
 
