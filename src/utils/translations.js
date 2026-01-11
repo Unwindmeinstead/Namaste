@@ -171,6 +171,21 @@ export const translations = {
     viewDetailedReport: 'विस्तृत रिपोर्ट हेर्नुहोस्',
     saveAsHTML: 'HTML फाइलको रूपमा सुरक्षित गर्नुहोस्',
     
+    // Customer Tracking
+    customers: 'ग्राहकहरू',
+    customerDirectory: 'ग्राहक निर्देशिका',
+    customerStats: 'ग्राहक तथ्याङ्क',
+    totalCustomers: 'कुल ग्राहकहरू',
+    avgPerCustomer: 'प्रति ग्राहक औसत',
+    repeatCustomers: 'दोहोरिने ग्राहकहरू',
+    topCustomer: 'शीर्ष ग्राहक',
+    noCustomersYet: 'अहिलेसम्म कुनै ग्राहक छैन',
+    addIncomeToSee: 'ग्राहकहरू हेर्न आम्दानी प्रविष्टिहरू थप्नुहोस्',
+    serviceHistory: 'सेवा इतिहास',
+    service: 'सेवा',
+    last: 'अन्तिम',
+    more: 'थप',
+    
     // Categories
     teaching: 'शिक्षण',
     satsang: 'सत्संग',
@@ -457,6 +472,21 @@ export const translations = {
     printableTaxReport: 'Printable tax report',
     viewDetailedReport: 'View detailed report',
     saveAsHTML: 'Save as HTML file',
+    
+    // Customer Tracking
+    customers: 'Customers',
+    customerDirectory: 'Customer Directory',
+    customerStats: 'Customer Statistics',
+    totalCustomers: 'Total Customers',
+    avgPerCustomer: 'Avg per Customer',
+    repeatCustomers: 'Repeat Customers',
+    topCustomer: 'Top Customer',
+    noCustomersYet: 'No customers yet',
+    addIncomeToSee: 'Add income entries to see customers here',
+    serviceHistory: 'Service History',
+    service: 'service',
+    last: 'Last',
+    more: 'more',
     
     // Categories
     teaching: 'Teaching',
@@ -764,6 +794,21 @@ export const translations = {
     printableTaxReport: 'प्रिंट करने योग्य टैक्स रिपोर्ट',
     viewDetailedReport: 'विस्तृत रिपोर्ट देखें',
     saveAsHTML: 'HTML फाइल के रूप में सहेजें',
+    
+    // Customer Tracking
+    customers: 'ग्राहक',
+    customerDirectory: 'ग्राहक निर्देशिका',
+    customerStats: 'ग्राहक आंकड़े',
+    totalCustomers: 'कुल ग्राहक',
+    avgPerCustomer: 'प्रति ग्राहक औसत',
+    repeatCustomers: 'दोहराने वाले ग्राहक',
+    topCustomer: 'शीर्ष ग्राहक',
+    noCustomersYet: 'अभी तक कोई ग्राहक नहीं',
+    addIncomeToSee: 'ग्राहकों को देखने के लिए आय प्रविष्टियां जोड़ें',
+    serviceHistory: 'सेवा इतिहास',
+    service: 'सेवा',
+    last: 'अंतिम',
+    more: 'और',
     
     // Categories
     teaching: 'शिक्षण',
