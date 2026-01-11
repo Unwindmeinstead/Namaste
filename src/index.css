@@ -3285,18 +3285,25 @@ input[type="number"] {
 
 .year-selector.compact {
   flex: 1;
+  margin-bottom: 0;
 }
 
 .filing-toggle {
   display: flex;
+  align-items: center;
   background: var(--bg-card);
   border-radius: var(--radius);
   padding: 4px;
   border: 1px solid var(--border);
+  height: 48px;
 }
 
 .filing-chip {
-  padding: 12px 20px;
+  padding: 0 18px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 14px;
   font-weight: 500;
   color: var(--text-secondary);
@@ -3314,6 +3321,13 @@ input[type="number"] {
 .filing-chip.active {
   background: var(--accent);
   color: white;
+}
+
+/* Make year selector match height */
+.tax-controls .year-selector {
+  margin-bottom: 0;
+  height: 48px;
+  padding: 0 16px;
 }
 
 /* Take Home Hero */
