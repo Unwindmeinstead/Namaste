@@ -3269,11 +3269,279 @@ input[type="number"] {
 
 /* Enhanced tax estimate card */
 .tax-estimate-card.enhanced .tax-row {
-  padding: 12px 0;
+  padding: 10px 0;
 }
 
-.income-text { color: var(--success); }
-.expense-text { color: var(--danger); }
+.income-text { color: var(--success); font-weight: 500; }
+.expense-text { color: var(--danger); font-weight: 500; }
+.tax-amount { color: var(--warning); font-weight: 600; }
+
+/* Tax Section Headers */
+.tax-section-header {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  padding: 16px 0 8px;
+  margin-top: 8px;
+  border-top: 1px dashed var(--border);
+}
+
+.tax-section-header:first-of-type {
+  margin-top: 0;
+  border-top: none;
+  padding-top: 8px;
+}
+
+.tax-row.sub {
+  padding: 6px 0 6px 12px;
+  font-size: 13px;
+  color: var(--text-muted);
+  border-left: 2px solid var(--border);
+  margin-left: 4px;
+}
+
+.tax-row.bold {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.tax-row.muted {
+  font-size: 11px;
+  color: var(--text-muted);
+  padding: 4px 0;
+}
+
+.tax-row.total {
+  font-size: 16px;
+  padding: 14px 0;
+}
+
+.tax-divider.thick {
+  height: 2px;
+  background: var(--border);
+  margin: 12px 0;
+}
+
+/* Section Subtitle */
+.section-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: -8px;
+  margin-bottom: 16px;
+}
+
+/* Filing Status Selector */
+.filing-status-selector {
+  margin-bottom: 20px;
+}
+
+.filing-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.filing-options {
+  display: flex;
+  gap: 10px;
+}
+
+.filing-btn {
+  flex: 1;
+  padding: 12px 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filing-btn:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+
+.filing-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+/* Mileage Card */
+.mileage-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+
+.mileage-stat {
+  text-align: center;
+}
+
+.mileage-value {
+  display: block;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.mileage-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mileage-calc {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-muted);
+}
+
+.mileage-rate {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-dim);
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+.mileage-operator {
+  font-size: 20px;
+}
+
+.mileage-result {
+  text-align: center;
+}
+
+.mileage-deduction {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--success);
+}
+
+/* Quarterly Payments Card */
+.quarterly-payments-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.quarterly-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.quarterly-payment-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.quarterly-payment-item {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+}
+
+.qp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.qp-quarter {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.qp-due {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.qp-amounts {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.qp-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.qp-row.total {
+  font-weight: 700;
+  color: var(--text-primary);
+  padding-top: 6px;
+  border-top: 1px dashed var(--border);
+  margin-top: 4px;
+}
+
+/* Take Home Card */
+.take-home-card {
+  background: linear-gradient(135deg, var(--accent) 0%, #6366f1 100%);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-top: 20px;
+  text-align: center;
+  color: white;
+}
+
+.take-home-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.8;
+  margin-bottom: 8px;
+}
+
+.take-home-amount {
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  margin-bottom: 12px;
+}
+
+.take-home-breakdown {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  opacity: 0.8;
+  flex-wrap: wrap;
+}
 
 /* Report actions */
 .report-actions {
