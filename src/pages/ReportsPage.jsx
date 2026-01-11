@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { formatCurrency, groupEntriesByMonth, groupEntriesBySource, getMonthName, getThisYearEntries } from '../utils/format'
-import { ChartIcon, TrendUpIcon, TrendDownIcon } from '../components/Icons'
+import { formatCurrency, groupEntriesByMonth, groupEntriesBySource, getMonthName, getThisYearEntries, formatDate } from '../utils/format'
+import { ChartIcon, TrendUpIcon, TrendDownIcon, UserIcon } from '../components/Icons'
 import { getTotalMiles } from '../utils/mileage'
 import { t } from '../utils/translations'
-import { EXPENSE_CATEGORIES } from '../utils/categories'
+import { EXPENSE_CATEGORIES, getCategoryById } from '../utils/categories'
 import { getCategoryIcon } from '../components/CategoryIcons'
+import { haptic } from '../utils/haptic'
 
 // Car icon
 const CarIcon = ({ className }) => (
@@ -12,6 +13,21 @@ const CarIcon = ({ className }) => (
     <path d="M14 16H9m10 0h3v-3.15a1 1 0 00-.84-.99L16 11l-2.7-3.6a1 1 0 00-.8-.4H5.24a2 2 0 00-1.8 1.1l-.8 1.63A6 6 0 002 12.42V16h2"/>
     <circle cx="6.5" cy="16.5" r="2.5"/>
     <circle cx="16.5" cy="16.5" r="2.5"/>
+  </svg>
+)
+
+// Phone icon
+const PhoneIcon = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+  </svg>
+)
+
+// Location icon
+const MapPinIcon = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+    <circle cx="12" cy="10" r="3"/>
   </svg>
 )
 
@@ -99,6 +115,33 @@ export function ReportsPage({ entries, settings }) {
   const colors = ['#3b82f6', '#8b5cf6', '#ec4899', '#14b8a6', '#f59e0b', '#64748b']
   const expenseColors = ['#ef4444', '#f97316', '#eab308', '#84cc16', '#06b6d4', '#6366f1']
 
+  // Customer tracking - extract unique customers from income entries
+  const customerData = incomeEntries.reduce((acc, e) => {
+    const name = e.payerName || e.source || 'Unknown'
+    if (!acc[name]) {
+      acc[name] = {
+        name,
+        entries: [],
+        totalAmount: 0,
+        lastDate: e.date,
+        addresses: new Set(),
+        phones: new Set()
+      }
+    }
+    acc[name].entries.push(e)
+    acc[name].totalAmount += e.amount
+    if (e.date > acc[name].lastDate) acc[name].lastDate = e.date
+    if (e.address) acc[name].addresses.add(e.address)
+    // Extract phone from notes or other fields if available
+    return acc
+  }, {})
+
+  const customers = Object.values(customerData)
+    .map(c => ({ ...c, addresses: Array.from(c.addresses) }))
+    .sort((a, b) => new Date(b.lastDate) - new Date(a.lastDate))
+
+  const [expandedCustomer, setExpandedCustomer] = useState(null)
+
   const getCatName = (catId) => {
     const cat = EXPENSE_CATEGORIES.find(c => c.id === catId)
     if (!cat) return catId
@@ -116,14 +159,17 @@ export function ReportsPage({ entries, settings }) {
       </header>
 
       <div className="tab-bar">
-        <button className={`tab ${view === 'overview' ? 'active' : ''}`} onClick={() => setView('overview')}>
+        <button className={`tab ${view === 'overview' ? 'active' : ''}`} onClick={() => { haptic(); setView('overview') }}>
           {t('overview', lang) || 'Overview'}
         </button>
-        <button className={`tab ${view === 'income' ? 'active' : ''}`} onClick={() => setView('income')}>
+        <button className={`tab ${view === 'income' ? 'active' : ''}`} onClick={() => { haptic(); setView('income') }}>
           {t('incomeType', lang)}
         </button>
-        <button className={`tab ${view === 'expenses' ? 'active' : ''}`} onClick={() => setView('expenses')}>
+        <button className={`tab ${view === 'expenses' ? 'active' : ''}`} onClick={() => { haptic(); setView('expenses') }}>
           {t('expenseType', lang)}
+        </button>
+        <button className={`tab ${view === 'customers' ? 'active' : ''}`} onClick={() => { haptic(); setView('customers') }}>
+          {t('customers', lang) || 'Customers'}
         </button>
       </div>
 
@@ -384,6 +430,108 @@ export function ReportsPage({ entries, settings }) {
               <div className="summary-item">
                 <span className="summary-item-label">{t('thisYear', lang)}</span>
                 <span className="summary-item-value expense-amount">-{formatCurrency(thisYearExpenseTotal, settings.currency)}</span>
+              </div>
+            </div>
+          </section>
+        </>
+      )}
+
+      {/* Customers Tab */}
+      {view === 'customers' && (
+        <>
+          <section className="report-section">
+            <div className="customer-header-row">
+              <h3 className="report-title">{t('customerDirectory', lang) || 'Customer Directory'}</h3>
+              <span className="customer-count">{customers.length} {t('customers', lang) || 'customers'}</span>
+            </div>
+            
+            {customers.length === 0 ? (
+              <div className="empty-state small">
+                <UserIcon className="empty-icon-svg" />
+                <p>{t('noCustomersYet', lang) || 'No customers yet'}</p>
+                <p className="empty-hint">{t('addIncomeToSee', lang) || 'Add income entries to see customers here'}</p>
+              </div>
+            ) : (
+              <div className="customer-list">
+                {customers.map((customer, i) => {
+                  const isExpanded = expandedCustomer === customer.name
+                  return (
+                    <div key={customer.name} className={`customer-card ${isExpanded ? 'expanded' : ''}`}>
+                      <div 
+                        className="customer-card-header"
+                        onClick={() => { haptic(); setExpandedCustomer(isExpanded ? null : customer.name) }}
+                      >
+                        <div className="customer-avatar" style={{ background: colors[i % colors.length] }}>
+                          {customer.name.charAt(0).toUpperCase()}
+                        </div>
+                        <div className="customer-info">
+                          <span className="customer-name">{customer.name}</span>
+                          <span className="customer-meta">
+                            {customer.entries.length} {t('services', lang) || 'services'} • {t('last', lang) || 'Last'}: {formatDate(customer.lastDate)}
+                          </span>
+                        </div>
+                        <div className="customer-total">
+                          <span className="customer-amount">{formatCurrency(customer.totalAmount, settings.currency)}</span>
+                        </div>
+                      </div>
+                      
+                      {isExpanded && (
+                        <div className="customer-details">
+                          {customer.addresses.length > 0 && (
+                            <div className="customer-detail-row">
+                              <MapPinIcon className="customer-detail-icon" />
+                              <span>{customer.addresses.join(', ')}</span>
+                            </div>
+                          )}
+                          
+                          <div className="customer-history">
+                            <span className="customer-history-title">{t('serviceHistory', lang) || 'Service History'}</span>
+                            {customer.entries.slice(0, 5).map(entry => {
+                              const cat = getCategoryById(entry.category)
+                              return (
+                                <div key={entry.id} className="customer-history-item">
+                                  <span className="customer-history-date">{formatDate(entry.date)}</span>
+                                  <span className="customer-history-service">{cat?.name || entry.category}</span>
+                                  <span className="customer-history-amount">{formatCurrency(entry.amount, settings.currency)}</span>
+                                </div>
+                              )
+                            })}
+                            {customer.entries.length > 5 && (
+                              <div className="customer-history-more">
+                                +{customer.entries.length - 5} {t('more', lang) || 'more'}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+          </section>
+
+          {/* Customer Stats */}
+          <section className="report-section">
+            <h3 className="report-title">{t('customerStats', lang) || 'Customer Statistics'}</h3>
+            <div className="summary-grid">
+              <div className="summary-item">
+                <span className="summary-item-label">{t('totalCustomers', lang) || 'Total Customers'}</span>
+                <span className="summary-item-value">{customers.length}</span>
+              </div>
+              <div className="summary-item">
+                <span className="summary-item-label">{t('avgPerCustomer', lang) || 'Avg per Customer'}</span>
+                <span className="summary-item-value">
+                  {formatCurrency(customers.length > 0 ? totalIncome / customers.length : 0, settings.currency)}
+                </span>
+              </div>
+              <div className="summary-item">
+                <span className="summary-item-label">{t('repeatCustomers', lang) || 'Repeat Customers'}</span>
+                <span className="summary-item-value">{customers.filter(c => c.entries.length > 1).length}</span>
+              </div>
+              <div className="summary-item">
+                <span className="summary-item-label">{t('topCustomer', lang) || 'Top Customer'}</span>
+                <span className="summary-item-value">{customers[0]?.name?.slice(0, 12) || '-'}</span>
               </div>
             </div>
           </section>

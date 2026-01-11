@@ -13,6 +13,7 @@ import { ScheduleModal } from './components/ScheduleModal'
 import { BackupModal } from './components/BackupModal'
 import { BackupVault } from './components/BackupVault'
 import { TutorialSlides } from './components/TutorialSlides'
+import { QRCodeModal } from './components/QRCodeModal'
 import { PinLock } from './components/PinLock'
 import { toLocalDateString } from './utils/format'
 import { saveSnapshot, initVault } from './services/backupVault'
@@ -31,6 +32,7 @@ function App() {
   const [showBackupModal, setShowBackupModal] = useState(false)
   const [showVaultModal, setShowVaultModal] = useState(false)
   const [showTutorial, setShowTutorial] = useState(false)
+  const [showQRModal, setShowQRModal] = useState(false)
   const [selectedDate, setSelectedDate] = useState(null)
   const [editingEntry, setEditingEntry] = useState(null)
   
@@ -218,6 +220,7 @@ function App() {
             onDayClick={handleDayClick}
             onAddService={handleAddService}
             onLogoClick={() => setShowTutorial(true)}
+            onQRClick={() => setShowQRModal(true)}
           />
         )
       case 'reports':
@@ -316,6 +319,13 @@ function App() {
       <TutorialSlides
         isOpen={showTutorial}
         onClose={() => setShowTutorial(false)}
+        settings={settings}
+      />
+
+      <QRCodeModal
+        isOpen={showQRModal}
+        onClose={() => setShowQRModal(false)}
+        profile={profile}
         settings={settings}
       />
     </div>

@@ -1,10 +1,20 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { CloseIcon, TrendUpIcon, TrendDownIcon, LocationIcon, CalendarIcon } from './Icons'
 import { INCOME_CATEGORIES, EXPENSE_CATEGORIES } from '../utils/categories'
 import { getCategoryIcon } from './CategoryIcons'
 import { t } from '../utils/translations'
 import { formatCurrency, formatDate, toLocalDateString } from '../utils/format'
 import { haptic } from '../utils/haptic'
+
+// Microphone Icon
+const MicIcon = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/>
+    <path d="M19 10v2a7 7 0 01-14 0v-2"/>
+    <line x1="12" y1="19" x2="12" y2="23"/>
+    <line x1="8" y1="23" x2="16" y2="23"/>
+  </svg>
+)
 
 const PAYMENT_METHODS = ['cash', 'applePay', 'check', 'bankTransfer', 'moneyOrder', 'otherPayment']
 const IRS_MILEAGE_RATE = 0.67
@@ -24,7 +34,94 @@ export function AddModal({ isOpen, onClose, onAdd, settings, entries = [] }) {
   // Mileage states (manual entry)
   const [miles, setMiles] = useState('')
   
+  // Voice input states
+  const [isListening, setIsListening] = useState(false)
+  const [voiceText, setVoiceText] = useState('')
+  const recognitionRef = useRef(null)
+  
   const dateInputRef = useRef(null)
+
+  // Initialize speech recognition
+  useEffect(() => {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+      recognitionRef.current = new SpeechRecognition()
+      recognitionRef.current.continuous = false
+      recognitionRef.current.interimResults = true
+      recognitionRef.current.lang = settings?.language === 'ne' ? 'ne-NP' : settings?.language === 'hi' ? 'hi-IN' : 'en-US'
+      
+      recognitionRef.current.onresult = (event) => {
+        const transcript = Array.from(event.results)
+          .map(result => result[0].transcript)
+          .join('')
+        setVoiceText(transcript)
+        parseVoiceInput(transcript)
+      }
+      
+      recognitionRef.current.onend = () => {
+        setIsListening(false)
+      }
+      
+      recognitionRef.current.onerror = () => {
+        setIsListening(false)
+      }
+    }
+    
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop()
+      }
+    }
+  }, [settings?.language])
+
+  const startListening = () => {
+    if (recognitionRef.current && !isListening) {
+      haptic('medium')
+      setIsListening(true)
+      setVoiceText('')
+      recognitionRef.current.start()
+    }
+  }
+
+  const stopListening = () => {
+    if (recognitionRef.current && isListening) {
+      haptic()
+      recognitionRef.current.stop()
+      setIsListening(false)
+    }
+  }
+
+  const parseVoiceInput = (text) => {
+    const lower = text.toLowerCase()
+    
+    // Extract amount (look for numbers)
+    const amountMatch = lower.match(/(\d+(?:\.\d{2})?)\s*(?:dollars?|rupees?|\$|₹)?/)
+    if (amountMatch) {
+      setAmount(amountMatch[1])
+    }
+    
+    // Extract payer name (look for "from" keyword)
+    const fromMatch = lower.match(/from\s+([a-zA-Z\s]+?)(?:\s+for|\s+at|\s*$)/i)
+    if (fromMatch) {
+      setPayerName(fromMatch[1].trim())
+    }
+    
+    // Check for expense keywords
+    if (lower.includes('expense') || lower.includes('spent') || lower.includes('paid for')) {
+      setType('expense')
+    }
+    
+    // Check for income keywords
+    if (lower.includes('received') || lower.includes('earned') || lower.includes('income')) {
+      setType('income')
+    }
+    
+    // Set source/description (use remaining text)
+    const forMatch = lower.match(/for\s+(.+?)(?:\s+from|\s*$)/i)
+    if (forMatch) {
+      setSource(forMatch[1].trim())
+    }
+  }
 
   const lang = settings.language || 'en'
   const categories = type === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES
@@ -103,8 +200,33 @@ export function AddModal({ isOpen, onClose, onAdd, settings, entries = [] }) {
             <CloseIcon />
           </button>
           <h2>{t('addEntry', lang)}</h2>
-          <div></div>
+          <button 
+            type="button"
+            className={`voice-btn ${isListening ? 'listening' : ''}`}
+            onClick={isListening ? stopListening : startListening}
+            title={t('voiceEntry', lang) || 'Voice Entry'}
+          >
+            <MicIcon />
+          </button>
         </div>
+
+        {/* Voice Input Display */}
+        {(isListening || voiceText) && (
+          <div className={`voice-status ${isListening ? 'active' : ''}`}>
+            <div className="voice-indicator">
+              {isListening && <span className="voice-pulse" />}
+              <MicIcon className="voice-status-icon" />
+            </div>
+            <div className="voice-text">
+              {isListening ? (voiceText || (t('listening', lang) || 'Listening...')) : voiceText}
+            </div>
+            {voiceText && !isListening && (
+              <button type="button" className="voice-clear" onClick={() => setVoiceText('')}>
+                <CloseIcon />
+              </button>
+            )}
+          </div>
+        )}
 
         <form className="income-form" onSubmit={handleSubmit}>
           {/* Income/Expense Toggle */}

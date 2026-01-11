@@ -1,11 +1,12 @@
 import { ClockIcon, UserIcon, PlusIcon, TrendUpIcon, TrendDownIcon } from '../components/Icons'
+import { QRIcon } from '../components/QRCodeModal'
 import { formatCurrency, getThisMonthEntries, getLastMonthEntries, getCurrentFiscalYear, toLocalDateString } from '../utils/format'
 import { EntryItem } from '../components/EntryItem'
 import { Calendar } from '../components/Calendar'
 import { t } from '../utils/translations'
 import { haptic } from '../utils/haptic'
 
-export function HomePage({ entries, scheduledServices, settings, onAddClick, onViewAll, onActivityClick, onEditEntry, onDeleteEntry, getLinkedExpenses, onProfileClick, onDayClick, onAddService, onLogoClick }) {
+export function HomePage({ entries, scheduledServices, settings, onAddClick, onViewAll, onActivityClick, onEditEntry, onDeleteEntry, getLinkedExpenses, onProfileClick, onDayClick, onAddService, onLogoClick, onQRClick }) {
   const lang = settings.language || 'en'
   
   // Calculate income and expenses
@@ -60,6 +61,9 @@ export function HomePage({ entries, scheduledServices, settings, onAddClick, onV
       </header>
 
       <section className="summary-card">
+        <button className="qr-btn" onClick={() => { haptic(); onQRClick?.() }} title={t('scanToPay', lang) || 'Scan to Pay'}>
+          <QRIcon className="qr-btn-icon" />
+        </button>
         <p className="summary-label">{t('netIncome', lang)}</p>
         <h2 className={`summary-amount ${netIncome < 0 ? 'negative' : ''}`}>
           {netIncome < 0 ? '-' : ''}{formatCurrency(Math.abs(netIncome), settings.currency)}
