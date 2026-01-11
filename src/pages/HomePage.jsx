@@ -4,7 +4,7 @@ import { EntryItem } from '../components/EntryItem'
 import { Calendar } from '../components/Calendar'
 import { t } from '../utils/translations'
 
-export function HomePage({ entries, scheduledServices, settings, onAddClick, onViewAll, onActivityClick, onEditEntry, onDeleteEntry, getLinkedExpenses, onProfileClick, onDayClick, onAddService }) {
+export function HomePage({ entries, scheduledServices, settings, onAddClick, onViewAll, onActivityClick, onEditEntry, onDeleteEntry, getLinkedExpenses, onProfileClick, onDayClick, onAddService, onLogoClick }) {
   const lang = settings.language || 'en'
   
   // Calculate income and expenses
@@ -46,11 +46,11 @@ export function HomePage({ entries, scheduledServices, settings, onAddClick, onV
             <ClockIcon className="logo-icon" />
           </button>
         </div>
-        <div className="header-brand">
+        <button className="header-brand-btn" onClick={onLogoClick} title="How to use Yagya">
           <span className="header-brand-name">
             <span className="brand-d">य</span>agya
           </span>
-        </div>
+        </button>
         <div className="header-right">
           <button className="icon-btn" onClick={onProfileClick} title={t('profile', lang)}>
             <UserIcon className="menu-icon" />

@@ -94,6 +94,27 @@ export const translations = {
     exportTransactions: 'लेनदेन',
     exportSchedule: 'तालिका',
     services: 'सेवाहरू',
+    
+    // Tutorial Slides
+    tutorialWelcomeTitle: 'Yagya मा स्वागत छ',
+    tutorialWelcomeDesc: 'तपाईंको आध्यात्मिक आम्दानी ट्र्याकर',
+    tutorialAddTitle: 'आम्दानी थप्नुहोस्',
+    tutorialAddDesc: 'कमाई रेकर्ड गर्न + बटन थिच्नुहोस्',
+    tutorialScheduleTitle: 'सेवा तालिका',
+    tutorialScheduleDesc: 'आगामी समारोहहरू योजना गर्नुहोस्',
+    tutorialExpenseTitle: 'खर्च ट्र्याक',
+    tutorialExpenseDesc: 'यात्रा, सामान र थप लग गर्नुहोस्',
+    tutorialReportsTitle: 'कर रिपोर्ट',
+    tutorialReportsDesc: 'सुन्दर PDF रिपोर्टहरू बनाउनुहोस्',
+    tutorialSecurityTitle: 'सुरक्षित र निजी',
+    tutorialSecurityDesc: 'डाटा तपाईंको उपकरणमा रहन्छ',
+    tutorialBackupTitle: 'ब्याकअप भल्ट',
+    tutorialBackupDesc: 'हरेक लेनदेन स्वत: सुरक्षित',
+    tutorialThemeTitle: 'डार्क र लाइट',
+    tutorialThemeDesc: 'सेटिङमा थिम स्विच गर्नुहोस्',
+    scrollToContinue: 'जारी राख्न स्क्रोल वा स्वाइप गर्नुहोस्',
+    tapToClose: 'बन्द गर्न कहीं पनि थिच्नुहोस्',
+    
     googleDrive: 'Google Drive',
     googleDriveDesc: 'पूर्ण ब्याकअप Drive मा सुरक्षित गर्नुहोस्',
     saveToDrive: 'Drive मा सुरक्षित गर्नुहोस्',
@@ -570,7 +591,27 @@ export const translations = {
     cancel: 'Cancel',
     security: 'Security',
     languageCurrencySettings: 'Language, currency & more',
-    backupExportSettings: 'Backup, export & restore'
+    backupExportSettings: 'Backup, export & restore',
+    
+    // Tutorial Slides
+    tutorialWelcomeTitle: 'Welcome to Yagya',
+    tutorialWelcomeDesc: 'Your spiritual income tracker',
+    tutorialAddTitle: 'Add Income',
+    tutorialAddDesc: 'Tap + button to record earnings',
+    tutorialScheduleTitle: 'Schedule Services',
+    tutorialScheduleDesc: 'Plan upcoming ceremonies',
+    tutorialExpenseTitle: 'Track Expenses',
+    tutorialExpenseDesc: 'Log travel, supplies & more',
+    tutorialReportsTitle: 'Tax Reports',
+    tutorialReportsDesc: 'Generate beautiful PDF reports',
+    tutorialSecurityTitle: 'Secure & Private',
+    tutorialSecurityDesc: 'Data stays on your device',
+    tutorialBackupTitle: 'Backup Vault',
+    tutorialBackupDesc: 'Auto-save every transaction',
+    tutorialThemeTitle: 'Dark & Light',
+    tutorialThemeDesc: 'Switch themes in settings',
+    scrollToContinue: 'Scroll or swipe to continue',
+    tapToClose: 'Tap anywhere to close'
   },
   
   hi: {
