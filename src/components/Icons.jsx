@@ -71,6 +71,12 @@ export const CloseIcon = ({ className }) => (
   </svg>
 )
 
+export const ChevronIcon = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="6 9 12 15 18 9"/>
+  </svg>
+)
+
 export const MenuIcon = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
     <circle cx="5" cy="12" r="2"/>
