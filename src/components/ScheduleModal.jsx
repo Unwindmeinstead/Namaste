@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'
-import { CloseIcon, TrashIcon, EditIcon, BackIcon } from './Icons'
+import { useState, useEffect, useRef } from 'react'
+import { CloseIcon, TrashIcon, EditIcon, BackIcon, CalendarIcon } from './Icons'
 import { INCOME_CATEGORIES } from '../utils/categories'
 import { getCategoryIcon } from './CategoryIcons'
 import { t } from '../utils/translations'
-import { formatCurrency } from '../utils/format'
+import { formatCurrency, toLocalDateString } from '../utils/format'
 
 const HOURS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
 
@@ -12,14 +12,16 @@ export function ScheduleModal({ isOpen, onClose, onAdd, onUpdate, onDelete, sett
   const [editingService, setEditingService] = useState(null)
   
   const [title, setTitle] = useState('')
-  const [category, setCategory] = useState('teaching')
-  const [date, setDate] = useState(selectedDate || new Date().toISOString().split('T')[0])
+  const [category, setCategory] = useState('saptahah')
+  const [date, setDate] = useState(selectedDate || toLocalDateString(new Date()))
   const [hour, setHour] = useState('9')
   const [period, setPeriod] = useState('AM')
   const [address, setAddress] = useState('')
   const [contactName, setContactName] = useState('')
   const [contactPhone, setContactPhone] = useState('')
   const [notes, setNotes] = useState('')
+  
+  const dateInputRef = useRef(null)
 
   const lang = settings.language || 'en'
 
@@ -41,7 +43,7 @@ export function ScheduleModal({ isOpen, onClose, onAdd, onUpdate, onDelete, sett
       } else {
         // If clicking "Schedule Service" button directly, go to add mode
         setMode('add')
-        setDate(new Date().toISOString().split('T')[0])
+        setDate(toLocalDateString(new Date()))
       }
     }
   }, [isOpen, selectedDate])
@@ -86,8 +88,8 @@ export function ScheduleModal({ isOpen, onClose, onAdd, onUpdate, onDelete, sett
 
   const resetForm = () => {
     setTitle('')
-    setCategory('teaching')
-    setDate(selectedDate || new Date().toISOString().split('T')[0])
+    setCategory('saptahah')
+    setDate(selectedDate || toLocalDateString(new Date()))
     setHour('9')
     setPeriod('AM')
     setAddress('')
@@ -277,12 +279,22 @@ export function ScheduleModal({ isOpen, onClose, onAdd, onUpdate, onDelete, sett
 
         <div className="form-group">
           <label>{t('date', lang)}</label>
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            required
-          />
+          <div 
+            className="date-input-wrap"
+            onClick={() => dateInputRef.current?.showPicker?.()}
+          >
+            <CalendarIcon className="date-icon" />
+            <input
+              ref={dateInputRef}
+              type="date"
+              value={date}
+              onChange={(e) => {
+                setDate(e.target.value)
+                e.target.blur()
+              }}
+              required
+            />
+          </div>
         </div>
 
         <div className="form-group">

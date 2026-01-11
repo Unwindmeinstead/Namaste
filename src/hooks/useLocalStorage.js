@@ -22,7 +22,7 @@ export function useLocalStorage(key, initialValue) {
 }
 
 export function useSettings() {
-  const [settings, setSettings] = useLocalStorage('guruji_settings', {
+  const [settings, setSettings] = useLocalStorage('yagya_settings', {
     currency: 'USD',
     language: 'en',
     theme: 'dark',
@@ -39,7 +39,7 @@ export function useSettings() {
 }
 
 export function useProfile() {
-  const [profile, setProfile] = useLocalStorage('guruji_profile', {
+  const [profile, setProfile] = useLocalStorage('yagya_profile', {
     name: '',
     businessName: '',
     email: '',

@@ -1,23 +1,26 @@
 <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="512" height="512" rx="96" fill="#0a0a0a"/>
-  <g transform="translate(106, 76) scale(3)" stroke="white" stroke-linecap="round" stroke-linejoin="round" fill="none">
-    <!-- Pot base -->
-    <ellipse cx="50" cy="82" rx="12" ry="3" stroke-width="2.5"/>
-    <!-- Pot body - rounded -->
-    <path d="M32 65 Q28 50, 38 42 L62 42 Q72 50, 68 65 Q65 75, 50 78 Q35 75, 32 65Z" stroke-width="2.5"/>
-    <!-- Pot neck -->
-    <path d="M38 42 L38 36 Q38 32, 50 30 Q62 32, 62 36 L62 42" stroke-width="2.5"/>
-    <!-- Mango leaves - left -->
-    <path d="M40 32 Q28 28, 22 18" stroke-width="2"/>
-    <path d="M40 32 Q30 30, 26 22" stroke-width="2"/>
-    <!-- Mango leaves - right -->
-    <path d="M60 32 Q72 28, 78 18" stroke-width="2"/>
-    <path d="M60 32 Q70 30, 74 22" stroke-width="2"/>
-    <!-- Coconut on top -->
-    <ellipse cx="50" cy="24" rx="8" ry="7" stroke-width="2.5"/>
-    <!-- Coconut tuft -->
-    <path d="M46 18 Q48 12, 50 10" stroke-width="1.5"/>
-    <path d="M50 17 L50 9" stroke-width="1.5"/>
-    <path d="M54 18 Q52 12, 50 10" stroke-width="1.5"/>
+  <rect width="512" height="512" rx="100" fill="#0a0a0a"/>
+  <g transform="translate(120, 85)">
+    <!-- Havan Kund (fire pit) base -->
+    <path d="M25 255 L55 200 L215 200 L245 255 Z" stroke="white" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M40 255 L230 255" stroke="white" stroke-width="6" stroke-linecap="round"/>
+    <ellipse cx="135" cy="200" rx="80" ry="16" stroke="white" stroke-width="5" fill="none"/>
+    
+    <!-- Sacred Fire - main flame -->
+    <path d="M135 190 Q175 130, 150 90 Q165 115, 135 60 Q105 115, 120 90 Q95 130, 135 190" stroke="#ff6b35" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Inner flame -->
+    <path d="M135 185 Q160 140, 145 115 Q155 130, 135 95 Q115 130, 125 115 Q110 140, 135 185" stroke="#ffb347" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Side flames left -->
+    <path d="M90 190 Q75 150, 100 120 Q80 145, 90 190" stroke="#ff6b35" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Side flames right -->
+    <path d="M180 190 Q195 150, 170 120 Q190 145, 180 190" stroke="#ff6b35" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Sparks -->
+    <circle cx="110" cy="75" r="4" fill="#ffb347"/>
+    <circle cx="160" cy="70" r="4" fill="#ffb347"/>
+    <circle cx="135" cy="45" r="5" fill="#ff6b35"/>
   </g>
 </svg>

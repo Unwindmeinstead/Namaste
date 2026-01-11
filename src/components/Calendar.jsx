@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { ChevronRightIcon, BackIcon, PlusIcon } from './Icons'
 import { t } from '../utils/translations'
+import { toLocalDateString } from '../utils/format'
 
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
@@ -33,13 +34,13 @@ export function Calendar({ entries, scheduledServices, settings, onAddService, o
 
   // Get entries for a specific date
   const getEntriesForDate = (date) => {
-    const dateStr = date.toISOString().split('T')[0]
+    const dateStr = toLocalDateString(date)
     return entries.filter(e => e.date === dateStr && e.type !== 'expense')
   }
 
   // Get scheduled services for a specific date
   const getScheduledForDate = (date) => {
-    const dateStr = date.toISOString().split('T')[0]
+    const dateStr = toLocalDateString(date)
     return (scheduledServices || []).filter(s => s.date === dateStr)
   }
 

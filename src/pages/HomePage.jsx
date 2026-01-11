@@ -1,5 +1,5 @@
 import { ClockIcon, UserIcon, PlusIcon, TrendUpIcon, TrendDownIcon } from '../components/Icons'
-import { formatCurrency, getThisMonthEntries, getLastMonthEntries, getCurrentFiscalYear } from '../utils/format'
+import { formatCurrency, getThisMonthEntries, getLastMonthEntries, getCurrentFiscalYear, toLocalDateString } from '../utils/format'
 import { EntryItem } from '../components/EntryItem'
 import { Calendar } from '../components/Calendar'
 import { t } from '../utils/translations'
@@ -32,7 +32,7 @@ export function HomePage({ entries, scheduledServices, settings, onAddClick, onV
   const recentIncomeEntries = incomeEntries.slice(0, 3)
 
   // Get upcoming scheduled services
-  const today = new Date().toISOString().split('T')[0]
+  const today = toLocalDateString(new Date())
   const upcomingServices = (scheduledServices || [])
     .filter(s => s.date >= today)
     .sort((a, b) => new Date(a.date) - new Date(b.date))
@@ -48,7 +48,7 @@ export function HomePage({ entries, scheduledServices, settings, onAddClick, onV
         </div>
         <div className="header-brand">
           <span className="header-brand-name">
-            <span className="brand-d">द</span>akshina
+            <span className="brand-d">य</span>agya
           </span>
         </div>
         <div className="header-right">

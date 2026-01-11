@@ -12,11 +12,12 @@ import { ActivityModal } from './components/ActivityModal'
 import { ScheduleModal } from './components/ScheduleModal'
 import { BackupModal } from './components/BackupModal'
 import { PinLock } from './components/PinLock'
+import { toLocalDateString } from './utils/format'
 
 function App() {
-  const [entries, setEntries] = useLocalStorage('guruji_income_entries', [])
-  const [scheduledServices, setScheduledServices] = useLocalStorage('guruji_scheduled_services', [])
-  const [activities, setActivities] = useLocalStorage('guruji_activities', [])
+  const [entries, setEntries] = useLocalStorage('yagya_entries', [])
+  const [scheduledServices, setScheduledServices] = useLocalStorage('yagya_scheduled', [])
+  const [activities, setActivities] = useLocalStorage('yagya_activities', [])
   const [settings, updateSetting, setSettings] = useSettings()
   const [profile, updateProfile] = useProfile()
   const [activePage, setActivePage] = useState('home')
@@ -30,7 +31,7 @@ function App() {
   
   // PIN lock state
   const [isLocked, setIsLocked] = useState(() => {
-    return !!localStorage.getItem('guruji_pin')
+    return !!localStorage.getItem('yagya_pin')
   })
 
   // Log activity helper
@@ -123,7 +124,7 @@ function App() {
   }
 
   const handleDayClick = (date, dayEntries, dayScheduled) => {
-    setSelectedDate(date.toISOString().split('T')[0])
+    setSelectedDate(toLocalDateString(date))
     setShowScheduleModal(true)
   }
 

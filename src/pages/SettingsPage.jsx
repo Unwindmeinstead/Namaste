@@ -34,7 +34,7 @@ export function SettingsPage({ settings, updateSetting, onClearData, onBackup, e
   const [dataExpanded, setDataExpanded] = useState(false)
   const [showHelpGuide, setShowHelpGuide] = useState(false)
   const [pinMode, setPinMode] = useState(null) // 'setup', 'change', 'verify-remove', 'verify-change'
-  const [hasPin, setHasPin] = useState(() => !!localStorage.getItem('guruji_pin'))
+  const [hasPin, setHasPin] = useState(() => !!localStorage.getItem('yagya_pin'))
   const [toast, setToast] = useState('')
 
   const showToast = (message) => {
@@ -49,21 +49,21 @@ export function SettingsPage({ settings, updateSetting, onClearData, onBackup, e
   }
 
   const handleExportAll = () => {
-    downloadCSV(entries, 'dakshina-income-all.csv')
+    downloadCSV(entries, 'yagya-income-all.csv')
   }
 
   const handleBackup = () => {
     const data = {
-      entries: JSON.parse(localStorage.getItem('guruji_income_entries') || '[]'),
-      settings: JSON.parse(localStorage.getItem('guruji_settings') || '{}'),
-      profile: JSON.parse(localStorage.getItem('guruji_profile') || '{}'),
+      entries: JSON.parse(localStorage.getItem('yagya_entries') || '[]'),
+      settings: JSON.parse(localStorage.getItem('yagya_settings') || '{}'),
+      profile: JSON.parse(localStorage.getItem('yagya_profile') || '{}'),
       exportedAt: new Date().toISOString()
     }
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `dakshina-backup-${new Date().toISOString().split('T')[0]}.json`
+    a.download = `yagya-backup-${new Date().toISOString().split('T')[0]}.json`
     a.click()
     URL.revokeObjectURL(url)
   }
@@ -77,13 +77,13 @@ export function SettingsPage({ settings, updateSetting, onClearData, onBackup, e
       try {
         const data = JSON.parse(event.target.result)
         if (data.entries) {
-          localStorage.setItem('guruji_income_entries', JSON.stringify(data.entries))
+          localStorage.setItem('yagya_entries', JSON.stringify(data.entries))
         }
         if (data.settings) {
-          localStorage.setItem('guruji_settings', JSON.stringify(data.settings))
+          localStorage.setItem('yagya_settings', JSON.stringify(data.settings))
         }
         if (data.profile) {
-          localStorage.setItem('guruji_profile', JSON.stringify(data.profile))
+          localStorage.setItem('yagya_profile', JSON.stringify(data.profile))
         }
         alert(t('backupRestored', lang))
         window.location.reload()
@@ -115,17 +115,17 @@ export function SettingsPage({ settings, updateSetting, onClearData, onBackup, e
 
   const handlePinSuccess = (newPin) => {
     if (pinMode === 'setup') {
-      localStorage.setItem('guruji_pin', newPin)
+      localStorage.setItem('yagya_pin', newPin)
       setHasPin(true)
       showToast(t('pinEnabled', lang))
     } else if (pinMode === 'verify-change') {
       setPinMode('setup')
       return // Don't close modal yet
     } else if (pinMode === 'change-new') {
-      localStorage.setItem('guruji_pin', newPin)
+      localStorage.setItem('yagya_pin', newPin)
       showToast(t('pinChanged', lang))
     } else if (pinMode === 'verify-remove') {
-      localStorage.removeItem('guruji_pin')
+      localStorage.removeItem('yagya_pin')
       setHasPin(false)
       showToast(t('pinRemoved', lang))
     }

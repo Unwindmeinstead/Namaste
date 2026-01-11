@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { CloseIcon, TrashIcon, TrendUpIcon, TrendDownIcon } from './Icons'
+import { useState, useEffect, useRef } from 'react'
+import { CloseIcon, TrashIcon, TrendUpIcon, TrendDownIcon, CalendarIcon } from './Icons'
 import { INCOME_CATEGORIES, EXPENSE_CATEGORIES } from '../utils/categories'
 import { getCategoryIcon } from './CategoryIcons'
 import { t } from '../utils/translations'
@@ -14,9 +14,10 @@ export function EditModal({ isOpen, entry, onClose, onSave, onDelete, settings, 
   const [paymentMethod, setPaymentMethod] = useState('cash')
   const [source, setSource] = useState('')
   const [date, setDate] = useState('')
-  const [notes, setNotes] = useState('')
-  const [category, setCategory] = useState('other')
+  const [category, setCategory] = useState('saptahah')
   const [relatedTo, setRelatedTo] = useState('')
+  
+  const dateInputRef = useRef(null)
 
   const lang = settings.language || 'en'
   const categories = type === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES
@@ -33,7 +34,6 @@ export function EditModal({ isOpen, entry, onClose, onSave, onDelete, settings, 
       setPaymentMethod(entry.paymentMethod || 'cash')
       setSource(entry.source || '')
       setDate(entry.date)
-      setNotes(entry.notes || '')
       setCategory(entry.category || 'other')
       setRelatedTo(entry.relatedTo || '')
     }
@@ -60,7 +60,7 @@ export function EditModal({ isOpen, entry, onClose, onSave, onDelete, settings, 
       paymentMethod: paymentMethod,
       source: source.trim() || getCatName(selectedCat) || (type === 'income' ? 'Income' : 'Expense'),
       date,
-      notes: notes.trim(),
+      notes: entry.notes || '',
       category,
       relatedTo: type === 'expense' && relatedTo ? relatedTo : null,
       updatedAt: new Date().toISOString()
@@ -77,7 +77,7 @@ export function EditModal({ isOpen, entry, onClose, onSave, onDelete, settings, 
   const handleTypeChange = (newType) => {
     setType(newType)
     if (newType === 'income' && EXPENSE_CATEGORIES.find(c => c.id === category)) {
-      setCategory('other')
+      setCategory('saptahah')
       setRelatedTo('')
     } else if (newType === 'expense' && INCOME_CATEGORIES.find(c => c.id === category)) {
       setCategory('other_expense')
@@ -224,21 +224,21 @@ export function EditModal({ isOpen, entry, onClose, onSave, onDelete, settings, 
 
           <div className="form-group">
             <label>{t('date', lang)}</label>
-            <input
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-            />
-          </div>
-
-          <div className="form-group">
-            <label>{t('notesOptional', lang)}</label>
-            <input
-              type="text"
-              placeholder={t('additionalDetails', lang)}
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-            />
+            <div 
+              className="date-input-wrap"
+              onClick={() => dateInputRef.current?.showPicker?.()}
+            >
+              <CalendarIcon className="date-icon" />
+              <input
+                ref={dateInputRef}
+                type="date"
+                value={date}
+                onChange={(e) => {
+                  setDate(e.target.value)
+                  e.target.blur()
+                }}
+              />
+            </div>
           </div>
 
           <button type="submit" className={`submit-btn ${type === 'expense' ? 'expense' : ''}`}>

@@ -1,3 +1,12 @@
+// Format date to YYYY-MM-DD in local timezone (avoids UTC conversion issues)
+export function toLocalDateString(date) {
+  const d = date instanceof Date ? date : new Date(date)
+  const year = d.getFullYear()
+  const month = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
 export function formatCurrency(amount, currency = 'USD') {
   const symbols = { USD: '$', EUR: '€', GBP: '£', INR: '₹' }
   const symbol = symbols[currency] || '$'
@@ -5,13 +14,13 @@ export function formatCurrency(amount, currency = 'USD') {
 }
 
 export function formatDate(dateStr) {
-  const date = new Date(dateStr)
+  const date = new Date(dateStr + 'T00:00:00') // Parse as local time
   const today = new Date()
   const yesterday = new Date(today)
   yesterday.setDate(yesterday.getDate() - 1)
 
-  const todayStr = today.toISOString().split('T')[0]
-  const yesterdayStr = yesterday.toISOString().split('T')[0]
+  const todayStr = toLocalDateString(today)
+  const yesterdayStr = toLocalDateString(yesterday)
 
   if (dateStr === todayStr) return 'Today'
   if (dateStr === yesterdayStr) return 'Yesterday'

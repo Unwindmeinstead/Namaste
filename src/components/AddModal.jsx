@@ -1,9 +1,9 @@
-import { useState } from 'react'
-import { CloseIcon, TrendUpIcon, TrendDownIcon, LocationIcon } from './Icons'
+import { useState, useRef } from 'react'
+import { CloseIcon, TrendUpIcon, TrendDownIcon, LocationIcon, CalendarIcon } from './Icons'
 import { INCOME_CATEGORIES, EXPENSE_CATEGORIES } from '../utils/categories'
 import { getCategoryIcon } from './CategoryIcons'
 import { t } from '../utils/translations'
-import { formatCurrency, formatDate } from '../utils/format'
+import { formatCurrency, formatDate, toLocalDateString } from '../utils/format'
 import { calculateMiles, calculateMileageExpense, DEFAULT_HOME_ADDRESS } from '../utils/mileage'
 
 const PAYMENT_METHODS = ['cash', 'applePay', 'check', 'bankTransfer', 'moneyOrder', 'otherPayment']
@@ -18,15 +18,14 @@ const CarIcon = ({ className }) => (
 )
 
 export function AddModal({ isOpen, onClose, onAdd, settings, entries = [] }) {
-  const today = new Date().toISOString().split('T')[0]
+  const today = toLocalDateString(new Date())
   const [type, setType] = useState('income')
   const [amount, setAmount] = useState('')
   const [payerName, setPayerName] = useState('')
   const [paymentMethod, setPaymentMethod] = useState('cash')
   const [source, setSource] = useState('')
   const [date, setDate] = useState(today)
-  const [notes, setNotes] = useState('')
-  const [category, setCategory] = useState('other')
+  const [category, setCategory] = useState('saptahah')
   const [relatedTo, setRelatedTo] = useState('')
   
   // Mileage states
@@ -35,6 +34,8 @@ export function AddModal({ isOpen, onClose, onAdd, settings, entries = [] }) {
   const [mileageExpense, setMileageExpense] = useState(0)
   const [isCalculating, setIsCalculating] = useState(false)
   const [mileageError, setMileageError] = useState('')
+  
+  const dateInputRef = useRef(null)
 
   const lang = settings.language || 'en'
   const categories = type === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES
@@ -87,7 +88,7 @@ export function AddModal({ isOpen, onClose, onAdd, settings, entries = [] }) {
       paymentMethod: paymentMethod,
       source: source.trim() || (lang === 'hi' ? selectedCat?.nameHi : lang === 'ne' ? selectedCat?.nameNe : selectedCat?.name) || (type === 'income' ? 'Income' : 'Expense'),
       date,
-      notes: notes.trim(),
+      notes: '',
       category,
       relatedTo: type === 'expense' && relatedTo ? relatedTo : null,
       // Mileage data for expenses
@@ -107,8 +108,7 @@ export function AddModal({ isOpen, onClose, onAdd, settings, entries = [] }) {
     setPaymentMethod('cash')
     setSource('')
     setDate(today)
-    setNotes('')
-    setCategory('other')
+    setCategory('saptahah')
     setRelatedTo('')
     setDestinationAddress('')
     setMiles(0)
@@ -123,7 +123,7 @@ export function AddModal({ isOpen, onClose, onAdd, settings, entries = [] }) {
 
   const handleTypeChange = (newType) => {
     setType(newType)
-    setCategory(newType === 'income' ? 'other' : 'other_expense')
+    setCategory(newType === 'income' ? 'saptahah' : 'other_expense')
     if (newType === 'income') {
       setRelatedTo('')
       setDestinationAddress('')
@@ -317,21 +317,21 @@ export function AddModal({ isOpen, onClose, onAdd, settings, entries = [] }) {
 
           <div className="form-group">
             <label>{t('date', lang)}</label>
-            <input
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-            />
-          </div>
-
-          <div className="form-group">
-            <label>{t('notesOptional', lang)}</label>
-            <input
-              type="text"
-              placeholder={t('additionalDetails', lang)}
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-            />
+            <div 
+              className="date-input-wrap"
+              onClick={() => dateInputRef.current?.showPicker?.()}
+            >
+              <CalendarIcon className="date-icon" />
+              <input
+                ref={dateInputRef}
+                type="date"
+                value={date}
+                onChange={(e) => {
+                  setDate(e.target.value)
+                  e.target.blur()
+                }}
+              />
+            </div>
           </div>
 
           <button type="submit" className={`submit-btn ${type === 'expense' ? 'expense' : ''}`}>

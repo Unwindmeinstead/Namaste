@@ -1,23 +1,26 @@
 <svg viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect width="180" height="180" rx="40" fill="#0a0a0a"/>
-  <g transform="translate(40, 30)" stroke="white" stroke-linecap="round" stroke-linejoin="round" fill="none">
-    <!-- Pot base -->
-    <ellipse cx="50" cy="82" rx="12" ry="3" stroke-width="2.5"/>
-    <!-- Pot body - rounded -->
-    <path d="M32 65 Q28 50, 38 42 L62 42 Q72 50, 68 65 Q65 75, 50 78 Q35 75, 32 65Z" stroke-width="2.5"/>
-    <!-- Pot neck -->
-    <path d="M38 42 L38 36 Q38 32, 50 30 Q62 32, 62 36 L62 42" stroke-width="2.5"/>
-    <!-- Mango leaves - left -->
-    <path d="M40 32 Q28 28, 22 18" stroke-width="2"/>
-    <path d="M40 32 Q30 30, 26 22" stroke-width="2"/>
-    <!-- Mango leaves - right -->
-    <path d="M60 32 Q72 28, 78 18" stroke-width="2"/>
-    <path d="M60 32 Q70 30, 74 22" stroke-width="2"/>
-    <!-- Coconut on top -->
-    <ellipse cx="50" cy="24" rx="8" ry="7" stroke-width="2.5"/>
-    <!-- Coconut tuft -->
-    <path d="M46 18 Q48 12, 50 10" stroke-width="1.5"/>
-    <path d="M50 17 L50 9" stroke-width="1.5"/>
-    <path d="M54 18 Q52 12, 50 10" stroke-width="1.5"/>
+  <g transform="translate(42, 28)">
+    <!-- Havan Kund (fire pit) base -->
+    <path d="M8 90 L18 70 L78 70 L88 90 Z" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M13 90 L83 90" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+    <ellipse cx="48" cy="70" rx="30" ry="6" stroke="white" stroke-width="2" fill="none"/>
+    
+    <!-- Sacred Fire - main flame -->
+    <path d="M48 65 Q63 45, 53 30 Q58 40, 48 20 Q38 40, 43 30 Q33 45, 48 65" stroke="#ff6b35" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Inner flame -->
+    <path d="M48 63 Q56 50, 50 40 Q53 45, 48 33 Q43 45, 46 40 Q40 50, 48 63" stroke="#ffb347" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Side flames left -->
+    <path d="M33 65 Q28 53, 36 43 Q30 50, 33 65" stroke="#ff6b35" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Side flames right -->
+    <path d="M63 65 Q68 53, 60 43 Q66 50, 63 65" stroke="#ff6b35" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Sparks -->
+    <circle cx="40" cy="25" r="1.5" fill="#ffb347"/>
+    <circle cx="56" cy="23" r="1.5" fill="#ffb347"/>
+    <circle cx="48" cy="14" r="2" fill="#ff6b35"/>
   </g>
 </svg>

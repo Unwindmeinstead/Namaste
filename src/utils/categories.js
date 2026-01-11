@@ -1,12 +1,12 @@
 export const INCOME_CATEGORIES = [
-  { id: 'puran', name: 'Puran', nameHi: 'पुराण', nameNe: 'पुराण', icon: '📜', color: '#3b82f6' },
-  { id: 'bartaman', name: 'Bartaman', nameHi: 'बर्तमान', nameNe: 'बर्तमान', icon: '🕉️', color: '#8b5cf6' },
-  { id: 'puja', name: 'Puja', nameHi: 'पूजा', nameNe: 'पूजा', icon: '🙏', color: '#ec4899' },
-  { id: 'books', name: 'Books', nameHi: 'पुस्तकें', nameNe: 'पुस्तक', icon: '📖', color: '#14b8a6' },
-  { id: 'marau', name: 'Marau', nameHi: 'मराउ', nameNe: 'मराउ', icon: '🎯', color: '#f59e0b' },
-  { id: 'sarad', name: 'Sarad', nameHi: 'सरद', nameNe: 'सरद', icon: '🌟', color: '#10b981' },
-  { id: 'consultation', name: 'Consultation', nameHi: 'परामर्श', nameNe: 'परामर्श', icon: '💬', color: '#6366f1' },
-  { id: 'other', name: 'Other', nameHi: 'अन्य', nameNe: 'अन्य', icon: '💰', color: '#64748b' }
+  { id: 'saptahah', name: 'Saptahah', nameHi: 'सप्ताह', nameNe: 'सप्ताह', icon: '📜', color: '#3b82f6' },
+  { id: 'bartabandha', name: 'Bartabandha', nameHi: 'व्रतबन्ध', nameNe: 'व्रतबन्ध', icon: '🕉️', color: '#8b5cf6' },
+  { id: 'vivah', name: 'Vivah', nameHi: 'विवाह', nameNe: 'विवाह', icon: '💒', color: '#ec4899' },
+  { id: 'bhagawat', name: 'Bhagawat', nameHi: 'भागवत', nameNe: 'भागवत', icon: '📖', color: '#14b8a6' },
+  { id: 'japsanthi', name: 'Jap-Santhi', nameHi: 'जप-शान्ति', nameNe: 'जप-शान्ति', icon: '🙏', color: '#f59e0b' },
+  { id: 'ghatana', name: 'Ghatana', nameHi: 'घटना', nameNe: 'घटना', icon: '🎯', color: '#10b981' },
+  { id: 'namakaran', name: 'Namakaran', nameHi: 'नामकरण', nameNe: 'नामकरण', icon: '👶', color: '#6366f1' },
+  { id: 'saradha', name: 'Saradha', nameHi: 'श्राद्ध', nameNe: 'श्राद्ध', icon: '🪔', color: '#64748b' }
 ]
 
 export const EXPENSE_CATEGORIES = [

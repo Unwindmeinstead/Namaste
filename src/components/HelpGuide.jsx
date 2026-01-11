@@ -10,9 +10,9 @@ const sections = [
     titleNe: 'सुरु गर्दै',
     icon: '🚀',
     content: `
-**Welcome to Dakshina**
+**Welcome to Yagya**
 
-Dakshina is your personal income and expense tracker, designed specifically for spiritual service providers, priests, pandits, and gurujis. Track your earnings, manage expenses, schedule services, and generate tax reports—all in one beautiful, secure app.
+Yagya is your personal income and expense tracker, designed specifically for spiritual service providers, priests, pandits, and gurujis. Track your earnings, manage expenses, schedule services, and generate tax reports—all in one beautiful, secure app.
 
 **First Steps**
 
@@ -387,7 +387,7 @@ Tap the **clock icon** (🕐) in the top-left corner of the Home screen.
     titleNe: 'सुझावहरू र उत्तम अभ्यासहरू',
     icon: '💡',
     content: `
-**Getting the Most from Dakshina**
+**Getting the Most from Yagya**
 
 **Daily Habits**
 

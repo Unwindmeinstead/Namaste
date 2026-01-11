@@ -79,7 +79,7 @@ export function PinLock({ mode, onSuccess, onCancel, language = 'en' }) {
         }
       }
     } else if (mode === 'unlock') {
-      const storedPin = localStorage.getItem('guruji_pin')
+      const storedPin = localStorage.getItem('yagya_pin')
       if (pinValue === storedPin) {
         onSuccess()
       } else {
@@ -88,7 +88,7 @@ export function PinLock({ mode, onSuccess, onCancel, language = 'en' }) {
         setTimeout(() => inputRefs[0].current?.focus(), 300)
       }
     } else if (mode === 'verify') {
-      const storedPin = localStorage.getItem('guruji_pin')
+      const storedPin = localStorage.getItem('yagya_pin')
       if (pinValue === storedPin) {
         onSuccess()
       } else {
@@ -172,7 +172,7 @@ export function PinLock({ mode, onSuccess, onCancel, language = 'en' }) {
         )}
 
         {mode === 'unlock' && (
-          <p className="pin-footer">Dakshina</p>
+          <p className="pin-footer">Yagya</p>
         )}
       </div>
     </div>

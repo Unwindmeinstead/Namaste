@@ -26,7 +26,7 @@ async function geocodeAddress(address) {
       `https://nominatim.openstreetmap.org/search?format=json&q=${encoded}&limit=1`,
       {
         headers: {
-          'User-Agent': 'Dakshina/1.0'
+          'User-Agent': 'Yagya/1.0'
         }
       }
     )

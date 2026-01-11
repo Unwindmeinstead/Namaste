@@ -223,14 +223,14 @@ html, body, #root {
 
 .add-btn {
   width: 100%;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+  background: #ffffff;
+  border: 2px solid #000000;
   border-radius: var(--radius);
   padding: 14px 20px;
-  color: var(--text-primary);
+  color: #000000;
   font-family: inherit;
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -240,8 +240,9 @@ html, body, #root {
 }
 
 .add-btn:hover {
-  background: var(--bg-tertiary);
-  border-color: var(--text-muted);
+  background: #000000;
+  color: #ffffff;
+  border-color: #000000;
 }
 
 .add-btn:active { transform: scale(0.98); }
@@ -1388,14 +1389,57 @@ html, body, #root {
 }
 
 /* ========== DATE INPUT ========== */
-input[type="date"] {
-  -webkit-appearance: none;
-  appearance: none;
+.date-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: border-color 0.2s;
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-  opacity: 0.5;
+.date-input-wrap:hover,
+.date-input-wrap:focus-within {
+  border-color: var(--accent);
+}
+
+.date-icon {
+  position: absolute;
+  left: 14px;
+  width: 20px;
+  height: 20px;
+  color: var(--text-secondary);
+  pointer-events: none;
+}
+
+.date-input-wrap input[type="date"] {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 14px 16px 14px 44px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.date-input-wrap input[type="date"]:focus {
+  outline: none;
+}
+
+.date-input-wrap input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
