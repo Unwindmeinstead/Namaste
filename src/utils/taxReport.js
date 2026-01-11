@@ -135,58 +135,67 @@ export function generateTaxReport(entries, profile, settings, year) {
       background: var(--color-accent);
       color: white;
       padding: 48px;
+      text-align: center;
     }
     
-    .header-top {
+    .header-logo {
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 24px;
-    }
-    
-    .header-brand {
-      display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 12px;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      opacity: 0.8;
+      gap: 16px;
+      margin-bottom: 32px;
     }
     
-    .header-brand svg {
-      width: 24px;
-      height: 24px;
+    .header-logo svg {
+      width: 48px;
+      height: 48px;
+      opacity: 0.9;
     }
     
-    .header-year {
-      text-align: right;
-    }
-    
-    .header-year-label {
+    .header-logo-text {
       font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.15em;
       opacity: 0.6;
+    }
+    
+    .header-profile-name {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
       margin-bottom: 4px;
     }
     
-    .header-year-value {
-      font-size: 36px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
+    .header-business {
+      font-size: 14px;
+      opacity: 0.7;
+      margin-bottom: 24px;
+    }
+    
+    .header-divider {
+      width: 60px;
+      height: 2px;
+      background: rgba(255,255,255,0.3);
+      margin: 0 auto 24px;
     }
     
     .header h1 {
-      font-size: 32px;
-      font-weight: 600;
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      opacity: 0.9;
       margin-bottom: 8px;
-      letter-spacing: -0.02em;
     }
     
-    .header .subtitle {
-      font-size: 16px;
-      opacity: 0.8;
+    .header-year-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      padding: 8px 24px;
+      border-radius: 24px;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
     }
     
     /* Profile Section */
@@ -555,22 +564,19 @@ export function generateTaxReport(entries, profile, settings, year) {
 <body>
   <div class="report">
     <div class="header">
-      <div class="header-top">
-        <div class="header-brand">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-            <path d="M2 17l10 5 10-5"/>
-            <path d="M2 12l10 5 10-5"/>
-          </svg>
-          <span>Yagya Financial Report</span>
-        </div>
-        <div class="header-year">
-          <div class="header-year-label">Tax Year</div>
-          <div class="header-year-value">${year}</div>
-        </div>
+      <div class="header-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+          <path d="M2 17l10 5 10-5"/>
+          <path d="M2 12l10 5 10-5"/>
+        </svg>
+        <span class="header-logo-text">Yagya</span>
       </div>
+      ${profile.name ? `<div class="header-profile-name">${profile.name}</div>` : ''}
+      ${profile.businessName ? `<div class="header-business">${profile.businessName}</div>` : (!profile.name ? '<div class="header-business">Spiritual Services & Ceremonies</div>' : '')}
+      <div class="header-divider"></div>
       <h1>Income Tax Report</h1>
-      <p class="subtitle">${profile.businessName || profile.name || 'Spiritual Services & Ceremonies'}</p>
+      <div class="header-year-badge">${year}</div>
     </div>
     
     ${profile.name || profile.email || profile.phone || profile.address || profile.taxId ? `
@@ -1041,45 +1047,71 @@ export function generatePDFReport(entries, profile, settings, year) {
     
     /* Header - Clean, Professional */
     .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      padding-bottom: 20px;
+      text-align: center;
+      padding-bottom: 24px;
       margin-bottom: 24px;
       border-bottom: 3px solid var(--accent);
     }
     
-    .header-left h1 {
+    .header-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    
+    .header-logo svg {
+      width: 32px;
+      height: 32px;
+      color: var(--accent);
+    }
+    
+    .header-logo-text {
+      font-size: 8pt;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+    }
+    
+    .header-profile-name {
       font-size: 22pt;
       font-weight: 700;
       color: var(--text-primary);
-      margin-bottom: 4px;
       letter-spacing: -0.5px;
+      margin-bottom: 4px;
     }
     
-    .header-left .subtitle {
+    .header-business {
       font-size: 10pt;
       color: var(--text-secondary);
-      font-weight: 400;
+      margin-bottom: 16px;
     }
     
-    .header-right {
-      text-align: right;
+    .header-divider {
+      width: 40px;
+      height: 2px;
+      background: var(--border-strong);
+      margin: 0 auto 16px;
     }
     
-    .header-right .label {
-      font-size: 8pt;
+    .header h1 {
+      font-size: 11pt;
+      font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text-muted);
-      margin-bottom: 2px;
+      letter-spacing: 0.1em;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
     }
     
-    .header-right .year {
-      font-size: 28pt;
+    .header-year-badge {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      padding: 6px 20px;
+      border-radius: 16px;
+      font-size: 14pt;
       font-weight: 700;
-      color: var(--accent);
-      letter-spacing: -1px;
     }
     
     /* Profile Bar */
@@ -1495,14 +1527,19 @@ export function generatePDFReport(entries, profile, settings, year) {
   <!-- Page 1: Summary -->
   <div class="page">
     <div class="header">
-      <div class="header-left">
-        <h1>Income Tax Report</h1>
-        <div class="subtitle">${profile.businessName || profile.name || 'Spiritual Services & Ceremonies'}</div>
+      <div class="header-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+          <path d="M2 17l10 5 10-5"/>
+          <path d="M2 12l10 5 10-5"/>
+        </svg>
+        <span class="header-logo-text">Yagya</span>
       </div>
-      <div class="header-right">
-        <div class="label">Tax Year</div>
-        <div class="year">${year}</div>
-      </div>
+      ${profile.name ? `<div class="header-profile-name">${profile.name}</div>` : ''}
+      ${profile.businessName ? `<div class="header-business">${profile.businessName}</div>` : (!profile.name ? '<div class="header-business">Spiritual Services & Ceremonies</div>' : '')}
+      <div class="header-divider"></div>
+      <h1>Income Tax Report</h1>
+      <div class="header-year-badge">${year}</div>
     </div>
     
     ${profile.name || profile.email || profile.phone || profile.address || profile.taxId ? `

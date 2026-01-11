@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ChevronRightIcon, TrashIcon, DownloadIcon, UserIcon, EmailIcon, PhoneIcon, LocationIcon, FileIcon, LockIcon, ShieldIcon } from '../components/Icons'
 import { downloadCSV } from '../utils/format'
 import { t } from '../utils/translations'
 import { PinLock } from '../components/PinLock'
 import { HelpGuide } from '../components/HelpGuide'
+import { getSnapshotCount, getLatestSnapshot } from '../services/backupVault'
 
 const CURRENCIES = [
   { code: 'USD', name: 'US Dollar', symbol: '$' },
@@ -25,7 +26,15 @@ const CloudIcon = ({ className }) => (
   </svg>
 )
 
-export function SettingsPage({ settings, updateSetting, onClearData, onBackup, entries, profile, updateProfile }) {
+// Vault icon
+const VaultIcon = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+  </svg>
+)
+
+export function SettingsPage({ settings, updateSetting, onClearData, onBackup, onVault, entries, profile, updateProfile }) {
   const lang = settings.language || 'en'
   const [showSaved, setShowSaved] = useState(false)
   const [profileExpanded, setProfileExpanded] = useState(false)
@@ -36,6 +45,23 @@ export function SettingsPage({ settings, updateSetting, onClearData, onBackup, e
   const [pinMode, setPinMode] = useState(null) // 'setup', 'change', 'verify-remove', 'verify-change'
   const [hasPin, setHasPin] = useState(() => !!localStorage.getItem('yagya_pin'))
   const [toast, setToast] = useState('')
+  const [vaultCount, setVaultCount] = useState(0)
+  const [lastBackup, setLastBackup] = useState(null)
+  
+  // Load vault info
+  useEffect(() => {
+    const loadVaultInfo = async () => {
+      try {
+        const count = await getSnapshotCount()
+        const latest = await getLatestSnapshot()
+        setVaultCount(count)
+        setLastBackup(latest?.timestamp || null)
+      } catch (err) {
+        console.error('Failed to load vault info:', err)
+      }
+    }
+    loadVaultInfo()
+  }, [])
 
   const showToast = (message) => {
     setToast(message)
@@ -438,6 +464,22 @@ export function SettingsPage({ settings, updateSetting, onClearData, onBackup, e
         </button>
         
         <div className={`section-collapse ${dataExpanded ? 'expanded' : ''}`}>
+          {/* Backup Vault - Prominent button */}
+          <button className="settings-vault-btn" onClick={onVault}>
+            <div className="settings-vault-icon">
+              <VaultIcon />
+            </div>
+            <div className="settings-vault-info">
+              <span className="settings-vault-title">Backup Vault</span>
+              <span className="settings-vault-meta">
+                {vaultCount > 0 
+                  ? `${vaultCount} snapshots saved` 
+                  : 'Auto-saves every change'}
+              </span>
+            </div>
+            <ChevronRightIcon className="settings-vault-arrow" />
+          </button>
+          
           <div className="settings-group">
             <button className="setting-item clickable cloud-backup" onClick={onBackup}>
               <div className="setting-info">

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useLocalStorage, useSettings, useProfile } from './hooks/useLocalStorage'
 import { HomePage } from './pages/HomePage'
 import { ReportsPage } from './pages/ReportsPage'
@@ -11,8 +11,10 @@ import { EntriesModal } from './components/EntriesModal'
 import { ActivityModal } from './components/ActivityModal'
 import { ScheduleModal } from './components/ScheduleModal'
 import { BackupModal } from './components/BackupModal'
+import { BackupVault } from './components/BackupVault'
 import { PinLock } from './components/PinLock'
 import { toLocalDateString } from './utils/format'
+import { saveSnapshot, initVault } from './services/backupVault'
 
 function App() {
   const [entries, setEntries] = useLocalStorage('yagya_entries', [])
@@ -26,13 +28,44 @@ function App() {
   const [showActivityModal, setShowActivityModal] = useState(false)
   const [showScheduleModal, setShowScheduleModal] = useState(false)
   const [showBackupModal, setShowBackupModal] = useState(false)
+  const [showVaultModal, setShowVaultModal] = useState(false)
   const [selectedDate, setSelectedDate] = useState(null)
   const [editingEntry, setEditingEntry] = useState(null)
+  
+  // Track if initial backup has been done
+  const initialBackupDone = useRef(false)
   
   // PIN lock state
   const [isLocked, setIsLocked] = useState(() => {
     return !!localStorage.getItem('yagya_pin')
   })
+  
+  // Initialize backup vault on mount
+  useEffect(() => {
+    initVault().catch(console.error)
+  }, [])
+  
+  // Backup trigger - saves snapshot to IndexedDB vault
+  const triggerBackup = useCallback(async (actionType) => {
+    try {
+      await saveSnapshot({
+        entries,
+        scheduledServices,
+        settings,
+        profile
+      }, actionType)
+    } catch (err) {
+      console.error('Backup failed:', err)
+    }
+  }, [entries, scheduledServices, settings, profile])
+  
+  // Initial backup when app loads (only once)
+  useEffect(() => {
+    if (!initialBackupDone.current && entries.length > 0) {
+      initialBackupDone.current = true
+      triggerBackup('initial')
+    }
+  }, [entries, triggerBackup])
 
   // Log activity helper
   const logActivity = (type, details = '') => {
@@ -56,9 +89,12 @@ function App() {
   }, [settings.theme])
 
   const addEntry = (entry) => {
-    setEntries([entry, ...entries])
+    const newEntries = [entry, ...entries]
+    setEntries(newEntries)
     logActivity('add_entry', entry.type === 'expense' ? `Expense: ${entry.source}` : `Income: ${entry.source}`)
     haptic()
+    // Trigger backup after state update
+    setTimeout(() => triggerBackup('add_entry'), 100)
   }
 
   const updateEntry = (updatedEntry) => {
@@ -66,6 +102,7 @@ function App() {
     logActivity('edit_entry', updatedEntry.source)
     setEditingEntry(null)
     haptic()
+    setTimeout(() => triggerBackup('edit_entry'), 100)
   }
 
   const deleteEntry = (id) => {
@@ -75,18 +112,21 @@ function App() {
     ))
     logActivity('delete_entry', entry?.source || '')
     haptic()
+    setTimeout(() => triggerBackup('delete_entry'), 100)
   }
 
   const addScheduledService = (service) => {
     setScheduledServices([...scheduledServices, service])
     logActivity('add_schedule', service.title)
     haptic()
+    setTimeout(() => triggerBackup('add_schedule'), 100)
   }
 
   const updateScheduledService = (updatedService) => {
     setScheduledServices(scheduledServices.map(s => s.id === updatedService.id ? updatedService : s))
     logActivity('edit_schedule', updatedService.title)
     haptic()
+    setTimeout(() => triggerBackup('edit_schedule'), 100)
   }
 
   const deleteScheduledService = (id) => {
@@ -94,6 +134,21 @@ function App() {
     setScheduledServices(scheduledServices.filter(s => s.id !== id))
     logActivity('delete_schedule', service?.title || '')
     haptic()
+    setTimeout(() => triggerBackup('delete_schedule'), 100)
+  }
+  
+  // Restore from vault snapshot
+  const handleRestoreFromVault = (data) => {
+    if (data.entries) setEntries(data.entries)
+    if (data.scheduledServices) setScheduledServices(data.scheduledServices)
+    if (data.settings) setSettings(data.settings)
+    if (data.profile) {
+      Object.entries(data.profile).forEach(([key, value]) => {
+        updateProfile(key, value)
+      })
+    }
+    logActivity('restore', 'Restored from backup vault')
+    setTimeout(() => triggerBackup('restore'), 100)
   }
 
   const handleUpdateSetting = (key, value) => {
@@ -173,6 +228,7 @@ function App() {
             updateSetting={handleUpdateSetting}
             onClearData={clearAllData}
             onBackup={() => setShowBackupModal(true)}
+            onVault={() => setShowVaultModal(true)}
             entries={entries}
             profile={profile}
             updateProfile={updateProfile}
@@ -245,6 +301,13 @@ function App() {
         scheduledServices={scheduledServices}
         settings={settings}
         profile={profile}
+      />
+
+      <BackupVault
+        isOpen={showVaultModal}
+        onClose={() => setShowVaultModal(false)}
+        onRestore={handleRestoreFromVault}
+        settings={settings}
       />
     </div>
   )
