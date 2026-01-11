@@ -1,26 +1,4 @@
 import { ClockIcon, UserIcon, PlusIcon, TrendUpIcon, TrendDownIcon } from '../components/Icons'
-
-// Yagya Logo - Sacred Fire (Havan Kund)
-const YagyaLogo = ({ className }) => (
-  <svg className={className} viewBox="0 0 80 100" fill="currentColor">
-    {/* Main flame */}
-    <path d="M40 0 C50 15, 55 30, 40 50 C25 30, 30 15, 40 0Z"/>
-    {/* Inner flame */}
-    <path d="M40 10 C46 20, 48 32, 40 45 C32 32, 34 20, 40 10Z" fill="var(--bg-primary, #0a0a0a)"/>
-    {/* Left flame */}
-    <path d="M25 25 C30 35, 32 45, 25 55 C18 45, 20 35, 25 25Z"/>
-    {/* Right flame */}
-    <path d="M55 25 C60 35, 62 45, 55 55 C48 45, 50 35, 55 25Z"/>
-    {/* Havan kund base */}
-    <path d="M10 65 L20 55 L60 55 L70 65 Z"/>
-    <rect x="8" y="65" width="64" height="8" rx="2"/>
-    {/* Base platform */}
-    <path d="M5 73 L15 85 L65 85 L75 73 Z"/>
-    <rect x="12" y="85" width="56" height="6" rx="1"/>
-    {/* Bottom */}
-    <rect x="20" y="91" width="40" height="4" rx="1"/>
-  </svg>
-)
 import { formatCurrency, getThisMonthEntries, getLastMonthEntries, getCurrentFiscalYear, toLocalDateString } from '../utils/format'
 import { EntryItem } from '../components/EntryItem'
 import { Calendar } from '../components/Calendar'
@@ -69,7 +47,6 @@ export function HomePage({ entries, scheduledServices, settings, onAddClick, onV
           </button>
         </div>
         <div className="header-brand">
-          <YagyaLogo className="header-logo" />
           <span className="header-brand-name">
             <span className="brand-d">य</span>agya
           </span>
@@ -154,7 +131,7 @@ export function HomePage({ entries, scheduledServices, settings, onAddClick, onV
         <div className="entries-list">
           {entries.length === 0 ? (
             <div className="empty-state">
-              <div className="empty-icon">💰</div>
+              <PlusIcon className="empty-icon-svg" />
               <p>{t('noIncomeYet', lang)}</p>
               <p className="empty-hint">{t('tapToAdd', lang)}</p>
             </div>

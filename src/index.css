@@ -583,8 +583,9 @@ html, body, #root {
 .flex-1 { flex: 1; }
 
 .form-group label {
-  font-size: 12px;
-  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -1765,9 +1766,8 @@ input[type="number"] {
 /* ========== CALENDAR ========== */
 .calendar {
   background: var(--bg-card);
-  border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 16px;
+  padding: 20px;
   margin-bottom: 20px;
 }
 
@@ -1779,11 +1779,11 @@ input[type="number"] {
 }
 
 .calendar-nav {
-  background: var(--bg-tertiary);
+  background: transparent;
   border: none;
-  border-radius: var(--radius-sm);
-  width: 36px;
-  height: 36px;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1846,9 +1846,9 @@ input[type="number"] {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-sm);
+  border-radius: 50%;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.15s ease;
   position: relative;
   gap: 2px;
 }
@@ -1858,42 +1858,43 @@ input[type="number"] {
 }
 
 .calendar-day.other-month {
-  opacity: 0.3;
+  opacity: 0.25;
 }
 
 .calendar-day.today {
-  background: var(--accent);
+  background: var(--text-primary);
 }
 
 .calendar-day.today .calendar-day-number {
-  color: white;
-  font-weight: 600;
+  color: var(--bg-primary);
+  font-weight: 700;
 }
 
 .calendar-day.past:not(.today) {
-  opacity: 0.7;
+  opacity: 0.5;
 }
 
 .calendar-day-number {
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 500;
   color: var(--text-primary);
 }
 
 .calendar-day-indicators {
+  position: absolute;
+  bottom: 4px;
   display: flex;
-  gap: 3px;
-  min-height: 6px;
+  gap: 2px;
 }
 
 .indicator {
-  width: 6px;
-  height: 6px;
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
 }
 
 .entry-dot {
-  background: white;
-  box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+  background: var(--accent);
 }
 
 .scheduled-dot {
@@ -2638,6 +2639,67 @@ input[type="number"] {
 
 .mileage-value.expense {
   color: var(--danger);
+}
+
+/* Address Input */
+.address-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.address-icon {
+  position: absolute;
+  left: 14px;
+  width: 18px;
+  height: 18px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.address-input-wrap input {
+  padding-left: 42px !important;
+}
+
+/* Manual Mileage Input */
+.mileage-manual {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+}
+
+.mileage-manual input {
+  width: 80px;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: right;
+}
+
+.mileage-manual input:focus {
+  outline: none;
+}
+
+.mileage-manual input::placeholder {
+  color: var(--text-muted);
+}
+
+.miles-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.mileage-calc {
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--success);
+  font-weight: 500;
 }
 
 /* ========== EXPENSE CARD ========== */

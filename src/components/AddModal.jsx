@@ -4,18 +4,9 @@ import { INCOME_CATEGORIES, EXPENSE_CATEGORIES } from '../utils/categories'
 import { getCategoryIcon } from './CategoryIcons'
 import { t } from '../utils/translations'
 import { formatCurrency, formatDate, toLocalDateString } from '../utils/format'
-import { calculateMiles, calculateMileageExpense, DEFAULT_HOME_ADDRESS } from '../utils/mileage'
 
 const PAYMENT_METHODS = ['cash', 'applePay', 'check', 'bankTransfer', 'moneyOrder', 'otherPayment']
-
-// Car icon for mileage
-const CarIcon = ({ className }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M14 16H9m10 0h3v-3.15a1 1 0 00-.84-.99L16 11l-2.7-3.6a1 1 0 00-.8-.4H5.24a2 2 0 00-1.8 1.1l-.8 1.63A6 6 0 002 12.42V16h2"/>
-    <circle cx="6.5" cy="16.5" r="2.5"/>
-    <circle cx="16.5" cy="16.5" r="2.5"/>
-  </svg>
-)
+const IRS_MILEAGE_RATE = 0.67
 
 export function AddModal({ isOpen, onClose, onAdd, settings, entries = [] }) {
   const today = toLocalDateString(new Date())
@@ -27,13 +18,10 @@ export function AddModal({ isOpen, onClose, onAdd, settings, entries = [] }) {
   const [date, setDate] = useState(today)
   const [category, setCategory] = useState('saptahah')
   const [relatedTo, setRelatedTo] = useState('')
+  const [address, setAddress] = useState('')
   
-  // Mileage states
-  const [destinationAddress, setDestinationAddress] = useState('')
-  const [miles, setMiles] = useState(0)
-  const [mileageExpense, setMileageExpense] = useState(0)
-  const [isCalculating, setIsCalculating] = useState(false)
-  const [mileageError, setMileageError] = useState('')
+  // Mileage states (manual entry)
+  const [miles, setMiles] = useState('')
   
   const dateInputRef = useRef(null)
 
@@ -45,33 +33,7 @@ export function AddModal({ isOpen, onClose, onAdd, settings, entries = [] }) {
     .filter(e => e.type !== 'expense')
     .slice(0, 10)
 
-  const handleCalculateMiles = async () => {
-    if (!destinationAddress.trim()) {
-      setMileageError(t('enterDestination', lang) || 'Enter a destination address')
-      return
-    }
-
-    setIsCalculating(true)
-    setMileageError('')
-
-    const result = await calculateMiles(destinationAddress)
-    
-    setIsCalculating(false)
-
-    if (result.error) {
-      setMileageError(result.error)
-      setMiles(0)
-      setMileageExpense(0)
-    } else {
-      setMiles(result.miles)
-      const expense = calculateMileageExpense(result.miles)
-      setMileageExpense(expense)
-      // Auto-fill amount if empty
-      if (!amount) {
-        setAmount(expense.toString())
-      }
-    }
-  }
+  const mileageExpense = miles ? (parseFloat(miles) * IRS_MILEAGE_RATE).toFixed(2) : 0
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -91,9 +53,8 @@ export function AddModal({ isOpen, onClose, onAdd, settings, entries = [] }) {
       notes: '',
       category,
       relatedTo: type === 'expense' && relatedTo ? relatedTo : null,
-      // Mileage data for expenses
-      miles: type === 'expense' && miles > 0 ? miles : null,
-      destinationAddress: type === 'expense' && destinationAddress.trim() ? destinationAddress.trim() : null,
+      address: address.trim() || null,
+      miles: type === 'expense' && miles ? parseFloat(miles) : null,
       createdAt: new Date().toISOString()
     })
 
@@ -110,10 +71,8 @@ export function AddModal({ isOpen, onClose, onAdd, settings, entries = [] }) {
     setDate(today)
     setCategory('saptahah')
     setRelatedTo('')
-    setDestinationAddress('')
-    setMiles(0)
-    setMileageExpense(0)
-    setMileageError('')
+    setAddress('')
+    setMiles('')
   }
 
   const handleClose = () => {
@@ -126,9 +85,7 @@ export function AddModal({ isOpen, onClose, onAdd, settings, entries = [] }) {
     setCategory(newType === 'income' ? 'saptahah' : 'other_expense')
     if (newType === 'income') {
       setRelatedTo('')
-      setDestinationAddress('')
-      setMiles(0)
-      setMileageExpense(0)
+      setMiles('')
     }
   }
 
@@ -199,49 +156,37 @@ export function AddModal({ isOpen, onClose, onAdd, settings, entries = [] }) {
             </div>
           )}
 
-          {/* Mileage Calculator - only for expenses */}
+          {/* Address field */}
+          <div className="form-group">
+            <label>{t('address', lang) || 'Address'}</label>
+            <div className="address-input-wrap">
+              <LocationIcon className="address-icon" />
+              <input
+                type="text"
+                placeholder={t('addressPlaceholder', lang) || 'Service location address'}
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Mileage - only for expenses */}
           {type === 'expense' && (
-            <div className="form-group mileage-section">
-              <label>
-                <CarIcon className="label-icon" />
-                {t('mileageCalculator', lang) || 'Mileage Calculator'}
-              </label>
-              <div className="mileage-home">
-                <LocationIcon className="mileage-icon home" />
-                <span>{t('from', lang) || 'From'}: {DEFAULT_HOME_ADDRESS}</span>
+            <div className="form-group">
+              <label>{t('mileage', lang) || 'Mileage'}</label>
+              <div className="mileage-manual">
+                <input
+                  type="number"
+                  placeholder="0"
+                  value={miles}
+                  onChange={(e) => setMiles(e.target.value)}
+                  step="0.1"
+                />
+                <span className="miles-label">miles</span>
+                {miles > 0 && (
+                  <span className="mileage-calc">= {symbol}{mileageExpense} @ $0.67/mi</span>
+                )}
               </div>
-              <div className="mileage-input-row">
-                <div className="mileage-input-wrap">
-                  <LocationIcon className="mileage-icon dest" />
-                  <input
-                    type="text"
-                    placeholder={t('destinationAddress', lang) || 'Destination address'}
-                    value={destinationAddress}
-                    onChange={(e) => setDestinationAddress(e.target.value)}
-                  />
-                </div>
-                <button 
-                  type="button" 
-                  className="calc-miles-btn"
-                  onClick={handleCalculateMiles}
-                  disabled={isCalculating}
-                >
-                  {isCalculating ? '...' : (t('calculate', lang) || 'Calc')}
-                </button>
-              </div>
-              {mileageError && <p className="mileage-error">{mileageError}</p>}
-              {miles > 0 && (
-                <div className="mileage-result">
-                  <div className="mileage-stat">
-                    <span className="mileage-label">{t('distance', lang) || 'Distance'}</span>
-                    <span className="mileage-value">{miles} {t('miles', lang) || 'miles'}</span>
-                  </div>
-                  <div className="mileage-stat">
-                    <span className="mileage-label">{t('atIrsRate', lang) || '@$0.67/mi'}</span>
-                    <span className="mileage-value expense">{symbol}{mileageExpense}</span>
-                  </div>
-                </div>
-              )}
             </div>
           )}
 
