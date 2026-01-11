@@ -199,8 +199,9 @@ html, body, #root {
 
 .stat-value {
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 4px;
+  color: var(--text-primary);
 }
 
 .stat-entries {
@@ -5369,6 +5370,27 @@ input[type="number"] {
   cursor: pointer;
   transition: all 0.2s ease;
   border: 1px solid var(--border);
+  color: inherit;
+  font-family: inherit;
+  text-align: left;
+}
+
+.stat-card.clickable .stat-value,
+.stat-card.clickable .stat-label,
+.stat-card.clickable .stat-entries {
+  color: var(--text-primary);
+}
+
+.stat-card.clickable .stat-label {
+  color: var(--text-muted);
+}
+
+.stat-card.clickable .stat-entries {
+  color: var(--text-muted);
+}
+
+.stat-card.clickable .stat-value.negative {
+  color: var(--danger);
 }
 
 .stat-card.clickable:hover,
