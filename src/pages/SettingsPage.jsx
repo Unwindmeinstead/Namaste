@@ -34,6 +34,13 @@ const VaultIcon = ({ className }) => (
   </svg>
 )
 
+// Get first name with capitalized first letter
+function getFirstName(fullName) {
+  if (!fullName) return ''
+  const firstName = fullName.trim().split(' ')[0]
+  return firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase()
+}
+
 export function SettingsPage({ settings, updateSetting, onClearData, onBackup, onVault, entries, profile, updateProfile }) {
   const lang = settings.language || 'en'
   const [showSaved, setShowSaved] = useState(false)
@@ -187,10 +194,16 @@ export function SettingsPage({ settings, updateSetting, onClearData, onBackup, o
       <section className={`settings-section profile-section-card ${profileExpanded ? 'expanded' : ''}`}>
         <div className="profile-header clickable" onClick={() => setProfileExpanded(!profileExpanded)}>
           <div className="profile-avatar">
-            <UserIcon className="profile-avatar-icon" />
+            {profile.name ? (
+              <span className="profile-avatar-letter">{profile.name.charAt(0).toUpperCase()}</span>
+            ) : (
+              <UserIcon className="profile-avatar-icon" />
+            )}
           </div>
           <div className="profile-header-info">
-            <h3 className="profile-name">{profile.name || t('yourName', lang)}</h3>
+            <h3 className="profile-name">
+              {profile.name ? `Hello, ${getFirstName(profile.name)}!` : t('yourName', lang)}
+            </h3>
             <p className="profile-business">{profile.businessName || t('businessOrTemple', lang)}</p>
           </div>
           {showSaved && <span className="profile-saved">{t('profileSaved', lang)}</span>}
@@ -199,6 +212,20 @@ export function SettingsPage({ settings, updateSetting, onClearData, onBackup, o
         
         {profileExpanded && (
           <>
+            {/* Login Placeholder */}
+            <div className="login-placeholder">
+              <div className="login-placeholder-icon">
+                <LockIcon />
+              </div>
+              <div className="login-placeholder-content">
+                <h4 className="login-placeholder-title">{t('signIn', lang) || 'Sign In'}</h4>
+                <p className="login-placeholder-desc">{t('signInDesc', lang) || 'Sync your data across devices'}</p>
+              </div>
+              <button className="login-placeholder-btn" disabled>
+                {t('comingSoon', lang) || 'Coming Soon'}
+              </button>
+            </div>
+
             <h3 className="settings-title">{t('personalInfo', lang)}</h3>
             
             <div className="profile-form">

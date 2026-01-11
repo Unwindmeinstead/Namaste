@@ -3105,6 +3105,12 @@ input[type="number"] {
   color: white;
 }
 
+.profile-avatar-letter {
+  font-size: 26px;
+  font-weight: 700;
+  color: white;
+}
+
 .profile-header-info {
   flex: 1;
 }
@@ -3113,6 +3119,67 @@ input[type="number"] {
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 2px;
+}
+
+/* Login Placeholder */
+.login-placeholder {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.login-placeholder-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.login-placeholder-icon svg {
+  width: 20px;
+  height: 20px;
+  color: var(--text-muted);
+}
+
+.login-placeholder-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.login-placeholder-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 2px;
+}
+
+.login-placeholder-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.login-placeholder-btn {
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  cursor: not-allowed;
+  opacity: 0.7;
+  white-space: nowrap;
 }
 
 .profile-business {
