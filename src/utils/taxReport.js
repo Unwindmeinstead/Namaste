@@ -34,7 +34,16 @@ function getCategoryIcon(categoryId) {
   return REPORT_ICONS[categoryId] || REPORT_ICONS.other_expense
 }
 
+// Capitalize first letter of each word in a name
+function capitalizeName(name) {
+  if (!name) return ''
+  return name.split(' ').map(word => 
+    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+  ).join(' ')
+}
+
 export function generateTaxReport(entries, profile, settings, year) {
+  const formattedName = capitalizeName(profile.name)
   const yearEntries = entries.filter(e => new Date(e.date).getFullYear() === year)
   const incomeEntries = yearEntries.filter(e => e.type !== 'expense').sort((a, b) => new Date(a.date) - new Date(b.date))
   const expenseEntries = yearEntries.filter(e => e.type === 'expense').sort((a, b) => new Date(a.date) - new Date(b.date))
@@ -169,7 +178,30 @@ export function generateTaxReport(entries, profile, settings, year) {
     .header-business {
       font-size: 14px;
       opacity: 0.7;
+      margin-bottom: 16px;
+    }
+    
+    .header-profile-info {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
       margin-bottom: 24px;
+      font-size: 12px;
+      opacity: 0.85;
+    }
+    
+    .header-profile-info .info-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .header-profile-info .info-label {
+      opacity: 0.6;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
     
     .header-divider {
@@ -572,22 +604,20 @@ export function generateTaxReport(entries, profile, settings, year) {
         </svg>
         <span class="header-logo-text">Yagya</span>
       </div>
-      ${profile.name ? `<div class="header-profile-name">${profile.name}</div>` : ''}
-      ${profile.businessName ? `<div class="header-business">${profile.businessName}</div>` : (!profile.name ? '<div class="header-business">Spiritual Services & Ceremonies</div>' : '')}
+      ${formattedName ? `<div class="header-profile-name">${formattedName}</div>` : ''}
+      ${profile.businessName ? `<div class="header-business">${profile.businessName}</div>` : (!formattedName ? '<div class="header-business">Spiritual Services & Ceremonies</div>' : '')}
+      ${(profile.taxId || profile.email || profile.phone || profile.address) ? `
+      <div class="header-profile-info">
+        ${profile.taxId ? `<div class="info-item"><span class="info-label">Tax ID:</span> ${profile.taxId}</div>` : ''}
+        ${profile.email ? `<div class="info-item"><span class="info-label">Email:</span> ${profile.email}</div>` : ''}
+        ${profile.phone ? `<div class="info-item"><span class="info-label">Phone:</span> ${profile.phone}</div>` : ''}
+        ${profile.address ? `<div class="info-item"><span class="info-label">Address:</span> ${profile.address}</div>` : ''}
+      </div>
+      ` : ''}
       <div class="header-divider"></div>
       <h1>Income Tax Report</h1>
       <div class="header-year-badge">${year}</div>
     </div>
-    
-    ${profile.name || profile.email || profile.phone || profile.address || profile.taxId ? `
-    <div class="profile-section">
-      ${profile.name ? `<div class="profile-item"><span class="profile-label">Full Name</span><span class="profile-value">${profile.name}</span></div>` : ''}
-      ${profile.taxId ? `<div class="profile-item"><span class="profile-label">Tax ID / PAN</span><span class="profile-value">${profile.taxId}</span></div>` : ''}
-      ${profile.email ? `<div class="profile-item"><span class="profile-label">Email Address</span><span class="profile-value">${profile.email}</span></div>` : ''}
-      ${profile.phone ? `<div class="profile-item"><span class="profile-label">Phone Number</span><span class="profile-value">${profile.phone}</span></div>` : ''}
-      ${profile.address ? `<div class="profile-item"><span class="profile-label">Business Address</span><span class="profile-value">${profile.address}</span></div>` : ''}
-    </div>
-    ` : ''}
     
     <div class="content">
       <!-- Executive Summary -->
@@ -836,17 +866,19 @@ export function generateTaxReport(entries, profile, settings, year) {
 }
 
 export function downloadTaxReport(entries, profile, settings, year) {
+  const formattedName = capitalizeName(profile.name)
   const html = generateTaxReport(entries, profile, settings, year)
   const blob = new Blob([html], { type: 'text/html' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
-  a.download = `yagya-tax-report-${year}-${profile.name?.replace(/\s+/g, '-').toLowerCase() || 'report'}.html`
+  a.download = `yagya-tax-report-${year}-${formattedName?.replace(/\s+/g, '-').toLowerCase() || 'report'}.html`
   a.click()
   URL.revokeObjectURL(url)
 }
 
 export async function emailTaxReport(entries, profile, settings, year) {
+  const formattedName = capitalizeName(profile.name)
   const html = generateTaxReport(entries, profile, settings, year)
   const blob = new Blob([html], { type: 'text/html' })
   const file = new File([blob], `yagya-tax-report-${year}.html`, { type: 'text/html' })
@@ -885,14 +917,14 @@ export async function emailTaxReport(entries, profile, settings, year) {
   URL.revokeObjectURL(url)
   
   // Open email client with summary
-  const subject = encodeURIComponent(`Income Tax Report ${year} - ${profile.name || 'Yagya'}`)
+  const subject = encodeURIComponent(`Income Tax Report ${year} - ${formattedName || 'Yagya'}`)
   const body = encodeURIComponent(`
 INCOME TAX REPORT - ${year}
 ${'═'.repeat(40)}
 
 TAXPAYER INFORMATION
 ────────────────────────────────────────
-Name: ${profile.name || 'N/A'}
+Name: ${formattedName || 'N/A'}
 Business: ${profile.businessName || 'Spiritual Services & Ceremonies'}
 ${profile.taxId ? `Tax ID: ${profile.taxId}` : ''}
 ${profile.email ? `Email: ${profile.email}` : ''}
@@ -946,6 +978,7 @@ export async function shareTaxReport(entries, profile, settings, year) {
 }
 
 export function generatePDFReport(entries, profile, settings, year) {
+  const formattedName = capitalizeName(profile.name)
   const yearEntries = entries.filter(e => new Date(e.date).getFullYear() === year)
   const incomeEntries = yearEntries.filter(e => e.type !== 'expense').sort((a, b) => new Date(a.date) - new Date(b.date))
   const expenseEntries = yearEntries.filter(e => e.type === 'expense').sort((a, b) => new Date(a.date) - new Date(b.date))
@@ -1054,6 +1087,28 @@ export function generatePDFReport(entries, profile, settings, year) {
     .business-name {
       font-size: 14px;
       opacity: 0.8;
+      margin-bottom: 12px;
+    }
+    
+    .header-contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      font-size: 10px;
+      opacity: 0.75;
+    }
+    
+    .header-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .header-contact-label {
+      opacity: 0.7;
+      text-transform: uppercase;
+      font-size: 8px;
+      letter-spacing: 0.5px;
     }
     
     .header-right {
@@ -1380,8 +1435,16 @@ export function generatePDFReport(entries, profile, settings, year) {
     <div class="header-bar">
       <div class="header-left">
         <div class="brand-name">Yagya</div>
-        <div class="profile-name">${profile.name || 'Financial Report'}</div>
+        <div class="profile-name">${formattedName || 'Financial Report'}</div>
         ${profile.businessName ? `<div class="business-name">${profile.businessName}</div>` : ''}
+        ${(profile.taxId || profile.email || profile.phone || profile.address) ? `
+        <div class="header-contact">
+          ${profile.taxId ? `<div class="header-contact-item"><span class="header-contact-label">Tax ID:</span> ${profile.taxId}</div>` : ''}
+          ${profile.email ? `<div class="header-contact-item"><span class="header-contact-label">Email:</span> ${profile.email}</div>` : ''}
+          ${profile.phone ? `<div class="header-contact-item"><span class="header-contact-label">Phone:</span> ${profile.phone}</div>` : ''}
+          ${profile.address ? `<div class="header-contact-item"><span class="header-contact-label">Address:</span> ${profile.address}</div>` : ''}
+        </div>
+        ` : ''}
       </div>
       <div class="header-right">
         <div class="report-title">Tax Report</div>
@@ -1390,15 +1453,6 @@ export function generatePDFReport(entries, profile, settings, year) {
     </div>
     
     <div class="content">
-      <!-- Profile Information -->
-      ${(profile.taxId || profile.email || profile.phone || profile.address) ? `
-      <div class="profile-row">
-        ${profile.taxId ? `<div class="profile-item"><span class="profile-label">Tax ID / PAN</span><span class="profile-value">${profile.taxId}</span></div>` : ''}
-        ${profile.email ? `<div class="profile-item"><span class="profile-label">Email</span><span class="profile-value">${profile.email}</span></div>` : ''}
-        ${profile.phone ? `<div class="profile-item"><span class="profile-label">Phone</span><span class="profile-value">${profile.phone}</span></div>` : ''}
-        ${profile.address ? `<div class="profile-item"><span class="profile-label">Address</span><span class="profile-value">${profile.address}</span></div>` : ''}
-      </div>
-      ` : ''}
       
       <!-- Financial Summary -->
       <div class="summary-row">
